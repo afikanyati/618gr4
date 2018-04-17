@@ -43,7 +43,8 @@ export default class Root extends React.Component {
                 day: 0,
                 month: 0,
                 year: 0
-            }
+            },
+            view : "Calendar"
         };
     }
 
@@ -69,32 +70,73 @@ export default class Root extends React.Component {
     }
 
     render() {
+
         return(
             <Container>
-                <MonthEventContainer>
-                    <Month
-                        getDayOfWeek={this.getDayOfWeek}
-                        selection={this.state.selection}
-                        changeSelection={this.changeSelection}
-                        currentDate={this.state.currentDate}
-                        getMonthDays={this.getMonthDays}
-                        range={this.range} />
-                    <EventAdder
-                        selection={this.state.selection}
-                        getDayOfWeek={this.getDayOfWeek}
-                        currentDate={this.state.currentDate}
-                        getMonthDays={this.getMonthDays}
-                        range={this.range} />
-                </MonthEventContainer>
-                <DayContainer>
-                    <Day
-                        selection={this.state.selection}
-                        addEvent={this.addEvent}
-                        events={this.state.events}
-                        editEventDuration={this.editEventDuration}
-                        currentDate={this.state.currentDate}
-                        range={this.range} />
-                </DayContainer>
+                <SideBar>
+                    <Navigation>
+                        <NavItem
+                        onClick = {this.toggleViewState.bind({}, "Profile")}
+
+                        >
+                            {"Profile"}
+                        </NavItem>
+                        <NavItem
+                        onClick = {this.toggleViewState.bind({}, "Calendar")}
+
+                        >
+
+                            {"Calendar"}
+                        </NavItem>
+
+                        <NavItem
+                        onClick = {this.toggleViewState.bind({}, "Stats")}
+
+                        >
+                            {"Stats"}
+                        </NavItem>
+
+                    </Navigation>
+
+                </SideBar>
+                {this.state.view == "Profile" ?
+                    null
+                :
+                  this.state.view == "Calendar" ?
+                  <CalendarView>
+                  <MonthEventContainer>
+                        <Month
+                            getDayOfWeek={this.getDayOfWeek}
+                            selection={this.state.selection}
+                            changeSelection={this.changeSelection}
+                            currentDate={this.state.currentDate}
+                            getMonthDays={this.getMonthDays}
+                            range={this.range} />
+                        <EventAdder
+                            selection={this.state.selection}
+                            getDayOfWeek={this.getDayOfWeek}
+                            currentDate={this.state.currentDate}
+                            getMonthDays={this.getMonthDays}
+                            range={this.range} />
+                    </MonthEventContainer>
+                    <DayContainer>
+                        <Day
+                            selection={this.state.selection}
+                            addEvent={this.addEvent}
+                            events={this.state.events}
+                            editEventDuration={this.editEventDuration}
+                            currentDate={this.state.currentDate}
+                            range={this.range} />
+                    </DayContainer>
+                  </CalendarView>
+                    
+                  :
+                    this.state.view == "Stats" ?
+                      null 
+                    :
+                      null
+                }
+                
             </Container>
         );
     }
@@ -209,14 +251,52 @@ export default class Root extends React.Component {
        return Array(len).fill().map((_, idx) => start + (idx * step));
    }
 
+   toggleViewState = (newView) => {
+      this.setState({
+          view: newView
+      })
+   }
+
 }
 
 // ============= Styled Components ==============
+const SideBar = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 20vw;
+  height: 100vh;
+
+
+
+`;
+
+const Navigation = styled.ul`
+  
+
+
+
+`;
+
+const NavItem = styled.li`
+
+
+
+
+`;
+
+const CalendarView = styled.div`
+width: 80vw;
+
+
+
+`;
+
 const Container = styled.div`
     display: flex;
     flex-direction: row;
     width: 100vw;
     height: 100vh;
+
 `;
 
 const MonthEventContainer = styled.div`
