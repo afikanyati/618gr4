@@ -7,8 +7,6 @@
 
 // Libararies
 import React                    from 'react';
-import firebase                 from 'firebase';
-import config                   from '../../firebase_config.json';
 import styled                   from 'styled-components';
 import { CSSTransitionGroup }   from 'react-transition-group';
 import update                   from 'immutability-helper';
@@ -20,7 +18,6 @@ import EventAdder               from './EventAdder';
 import Month                    from './Month';
 
 // Initialize Firebase
-firebase.initializeApp(config);
 
 // Initializing to enable Touch Tap events. It is global
 // Used by Material UI
