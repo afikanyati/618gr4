@@ -64,94 +64,11 @@ export default class EventAdder extends React.Component {
                             name="name"
                             type="text" />
                     </Label>
-                    <RepeatContainer active={this.state.add}>
-                        <RepeatOptionsContainer>
-                            <RepeatButton
-                                repeat={this.state.repeat}
-                                onClick={this.toggleRepeat}>
-                                Repeat
-                            </RepeatButton>
-                            <RepeatLabelContainer active={this.state.repeat}>
-                                <RepeatLabel
-                                    highlighted={this.state.repeatType == "day"}
-                                    onClick={this.changeRepeatType.bind({}, "day")}>
-                                    Day
-                                </RepeatLabel>
-                                <RepeatLabel
-                                    highlighted={this.state.repeatType == "week"}
-                                    onClick={this.changeRepeatType.bind({}, "week")}>
-                                    Week
-                                </RepeatLabel>
-                                <RepeatLabel
-                                    highlighted={this.state.repeatType == "month"}
-                                    onClick={this.changeRepeatType.bind({}, "month")}>
-                                    Month
-                                </RepeatLabel>
-                                <RepeatLabel
-                                    highlighted={this.state.repeatType == "year"}
-                                    onClick={this.changeRepeatType.bind({}, "year")}>
-                                    Year
-                                </RepeatLabel>
-                            </RepeatLabelContainer>
-                        </RepeatOptionsContainer>
-                        <RepeatSpecificationsContainer>
-                            {this.state.repeat && this.state.repeatType == "day" ?
-                                <DayRepeat>
-                                    Every <Input
-                                        type="text"
-                                        name="dayInput"
-                                        width={"50px"}
-                                        defaultValue={this.state.repeatDay}
-                                        innerRef={day => this.dayInput = day}
-                                        onChange={this.changeRepeatDay} /> Day
-                                </DayRepeat>
-                            :
-                                this.state.repeat && this.state.repeatType == "week" ?
-                                    <WeekRepeat>
-                                        {["S", "M", "T", "W", "T", "F", "S", "All"].map((weekday, index, arr)=> {
-                                            return (
-                                                <WeekRepeatItem
-                                                    isAll={weekday == "All"}
-                                                    onClick={this.changeRepeatWeek.bind({}, index)}
-                                                    highlighted={this.state.repeatWeek.includes(index)}
-                                                    key={uuid.v4()}>
-                                                    {weekday}
-                                                </WeekRepeatItem>
-                                        )})}
-                                    </WeekRepeat>
-                                :
-                                    this.state.repeat && this.state.repeatType == "month" ?
-                                        <MonthRepeat>
-                                            {this.props.range(1, this.props.getMonthDays(this.props.selection.year, this.props.selection.month) + 1).concat(["All"]).map((monthday, index, arr)=> {
-                                                return (
-                                                    <MonthRepeatItem
-                                                        isAll={monthday == "All"}
-                                                        onClick={this.changeRepeatMonth.bind({}, index + 1)}
-                                                        highlighted={this.state.repeatMonth.includes(index + 1)}
-                                                        key={uuid.v4()}>
-                                                        {monthday}
-                                                    </MonthRepeatItem>
-                                            )})}
-                                        </MonthRepeat>
-                                    :
-                                        this.state.repeat && this.state.repeatType == "year" ?
-                                            <YearRepeat>
-                                                {this.props.range(0, 12).concat(["All"]).map((month, index, arr)=> {
-                                                    return (
-                                                        <YearRepeatItem
-                                                            isAll={month == "All"}
-                                                            onClick={this.changeRepeatYear.bind({}, index)}
-                                                            highlighted={this.state.repeatYear.includes(index)}
-                                                            key={uuid.v4()}>
-                                                            {month}
-                                                        </YearRepeatItem>
-                                                )})}
-                                            </YearRepeat>
-                                        :
-                                            null
-                            }
-                        </RepeatSpecificationsContainer>
-                    </RepeatContainer>
+                    <RepeatButton
+                        repeat={this.state.repeat}
+                        onClick={this.toggleRepeat}>
+                        Repeat
+                    </RepeatButton>
                 </Content>
             </Container>
         );
@@ -436,7 +353,6 @@ const RepeatLabel = styled.label`
     font-size: 0.7em;
     cursor: pointer;
 `;
-
 
 const RepeatSpecificationsContainer = styled.div`
     display: flex;

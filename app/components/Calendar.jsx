@@ -4,6 +4,7 @@ import PropTypes        from 'prop-types';
 import styled           from 'styled-components';
 import uuid             from 'uuid';
 import Rnd              from 'react-rnd';
+import update                   from 'immutability-helper';
 
 // Components
 import EventAdder               from './calendar/EventAdder';
@@ -113,7 +114,6 @@ export default class Calendar extends React.Component {
     }
 
     addEvent = (from, to) => {
-        console.log("Bo");
         let events = {...this.state.events};
         if (events[this.state.selection.year] && events[this.state.selection.year][this.state.selection.month] && events[this.state.selection.year][this.state.selection.month][this.state.selection.day] && !events[this.state.selection.year][this.state.selection.month][this.state.selection.day][from]) {
             events[this.state.selection.year] = {

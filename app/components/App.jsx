@@ -9,7 +9,6 @@
 import React                    from 'react';
 import styled                   from 'styled-components';
 import { CSSTransitionGroup }   from 'react-transition-group';
-import update                   from 'immutability-helper';
 import initReactFastclick       from 'react-fastclick';
 
 // Components
