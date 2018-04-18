@@ -6,8 +6,8 @@ import uuid                 from 'uuid';
 import update               from 'immutability-helper';
 
 // Components
-import ArrowLight           from '../assets/images/arrow-gray.svg';
-import ArrowDark            from '../assets/images/arrow-black.svg';
+import ArrowLight           from '../../assets/images/arrow-gray.svg';
+import ArrowDark            from '../../assets/images/arrow-black.svg';
 
 /**
  * The Word component is a component used to

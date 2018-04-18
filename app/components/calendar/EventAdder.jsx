@@ -5,7 +5,7 @@ import styled               from 'styled-components';
 import uuid                 from 'uuid';
 
 // Components
-import Plus                 from '../assets/images/plus.svg';
+import Plus                 from '../../assets/images/plus.svg';
 
 /**
  * The EventAdder component is a component used to

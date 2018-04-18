@@ -13,9 +13,8 @@ import update                   from 'immutability-helper';
 import initReactFastclick       from 'react-fastclick';
 
 // Components
-import Day                      from './Day';
-import EventAdder               from './EventAdder';
-import Month                    from './Month';
+import Calendar                      from './Calendar';
+
 
 // Initialize Firebase
 
@@ -34,109 +33,50 @@ export default class Root extends React.Component {
         super(props);
         this.state = {
             events: {},
-            currentDate: {
-                day: 0,
-                month: 0,
-                year: 0
-            },
-            selection: {
-                day: 0,
-                month: 0,
-                year: 0
-            },
             view : "Calendar"
         };
     }
 
     componentWillMount() {
         // console.log("-----App");
-        let todayDate = new Date();
-        let currentDate = {
-            day: todayDate.getDate(),
-            month: todayDate.getMonth(),
-            year: todayDate.getFullYear()
-        };
-
-        let selection = {
-            day: currentDate.day,
-            month: currentDate.month,
-            year: currentDate.year
-        };
-
-        this.setState({
-            currentDate: currentDate,
-            selection: selection
-        });
     }
 
     render() {
+        let view;
+
+        switch(this.state.view) {
+            case "Profile":
+                // view = <Profile />;
+                view = null;
+                break;
+            case "Calendar":
+                view = <Calendar />;
+                break;
+            case "Stats":
+                // view = <Stats />;
+                view = null;
+                break;
+        }
 
         return(
             <Container>
                 <SideBar>
                     <Navigation>
                         <NavItem
-                        onClick = {this.toggleViewState.bind({}, "Profile")}
-
-                        >
+                        onClick = {this.toggleViewState.bind({}, "Profile")}>
                             {"Profile"}
                         </NavItem>
                         <NavItem
-                        onClick = {this.toggleViewState.bind({}, "Calendar")}
-
-                        >
-
+                        onClick = {this.toggleViewState.bind({}, "Calendar")}>
                             {"Calendar"}
                         </NavItem>
-
                         <NavItem
-                        onClick = {this.toggleViewState.bind({}, "Stats")}
-
-                        >
+                        onClick = {this.toggleViewState.bind({}, "Stats")}>
                             {"Stats"}
                         </NavItem>
-
                     </Navigation>
-
                 </SideBar>
-                {this.state.view == "Profile" ?
-                    null
-                :
-                  this.state.view == "Calendar" ?
-                  <CalendarView>
-                  <MonthEventContainer>
-                        <Month
-                            getDayOfWeek={this.getDayOfWeek}
-                            selection={this.state.selection}
-                            changeSelection={this.changeSelection}
-                            currentDate={this.state.currentDate}
-                            getMonthDays={this.getMonthDays}
-                            range={this.range} />
-                        <EventAdder
-                            selection={this.state.selection}
-                            getDayOfWeek={this.getDayOfWeek}
-                            currentDate={this.state.currentDate}
-                            getMonthDays={this.getMonthDays}
-                            range={this.range} />
-                    </MonthEventContainer>
-                    <DayContainer>
-                        <Day
-                            selection={this.state.selection}
-                            addEvent={this.addEvent}
-                            events={this.state.events}
-                            editEventDuration={this.editEventDuration}
-                            currentDate={this.state.currentDate}
-                            range={this.range} />
-                    </DayContainer>
-                  </CalendarView>
-                    
-                  :
-                    this.state.view == "Stats" ?
-                      null 
-                    :
-                      null
-                }
-                
+                {view}
             </Container>
         );
     }
@@ -160,97 +100,6 @@ export default class Root extends React.Component {
        this.setState({});
    }
 
-   changeSelection = (year, month, day)=> {
-       let selection = this.state.selection;
-       let newYear = year != selection.year ? year : selection.year;
-       let newMonth = month != selection.month ? month : selection.month;
-       let newDay = day != selection.day ? day : selection.day;
-
-       selection = update(selection, {
-           day: {$set: newDay},
-           month: {$set: newMonth},
-           year: {$set: newYear}
-       });
-
-       this.setState({
-           selection: selection
-       });
-   }
-
-   addEvent = (from, to) => {
-       console.log("Bo");
-       let events = {...this.state.events};
-       if (events[this.state.selection.year] && events[this.state.selection.year][this.state.selection.month] && events[this.state.selection.year][this.state.selection.month][this.state.selection.day] && !events[this.state.selection.year][this.state.selection.month][this.state.selection.day][from]) {
-           events[this.state.selection.year] = {
-               [this.state.selection.month]: {
-                   [this.state.selection.day]: {...events[this.state.selection.year][this.state.selection.month][this.state.selection.day],
-                       [from]: {
-                           name: "New Event",
-                           location: "Unspecified Location",
-                           to: to
-                       }
-                   }
-               }
-           };
-       } else {
-           events[this.state.selection.year] = {
-               [this.state.selection.month]: {
-                   [this.state.selection.day]: {
-                       [from]: {
-                           name: "New Event",
-                           location: "Unspecified Location",
-                           to: to
-                       }
-                   }
-               }
-           };
-       }
-
-       this.setState({
-           events: events
-       }, () => {
-           console.log("EVENTSSS: ", this.state.events);
-       });
-   }
-
-   editEventDuration = (year, month, day, from, to) => {
-       console.log("TOOO: ", to);
-       let events = update(this.state.events, {
-           [year]: {
-               [month]: {
-                   [day]: {
-                       [from]: {
-                           to: {$set: to}
-                       }
-                   }
-               }
-           }
-       });
-       console.log("EEEE: ", events);
-
-       this.setState({
-           events: events
-       }, () => {
-           console.log("EVENTSSS: ", this.state.events);
-       });
-   }
-
-   getDayOfWeek = (year, month, day) => {
-       let dateObj = new Date(year, month, day);
-       return dateObj.getDay();
-   }
-
-   getMonthDays = (year, month) => {
-       let d= new Date(year, month + 1, 0);
-       return d.getDate();
-   }
-
-   range = (start, end, step = 1) => {
-       end -= 1; // Makes range end exclusive
-       const len = Math.floor((end - start) / step) + 1;
-       return Array(len).fill().map((_, idx) => start + (idx * step));
-   }
-
    toggleViewState = (newView) => {
       this.setState({
           view: newView
@@ -271,41 +120,17 @@ const SideBar = styled.div`
 `;
 
 const Navigation = styled.ul`
-  
-
-
 
 `;
 
 const NavItem = styled.li`
 
-
-
-
 `;
 
-const CalendarView = styled.div`
-width: 80vw;
-
-
-
-`;
 
 const Container = styled.div`
     display: flex;
     flex-direction: row;
     width: 100vw;
     height: 100vh;
-
-`;
-
-const MonthEventContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    flex: 0.5;
-    border-right: 1px solid #e0e0e0;
-`;
-
-const DayContainer = styled.div`
-    flex: 0.5;
 `;
