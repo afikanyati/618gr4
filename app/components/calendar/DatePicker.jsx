@@ -1,4 +1,4 @@
-// Libs
+// Dependencies
 import React                from 'react';
 import PropTypes            from 'prop-types';
 import styled               from 'styled-components';
@@ -11,9 +11,9 @@ import ArrowDark            from '../../assets/images/arrow-black.svg';
 
 
 /**
- * The Month component is a component used to
+ * The DatePicker component is a component used to
  */
-export default class Month extends React.Component {
+export default class DatePicker extends React.Component {
 
     constructor(props) {
         super(props);
@@ -119,7 +119,7 @@ export default class Month extends React.Component {
 
 // ============= PropTypes ==============
 
-Month.propTypes = {
+DatePicker.propTypes = {
     selectedDate: PropTypes.object.isRequired,
     changeSelectedDate: PropTypes.func.isRequired,
 };

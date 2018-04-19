@@ -5,7 +5,7 @@
  *  written by Afika Nyati.
  */
 
-// Libararies
+// Dependencies
 import React                    from 'react';
 import styled                   from 'styled-components';
 import { CSSTransitionGroup }   from 'react-transition-group';
@@ -18,7 +18,6 @@ import Calendar                      from './Calendar';
 // Initialize Firebase
 
 // Initializing to enable Touch Tap events. It is global
-// Used by Material UI
 initReactFastclick();
 
 /**
@@ -31,7 +30,6 @@ export default class Root extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            events: {},
             view : "Calendar"
         };
     }
@@ -82,22 +80,12 @@ export default class Root extends React.Component {
 
     componentDidMount() {
         // console.log("++++++App");
-        window.addEventListener("resize", this.rerender);
     }
 
     componentWillUnmount() {
-        window.removeEventListener("resize", this.rerender);
     }
 
     // ========== Methods ===========
-
-    /**
-     * Function attached to a listener connected to window element
-     * Rerenders entire app when visitor adjusts browser size
-     */
-   rerender = () => {
-       this.setState({});
-   }
 
    toggleViewState = (newView) => {
       this.setState({
@@ -113,9 +101,6 @@ const SideBar = styled.div`
   flex-direction: row;
   width: 20vw;
   height: 100vh;
-
-
-
 `;
 
 const Navigation = styled.ul`

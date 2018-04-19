@@ -1,26 +1,26 @@
-// Libs
-import React            from 'react';
-import date             from 'date-and-time';
-import styled           from 'styled-components';
-import update           from 'immutability-helper';
+// Dependencies
+import React                from 'react';
+import PropTypes            from 'prop-types';
+import styled               from 'styled-components';
+import date                 from 'date-and-time';
 
 // Components
-import EventAdder               from './calendar/EventAdder';
-import Month                    from './calendar/Month';
-import Drill                    from './calendar/Drill';
-import Day                      from './calendar/Day';
+import Practice    from './calendar/Practice';
+import DatePicker  from './calendar/DatePicker';
+import DrillSchedule       from './calendar/DrillSchedule';
+
 
 /**
- * The Day component is a component used to
+ * The Calendar component is a component used to
  */
 export default class Calendar extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            calendarDate: new Date(),
             selectedDate: new Date(),
-            events: {}
+            selectedPractice: -1, // should be an integer that points to selected practice in practices array on selectedDate. Set to null when date changed
+            practiceRecord: {}    // dict keyed by date.format(day, m/d/y) with corresponding array of practices; a practice is dict of drills keyed by hour (or whatever increment we choose)
         }
     }
 
@@ -30,119 +30,133 @@ export default class Calendar extends React.Component {
     render() {
         return (
             <Container>
-            <MonthEventContainer>
-                  <Month
+            <DateContainer>
+                  <DatePicker
                       selectedDate={this.state.selectedDate}
                       changeSelectedDate={this.changeSelectedDate} />
-                  <EventAdder
-                      selection={this.state.selectedDate}
-                      getDayOfWeek={this.getDayOfWeek}
-                      currentDate={this.state.selectedDate}
-                      getMonthDays={this.getMonthDays}
-                      range={this.range} />
-              </MonthEventContainer>
-              <DayContainer>
-                  <Day
+                  <Practice
                       selectedDate={this.state.selectedDate}
-                      addEvent={this.addEvent}
-                      events={this.state.events}
-                      editEventDuration={this.editEventDuration}
+                      practiceRecord={this.state.practiceRecord}
+                      selectedPractice={this.state.selectedPractice}
+                      addPractice={this.addPractice}
+                      changeSelectedPractice={this.changeSelectedPractice} />
+              </DateContainer>
+              <DrillScheduleContainer>
+                  <DrillSchedule
+                      selectedDate={this.state.selectedDate}
+                      selectedPractice={this.state.selectedPractice}
+                      practiceRecord={this.state.practiceRecord}
+                      addDrill={this.addDrill}
+                      editDrillName={this.editDrillName}
+                      editDrillDuration={this.editDrillDuration}
                       range={this.range} />
-              </DayContainer>
-              <DrillContainer>
-                  <Drill>
-
-                  </Drill>
-              </DrillContainer>
+              </DrillScheduleContainer>
             </Container>
         );
     }
 
     componentDidMount() {
-        // console.log("+++++Day");
+        // console.log("+++++Calendar");
     }
 
     // ========== Methods ===========
-    changeSelectedDate = (newDate)=> {
-        // TODO ?
-        //selection = update(selection, {
-        //    day: {$set: newDay},
-        //    month: {$set: newMonth},
-        //    year: {$set: newYear}
-        //});
 
+    /**
+     * [changeSelectedDate description]
+     * @param  {[type]} newDate [description]
+     */
+    changeSelectedDate = (newDate)=> {
         this.setState({
             selectedDate: newDate,
+            selectedPractice: null
         });
     };
 
-    addEvent = (from, to) => {
-        let events = {...this.state.events};
-        if (events[this.state.selectedDate.year] && events[this.state.selectedDate.year][this.state.selectedDate.month] && events[this.state.selectedDate.year][this.state.selectedDate.month][this.state.selectedDate.day] && !events[this.state.selectedDate.year][this.state.selectedDate.month][this.state.selectedDate.day][from]) {
-            events[this.state.selectedDate.year] = {
-                [this.state.selectedDate.month]: {
-                    [this.state.selectedDate.day]: {...events[this.state.selectedDate.year][this.state.selectedDate.month][this.state.selectedDate.day],
-                        [from]: {
-                            name: "New Event",
-                            location: "Unspecified Location",
-                            to: to
-                        }
-                    }
-                }
-            };
+    /**
+     * [changeSelectedPractice description]
+     * @param  {[type]} practiceIndex [description]
+     */
+    changeSelectedPractice = (practiceIndex) => {
+        this.setState({
+            selectedPractice: practiceIndex
+        });
+    }
+
+    /**
+     * [addPractice description]
+     * @param {[type]} name      [description]
+     */
+    addPractice = (name, startTime) => {
+        // TODO Ensure no duplicate practices
+        let practiceRecord = {...this.state.practiceRecord};
+        let practice = {
+            name: name,
+            startTime: date.format(startTime, 'hh:mm A'),
+            drills: {}
+        };
+
+        if (practiceRecord[date.format(this.state.selectedDate, 'M/D/Y')]) {
+            // Add practe to existing date key
+            practiceRecord[date.format(this.state.selectedDate, 'M/D/Y')].push(practice);
         } else {
-            events[this.state.selectedDate.year] = {
-                [this.state.selectedDate.month]: {
-                    [this.state.selectedDate.day]: {
-                        [from]: {
-                            name: "New Event",
-                            location: "Unspecified Location",
-                            to: to
-                        }
-                    }
-                }
-            };
+            // Create new date key and add practice
+            practiceRecord[date.format(this.state.selectedDate, 'M/D/Y')] = [practice];
         }
 
         this.setState({
-            events: events
+            practiceRecord: practiceRecord
         }, () => {
-            console.log("EVENTSSS: ", this.state.events);
+            console.log("Practice Record: ", practiceRecord);
         });
     }
 
-    editEventDuration = (year, month, day, from, to) => {
-        console.log("TOOO: ", to);
-        let events = update(this.state.events, {
-            [year]: {
-                [month]: {
-                    [day]: {
-                        [from]: {
-                            to: {$set: to}
-                        }
-                    }
-                }
-            }
-        });
-        console.log("EEEE: ", events);
+    /**
+     * [addDrill description]
+     * @param {[type]} hour [description]
+     */
+    addDrill = (timeBlock) => {
+        console.log("Time: ", timeBlock);
+        let practiceRecord = {...this.state.practiceRecord};
+        practiceRecord[date.format(this.state.selectedDate, 'M/D/Y')][this.state.selectedPractice]['drills'][timeBlock] = {name: "New Drill", durationFactor: 1};
 
         this.setState({
-            events: events
-        }, () => {
-            console.log("EVENTSSS: ", this.state.events);
+            practiceRecord: practiceRecord
         });
     }
 
-    getDayOfWeek = (year, month, day) => {
-        let dateObj = new Date(year, month, day);
-        return dateObj.getDay();
+    /**
+     * [editDrillName description]
+     * @param  {[type]} time [description]
+     * @param  {[type]} name [description]
+     */
+    editDrillName = (timeBlock, name) => {
+        let practiceRecord = {...this.state.practiceRecord};
+        practiceRecord[date.format(this.state.selectedDate, 'M/D/Y')][this.state.selectedPractice]['drills'][timeBlock]['name'] = name;
+
+        this.setState({
+            practiceRecord: practiceRecord
+        });
     }
 
-    getMonthDays = (year, month) => {
-        let d= new Date(year, month + 1, 0);
-        return d.getDate();
+    /**
+     * [editDrillDuration description]
+     * @param  {[type]} durationFactor [description]
+     */
+    editDrillDuration = (timeBlock, durationFactor) => {
+        let practiceRecord = {...this.state.practiceRecord};
+        practiceRecord[date.format(this.state.selectedDate, 'M/D/Y')][this.state.selectedPractice]['drills'][timeBlock]['durationFactor'] = durationFactor;
+
+        this.setState({
+            practiceRecord: practiceRecord
+        });
     }
 
+    /**
+     * [range description]
+     * @param  {[type]} start    [description]
+     * @param  {[type]} end      [description]
+     * @param  {Number} step [description]
+     */
     range = (start, end, step = 1) => {
         end -= 1; // Makes range end exclusive
         const len = Math.floor((end - start) / step) + 1;
@@ -165,17 +179,13 @@ const Container = styled.div`
     width: 80vw;
 `;
 
-const MonthEventContainer = styled.div`
+const DateContainer = styled.div`
     display: flex;
     flex-direction: column;
-    flex: 0.3;
+    flex: 0.4;
     border-right: 1px solid #e0e0e0;
 `;
 
-const DayContainer = styled.div`
-    flex: 0.4;
-`;
-
-const DrillContainer = styled.div`
-    flex: 0.3;
+const DrillScheduleContainer = styled.div`
+    flex: 0.6;
 `;

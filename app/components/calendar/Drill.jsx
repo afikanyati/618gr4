@@ -1,4 +1,4 @@
-// Libs
+// Dependencies
 import React            from 'react';
 import PropTypes        from 'prop-types';
 import styled           from 'styled-components';
@@ -47,5 +47,5 @@ Drill.propTypes = {
 // ============= Styled Components ==============
 
 const Container = styled.div`
-    
+
 `;
