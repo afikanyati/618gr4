@@ -41,7 +41,13 @@ export default class Practice extends React.Component {
                     onClick={() => {this.togglePractice(false)}}>No</PracticeButton>
                 </Header>
                 <AddPracticeContainer
-                    active={false}>
+                    active={this.props.selectedPractice}>
+                  <InputRange
+                    maxValue={20}
+                    minValue={0}
+                    value={this.state.value}
+                    onChange={value => this.setState({ value })} />
+
                     <Label
                         for="name">
                         Name:
@@ -65,11 +71,6 @@ export default class Practice extends React.Component {
                         Create
                     </CreateButton>
                 </AddPracticeContainer>
-              <InputRange
-                maxValue={20}
-                minValue={0}
-                value={this.state.value}
-                onChange={value => this.setState({ value })} />
             </Container>
         );
     }
