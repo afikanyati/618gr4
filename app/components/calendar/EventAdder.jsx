@@ -19,7 +19,7 @@ export default class EventAdder extends React.Component {
             repeat: false,
             repeatType: "day",
             repeatDay: 1,
-            repeatWeek: [this.props.getDayOfWeek(this.props.currentDate.year, this.props.currentDate.month, this.props.currentDate.day)],
+            repeatWeek: [this.props.currentDate.getDay()],
             repeatMonth: [this.props.selection.day],
             repeatYear: [this.props.selection.month]
         }

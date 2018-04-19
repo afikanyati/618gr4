@@ -27,45 +27,45 @@ export default class Day extends React.Component {
             <Container>
                 <TimeContainer>
                     {
-                        this.props.range(0, 24).map((hour) => {
-                            return (
-                                <HourContainer key={uuid.v4()}>
-                                    <Hour>
-                                        {`${hour}:00`}
-                                    </Hour>
-                                    <EventHour
-                                        className="event-hour"
-                                        onClick={this.props.addEvent.bind({}, hour, hour)}>
-                                        {this.props.events[this.props.selection.year] && this.props.events[this.props.selection.year][this.props.selection.month] && this.props.events[this.props.selection.year][this.props.selection.month][this.props.selection.day] && this.props.events[this.props.selection.year][this.props.selection.month][this.props.selection.day][hour] ?
-                                            <Rnd
-                                                disableDragging={true}
-                                                className={"event-item"}
-                                                size={{ width: "100%",  height: `${this.props.events[this.props.selection.year][this.props.selection.month][this.props.selection.day][hour].to - hour + 1}00%`}}
-                                                position={{ x: 0, y: 0 }}
-                                                enableResizing={{
-                                                    bottom: true,
-                                                    bottomLeft: false,
-                                                    bottomRight: false,
-                                                    left: false,
-                                                    right: false,
-                                                    top: false,
-                                                    topLeft: false,
-                                                    topRight: false
-                                                }}
-                                                onResizeStop={(e, direction, ref, delta, position) => {
-                                                        let eventHourHeight = document.getElementsByClassName('event-hour')[0].clientHeight;
-                                                        let to = Math.floor(ref.offsetHeight / eventHourHeight);
-                                                        this.props.editEventDuration(this.props.selection.year, this.props.selection.month, this.props.selection.day, hour, hour + to);
-                                                  }}>
-                                              {`${this.props.events[this.props.selection.year][this.props.selection.month][this.props.selection.day][hour].name} (${this.props.events[this.props.selection.year][this.props.selection.month][this.props.selection.day][hour].location})`}
-                                            </Rnd>
-                                        :
-                                            null
-                                        }
-                                    </EventHour>
-                                </HourContainer>
-                            );
-                        })
+                    this.props.range(0, 24).map((hour) => {
+                        return (
+                            <HourContainer key={uuid.v4()}>
+                                <Hour>
+                                    {`${hour}:00`}
+                                </Hour>
+                                <EventHour
+                                    className="event-hour"
+                                    onClick={this.props.addEvent.bind({}, hour, hour)}>
+                                    {this.props.events[this.props.selectedDate.getFullYear()] && this.props.events[this.props.selectedDate.getFullYear()][this.props.selectedDate.getMonth()] && this.props.events[this.props.selectedDate.getFullYear()][this.props.selectedDate.getMonth()][this.props.selectedDate.day] && this.props.events[this.props.selectedDate.getFullYear()][this.props.selectedDate.getMonth()][this.props.selectedDate.day][hour] ?
+                                        <Rnd
+                                            disableDragging={true}
+                                            className={"event-item"}
+                                            size={{ width: "100%",  height: `${this.props.events[this.props.selectedDate.getFullYear()][this.props.selectedDate.getMonth()][this.props.selectedDate.day][hour].to - hour + 1}00%`}}
+                                            position={{ x: 0, y: 0 }}
+                                            enableResizing={{
+                                                bottom: true,
+                                                bottomLeft: false,
+                                                bottomRight: false,
+                                                left: false,
+                                                right: false,
+                                                top: false,
+                                                topLeft: false,
+                                                topRight: false
+                                            }}
+                                            onResizeStop={(e, direction, ref, delta, position) => {
+                                                    let eventHourHeight = document.getElementsByClassName('event-hour')[0].clientHeight;
+                                                    let to = Math.floor(ref.offsetHeight / eventHourHeight);
+                                                    this.props.editEventDuration(this.props.selectedDate.getFullYear(), this.props.selectedDate.getMonth(), this.props.selectedDate.day, hour, hour + to);
+                                              }}>
+                                          {`${this.props.events[this.props.selectedDate.getFullYear()][this.props.selectedDate.getMonth()][this.props.selectedDate.day][hour].name} (${this.props.events[this.props.selectedDate.getFullYear()][this.props.selectedDate.getMonth()][this.props.selectedDate.day][hour].location})`}
+                                        </Rnd>
+                                    :
+                                        null
+                                    }
+                                </EventHour>
+                            </HourContainer>
+                        );
+                    })
                     }
                 </TimeContainer>
             </Container>
@@ -84,10 +84,9 @@ export default class Day extends React.Component {
 // ============= PropTypes ==============
 
 Day.propTypes = {
-    currentDate: PropTypes.object.isRequired,
     range: PropTypes.func.isRequired,
     addEvent: PropTypes.func.isRequired,
-    selection: PropTypes.object.isRequired,
+    selectedDate: PropTypes.object.isRequired,
     editEventDuration: PropTypes.func.isRequired
 };
 

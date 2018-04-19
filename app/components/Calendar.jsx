@@ -1,16 +1,14 @@
 // Libs
 import React            from 'react';
-import PropTypes        from 'prop-types';
+import date             from 'date-and-time';
 import styled           from 'styled-components';
-import uuid             from 'uuid';
-import Rnd              from 'react-rnd';
-import update                   from 'immutability-helper';
+import update           from 'immutability-helper';
 
 // Components
 import EventAdder               from './calendar/EventAdder';
 import Month                    from './calendar/Month';
 import Drill                    from './calendar/Drill';
-import Day                    from './calendar/Day';
+import Day                      from './calendar/Day';
 
 /**
  * The Day component is a component used to
@@ -20,39 +18,13 @@ export default class Calendar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentDate: {
-                day: 0,
-                month: 0,
-                year: 0
-            },
-            selection: {
-                day: 0,
-                month: 0,
-                year: 0
-            },
+            calendarDate: new Date(),
+            selectedDate: new Date(),
             events: {}
         }
     }
 
     componentWillMount() {
-        // console.log("-----Calendar");
-        let todayDate = new Date();
-        let currentDate = {
-            day: todayDate.getDate(),
-            month: todayDate.getMonth(),
-            year: todayDate.getFullYear()
-        };
-
-        let selection = {
-            day: currentDate.day,
-            month: currentDate.month,
-            year: currentDate.year
-        };
-
-        this.setState({
-            currentDate: currentDate,
-            selection: selection
-        });
     }
 
     render() {
@@ -60,26 +32,21 @@ export default class Calendar extends React.Component {
             <Container>
             <MonthEventContainer>
                   <Month
-                      getDayOfWeek={this.getDayOfWeek}
-                      selection={this.state.selection}
-                      changeSelection={this.changeSelection}
-                      currentDate={this.state.currentDate}
-                      getMonthDays={this.getMonthDays}
-                      range={this.range} />
+                      selectedDate={this.state.selectedDate}
+                      changeSelectedDate={this.changeSelectedDate} />
                   <EventAdder
-                      selection={this.state.selection}
+                      selection={this.state.selectedDate}
                       getDayOfWeek={this.getDayOfWeek}
-                      currentDate={this.state.currentDate}
+                      currentDate={this.state.selectedDate}
                       getMonthDays={this.getMonthDays}
                       range={this.range} />
               </MonthEventContainer>
               <DayContainer>
                   <Day
-                      selection={this.state.selection}
+                      selectedDate={this.state.selectedDate}
                       addEvent={this.addEvent}
                       events={this.state.events}
                       editEventDuration={this.editEventDuration}
-                      currentDate={this.state.currentDate}
                       range={this.range} />
               </DayContainer>
               <DrillContainer>
@@ -96,29 +63,25 @@ export default class Calendar extends React.Component {
     }
 
     // ========== Methods ===========
-    changeSelection = (year, month, day)=> {
-        let selection = this.state.selection;
-        let newYear = year != selection.year ? year : selection.year;
-        let newMonth = month != selection.month ? month : selection.month;
-        let newDay = day != selection.day ? day : selection.day;
-
-        selection = update(selection, {
-            day: {$set: newDay},
-            month: {$set: newMonth},
-            year: {$set: newYear}
-        });
+    changeSelectedDate = (newDate)=> {
+        // TODO ?
+        //selection = update(selection, {
+        //    day: {$set: newDay},
+        //    month: {$set: newMonth},
+        //    year: {$set: newYear}
+        //});
 
         this.setState({
-            selection: selection
+            selectedDate: newDate,
         });
-    }
+    };
 
     addEvent = (from, to) => {
         let events = {...this.state.events};
-        if (events[this.state.selection.year] && events[this.state.selection.year][this.state.selection.month] && events[this.state.selection.year][this.state.selection.month][this.state.selection.day] && !events[this.state.selection.year][this.state.selection.month][this.state.selection.day][from]) {
-            events[this.state.selection.year] = {
-                [this.state.selection.month]: {
-                    [this.state.selection.day]: {...events[this.state.selection.year][this.state.selection.month][this.state.selection.day],
+        if (events[this.state.selectedDate.year] && events[this.state.selectedDate.year][this.state.selectedDate.month] && events[this.state.selectedDate.year][this.state.selectedDate.month][this.state.selectedDate.day] && !events[this.state.selectedDate.year][this.state.selectedDate.month][this.state.selectedDate.day][from]) {
+            events[this.state.selectedDate.year] = {
+                [this.state.selectedDate.month]: {
+                    [this.state.selectedDate.day]: {...events[this.state.selectedDate.year][this.state.selectedDate.month][this.state.selectedDate.day],
                         [from]: {
                             name: "New Event",
                             location: "Unspecified Location",
@@ -128,9 +91,9 @@ export default class Calendar extends React.Component {
                 }
             };
         } else {
-            events[this.state.selection.year] = {
-                [this.state.selection.month]: {
-                    [this.state.selection.day]: {
+            events[this.state.selectedDate.year] = {
+                [this.state.selectedDate.month]: {
+                    [this.state.selectedDate.day]: {
                         [from]: {
                             name: "New Event",
                             location: "Unspecified Location",
