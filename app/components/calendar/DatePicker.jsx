@@ -47,12 +47,7 @@ export default class DatePicker extends React.Component {
                     <WeekHeader>
                       {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index, arr) => {
                         return (
-                          <WeekBox
-                            isCurrentDay={false}
-                            isDay={false}
-                            key={uuid.v4()}>
-                            {day}
-                          </WeekBox>
+                          <WeekBox>{day}</WeekBox>
                         )})
                       }
                     </WeekHeader>
@@ -62,15 +57,13 @@ export default class DatePicker extends React.Component {
                                 return (
                                   <DayTextContainer
                                     isSelectedDay={false}
-                                    isDay={false}
-                                    key={uuid.v4()}/>
+                                    hasPractice={false}/>
                                 )
                             } else {
                                 return (
                                     <DayTextContainer
                                         isSelectedDay={date.isSameDay(day, this.props.selectedDate)}
-                                        isDay={true}
-                                        key={uuid.v4()}
+                                        hasPractice={this.props.practiceRecord[this.props.practiceKey(day)]}
                                         onClick={() => this.props.changeSelectedDate(day)}>
                                         {day.getDate()}
                                     </DayTextContainer>
@@ -122,6 +115,8 @@ export default class DatePicker extends React.Component {
 DatePicker.propTypes = {
     selectedDate: PropTypes.object.isRequired,
     changeSelectedDate: PropTypes.func.isRequired,
+    practiceRecord: PropTypes.object.isRequired,
+    practiceKey: PropTypes.func.isRequired,
 };
 
 // ============= Styled Components ==============
@@ -166,14 +161,9 @@ const WeekBox = styled.div`
 
 const DayTextContainer = styled.div`
     display: flex;
-    color: ${props => props.isSelectedDay ?
-        props.theme.white
-    :
-        "#212121"};
-    background: ${props => props.isSelectedDay ?
-        props.theme.lightPurple
-    :
-        "none"};
+    color: ${props => props.isSelectedDay ? props.theme.white : "#212121"};
+    background: ${props => props.isSelectedDay ? props.theme.lightPurple : 
+      (props.hasPractice ? props.theme.lightBlue : "none")};
     justify-content: center;
     align-items: center;
     border-radius: 2px;

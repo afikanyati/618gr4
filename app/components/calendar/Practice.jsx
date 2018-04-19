@@ -31,14 +31,14 @@ export default class Practice extends React.Component {
             <Container>
                 <Header>
                     <HeaderText>
-                        Practices
+                        Practice
                     </HeaderText>
-                    <AddPracticeButton
-                        active={this.state.selectedPractice}>
-                        <Icon
-                            icon={`url(${Plus})`}
-                            onClick={this.togglePractice}/>
-                    </AddPracticeButton>
+                    <PracticeButton
+                        active={this.props.selectedPractice}
+                        onClick={() => {this.togglePractice(true)}}>Yes</PracticeButton>
+                  <PracticeButton
+                    active={!this.props.selectedPractice}
+                    onClick={() => {this.togglePractice(false)}}>No</PracticeButton>
                 </Header>
                 <AddPracticeContainer
                     active={false}>
@@ -80,16 +80,14 @@ export default class Practice extends React.Component {
 
     // ========== Methods ===========
 
-     togglePractice = (e) => {
-        e.preventDefault();
-
-        if (this.props.selectedPractice) {
-          this.props.setPractice(null, null);
-        } else {
+     togglePractice = (on) => {
+        if (on) {
           let startTime = new Date(this.props.selectedDate);
           startTime.setHours(16);  // TODO Replace with input from Time Selector
           startTime.setMinutes(30);  // TODO Replace with input from Time Selector
           this.props.setPractice(startTime, date.addHours(startTime, 2));
+        } else {
+          this.props.setPractice(null, null);
         }
      };
 }
@@ -133,7 +131,7 @@ const HeaderText = styled.h2`
     margin: 0;
 `;
 
-const AddPracticeButton = styled.div`
+const PracticeButton = styled.div`
     width: 60px;
     height: 60px;
     border-radius: 5px;
@@ -157,7 +155,6 @@ const Icon = styled.div`
     height: 60px;
     border-radius: 30px;
     background: none;
-    background-image: ${props => props.icon};
     background-position: 50%;
     background-size: 35px 35px;
     background-repeat: no-repeat;

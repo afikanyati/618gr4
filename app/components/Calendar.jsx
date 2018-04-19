@@ -35,7 +35,9 @@ export default class Calendar extends React.Component {
             <DateContainer>
                   <DatePicker
                       selectedDate={this.state.selectedDate}
-                      changeSelectedDate={this.changeSelectedDate} />
+                      changeSelectedDate={this.changeSelectedDate}
+                      practiceRecord={this.state.practiceRecord}
+                      practiceKey={this.practiceKey} />
                   <Practice
                       selectedDate={this.state.selectedDate}
                       selectedPractice={this.state.selectedPractice}
