@@ -13,6 +13,8 @@ import initReactFastclick       from 'react-fastclick';
 
 // Components
 import Calendar                      from './Calendar';
+import Stats                         from './Stats';
+
 
 
 // Initialize Firebase
@@ -35,7 +37,6 @@ export default class Root extends React.Component {
     }
 
     componentWillMount() {
-        // console.log("-----App");
     }
 
     render() {
@@ -51,7 +52,7 @@ export default class Root extends React.Component {
                 break;
             case "Stats":
                 // view = <Stats />;
-                view = null;
+                view = <Stats />;
                 break;
         }
 
