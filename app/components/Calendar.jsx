@@ -9,6 +9,9 @@ import DatePicker  from './calendar/DatePicker';
 import DrillSchedule       from './calendar/DrillSchedule';
 
 
+// Settings
+const timeIncrements = 10;  // measured in minutes
+
 /**
  * The Calendar component is a component used to
  */
@@ -43,7 +46,8 @@ export default class Calendar extends React.Component {
                       selectedPractice={this.state.selectedPractice}
                       addDrill={this.addDrill}
                       editDrillName={this.editDrillName}
-                      editDrillDuration={this.editDrillDuration} />
+                      editDrillDuration={this.editDrillDuration}
+                      timeIncrements={timeIncrements} />
               </DrillScheduleContainer>
             </Container>
         );
@@ -118,7 +122,7 @@ export default class Calendar extends React.Component {
         this.setState({
             practiceRecord: practiceRecord
         });
-    }
+    };
 
     /**
      * [editDrillDuration description]
@@ -133,7 +137,7 @@ export default class Calendar extends React.Component {
         });
     };
 
-    practiceKey = (practiceDate) => {return date.format(practiceDate, 'M/D/Y')};
+    practiceKey = (practiceDate) => { return date.format(practiceDate, 'M/D/Y') };
 }
 
 // ============= PropTypes ==============

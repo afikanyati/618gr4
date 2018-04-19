@@ -4,9 +4,11 @@ import PropTypes            from 'prop-types';
 import styled               from 'styled-components';
 import uuid                 from 'uuid';
 import date             from 'date-and-time';
+import InputRange from 'react-input-range';
 
 // Components
 import Plus                 from '../../assets/images/plus.svg';
+import 'react-input-range/lib/css/index.css';
 
 /**
  * The Practice component is a component used to
@@ -16,6 +18,7 @@ export default class Practice extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+          value: { min: 2, max: 10 },
         }
     }
 
@@ -62,6 +65,11 @@ export default class Practice extends React.Component {
                         Create
                     </CreateButton>
                 </AddPracticeContainer>
+              <InputRange
+                maxValue={20}
+                minValue={0}
+                value={this.state.value}
+                onChange={value => this.setState({ value })} />
             </Container>
         );
     }
@@ -79,8 +87,8 @@ export default class Practice extends React.Component {
           this.props.setPractice(null, null);
         } else {
           let startTime = new Date(this.props.selectedDate);
-          let hours = 16;  // TODO Replace with input from Time Selector
-          startTime.setHours(hours);
+          startTime.setHours(16);  // TODO Replace with input from Time Selector
+          startTime.setMinutes(30);  // TODO Replace with input from Time Selector
           this.props.setPractice(startTime, date.addHours(startTime, 2));
         }
      };

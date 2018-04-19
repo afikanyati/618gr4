@@ -46,7 +46,7 @@ const common = {
                 test: /\.css$/,
                 loaders: ['style', 'css'],
                 // Include accepts either a path or an array of paths.
-                include: PATHS.app
+                include: [PATHS.app, PATHS.node],
             },
             // Set up jsx. This accepts js too thanks to RegExp
             {

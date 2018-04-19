@@ -10,6 +10,7 @@ import _ from 'lodash'
 // Components
 import Drill                from './Drill';
 
+
 /**
  * The DrillSchedule component is a component used to
  */
@@ -27,7 +28,6 @@ export default class DrillSchedule extends React.Component {
 
     render() {
         if (this.props.selectedPractice) {
-            console.log(this.props.selectedPractice)
             return this.renderDrillSchedule();
         } else {
             return this.renderPracticeSelectorMessage();
@@ -45,22 +45,23 @@ export default class DrillSchedule extends React.Component {
             <Container>
                 <ScheduleContainer>
                     {
-                    _.range(0, 12).map((timeBlock, index, arr) => {
+                    this.getTimeBlocks().map((timeBlock, index, arr) => {
+                        let timeBlockString = this.timeBlockKey(timeBlock);
                         return (
                             <TimeBlockContainer
                                 numBlocks={arr.length}
                                 key={uuid.v4()}>
                                 <TimeBlockLabel>
-                                    {`${timeBlock}:00`}
+                                    {timeBlockString}
                                 </TimeBlockLabel>
                                 <TimeBlock
                                     className="event-hour"
-                                    onClick={this.props.addDrill.bind({}, timeBlock)}>
-                                    {!this.props.selectedPractice['drills'][timeBlock] ? null :
+                                    onClick={this.props.addDrill.bind({}, timeBlockString)}>
+                                    {!this.props.selectedPractice.drills[timeBlockString] ? null :
                                         <Rnd
                                             disableDragging={true}
                                             className={"event-item"}
-                                            size={{ width: "100%",  height: `${this.props.selectedPractice['drills'][timeBlock]['durationFactor']}00%`}}
+                                            size={{ width: "100%",  height: `${this.props.selectedPractice.drills[timeBlockString].durationFactor}00%`}}
                                             position={{ x: 0, y: 0 }}
                                             enableResizing={{
                                                 bottom: true,
@@ -77,7 +78,7 @@ export default class DrillSchedule extends React.Component {
                                                     let to = Math.floor(ref.offsetHeight / eventHourHeight);
                                                     //this.props.editEventDuration(this.props.selectedDate.getFullYear(), this.props.selectedDate.getMonth(), this.props.selectedDate.day, hour, hour + to);
                                               }}>
-                                          {this.props.selectedPractice['drills'][timeBlock]['name']}
+                                          {this.props.selectedPractice.drills[timeBlockString].name}
                                         </Rnd>
                                     }
                                 </TimeBlock>
@@ -95,6 +96,18 @@ export default class DrillSchedule extends React.Component {
             <p>Select Practice to See Schedule</p>
         );
     };
+
+    // ========== Methods ===========
+
+    getTimeBlocks = () => {
+      let startTime = this.props.selectedPractice.startTime;
+      let endTime = this.props.selectedPractice.endTime;
+      let duration = date.subtract(endTime, startTime).toMinutes();
+
+      return _.range(0, duration, this.props.timeIncrements).map((offset) => {return date.addMinutes(startTime, offset)})
+    };
+
+    timeBlockKey = (timeBlock) => { return date.format(timeBlock, 'h:mm A') };
 }
 
 // ============= PropTypes ==============
@@ -104,6 +117,7 @@ DrillSchedule.propTypes = {
     addDrill: PropTypes.func.isRequired,
     editDrillName: PropTypes.func.isRequired,
     editDrillDuration: PropTypes.func.isRequired,
+    timeIncrements: PropTypes.number.isRequired,
 };
 
 // ============= Styled Components ==============
