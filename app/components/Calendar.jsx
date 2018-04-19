@@ -1,6 +1,5 @@
 // Dependencies
 import React                from 'react';
-import PropTypes            from 'prop-types';
 import styled               from 'styled-components';
 import date                 from 'date-and-time';
 
@@ -18,9 +17,9 @@ export default class Calendar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedDate: new Date(),
-            selectedPractice: -1, // should be an integer that points to selected practice in practices array on selectedDate. Set to null when date changed
-            practiceRecord: {}    // dict keyed by date.format(day, m/d/y) with corresponding array of practices; a practice is dict of drills keyed by hour (or whatever increment we choose)
+          selectedDate: new Date(),
+          selectedPractice: null,
+          practiceRecord: {},  // Maps date.format(day, m/d/y) to corresponding practice.
         }
     }
 
@@ -36,20 +35,15 @@ export default class Calendar extends React.Component {
                       changeSelectedDate={this.changeSelectedDate} />
                   <Practice
                       selectedDate={this.state.selectedDate}
-                      practiceRecord={this.state.practiceRecord}
                       selectedPractice={this.state.selectedPractice}
-                      addPractice={this.addPractice}
-                      changeSelectedPractice={this.changeSelectedPractice} />
+                      setPractice={this.setPractice} />
               </DateContainer>
               <DrillScheduleContainer>
                   <DrillSchedule
-                      selectedDate={this.state.selectedDate}
                       selectedPractice={this.state.selectedPractice}
-                      practiceRecord={this.state.practiceRecord}
                       addDrill={this.addDrill}
                       editDrillName={this.editDrillName}
-                      editDrillDuration={this.editDrillDuration}
-                      range={this.range} />
+                      editDrillDuration={this.editDrillDuration} />
               </DrillScheduleContainer>
             </Container>
         );
@@ -68,47 +62,35 @@ export default class Calendar extends React.Component {
     changeSelectedDate = (newDate)=> {
         this.setState({
             selectedDate: newDate,
-            selectedPractice: null
+            selectedPractice: this.state.practiceRecord[this.practiceKey(newDate)]
         });
     };
-
-    /**
-     * [changeSelectedPractice description]
-     * @param  {[type]} practiceIndex [description]
-     */
-    changeSelectedPractice = (practiceIndex) => {
-        this.setState({
-            selectedPractice: practiceIndex
-        });
-    }
 
     /**
      * [addPractice description]
      * @param {[type]} name      [description]
      */
-    addPractice = (name, startTime) => {
-        // TODO Ensure no duplicate practices
+    setPractice = (startTime, endTime) => {
         let practiceRecord = {...this.state.practiceRecord};
-        let practice = {
-            name: name,
-            startTime: date.format(startTime, 'hh:mm A'),
-            drills: {}
-        };
 
-        if (practiceRecord[date.format(this.state.selectedDate, 'M/D/Y')]) {
-            // Add practe to existing date key
-            practiceRecord[date.format(this.state.selectedDate, 'M/D/Y')].push(practice);
+        let practice;
+        if (!startTime) {
+            practice = null;
         } else {
-            // Create new date key and add practice
-            practiceRecord[date.format(this.state.selectedDate, 'M/D/Y')] = [practice];
+          practice = {
+            startTime: startTime,
+            endTime: endTime,
+            drills: {}
+          };
         }
 
+        practiceRecord[this.practiceKey(this.state.selectedDate)] = practice;
+
         this.setState({
-            practiceRecord: practiceRecord
-        }, () => {
-            console.log("Practice Record: ", practiceRecord);
+            practiceRecord: practiceRecord,
+            selectedPractice: practice,
         });
-    }
+    };
 
     /**
      * [addDrill description]
@@ -117,7 +99,7 @@ export default class Calendar extends React.Component {
     addDrill = (timeBlock) => {
         console.log("Time: ", timeBlock);
         let practiceRecord = {...this.state.practiceRecord};
-        practiceRecord[date.format(this.state.selectedDate, 'M/D/Y')][this.state.selectedPractice]['drills'][timeBlock] = {name: "New Drill", durationFactor: 1};
+        practiceRecord[this.practiceKey(this.state.selectedDate)]['drills'][timeBlock] = {name: "New Drill", durationFactor: 1};
 
         this.setState({
             practiceRecord: practiceRecord
@@ -131,7 +113,7 @@ export default class Calendar extends React.Component {
      */
     editDrillName = (timeBlock, name) => {
         let practiceRecord = {...this.state.practiceRecord};
-        practiceRecord[date.format(this.state.selectedDate, 'M/D/Y')][this.state.selectedPractice]['drills'][timeBlock]['name'] = name;
+        practiceRecord[this.practiceKey(this.state.selectedDate)]['drills'][timeBlock]['name'] = name;
 
         this.setState({
             practiceRecord: practiceRecord
@@ -144,25 +126,14 @@ export default class Calendar extends React.Component {
      */
     editDrillDuration = (timeBlock, durationFactor) => {
         let practiceRecord = {...this.state.practiceRecord};
-        practiceRecord[date.format(this.state.selectedDate, 'M/D/Y')][this.state.selectedPractice]['drills'][timeBlock]['durationFactor'] = durationFactor;
+        practiceRecord[this.practiceKey(this.state.selectedDate)]['drills'][timeBlock]['durationFactor'] = durationFactor;
 
         this.setState({
             practiceRecord: practiceRecord
         });
-    }
+    };
 
-    /**
-     * [range description]
-     * @param  {[type]} start    [description]
-     * @param  {[type]} end      [description]
-     * @param  {Number} step [description]
-     */
-    range = (start, end, step = 1) => {
-        end -= 1; // Makes range end exclusive
-        const len = Math.floor((end - start) / step) + 1;
-        return Array(len).fill().map((_, idx) => start + (idx * step));
-    }
-
+    practiceKey = (practiceDate) => {return date.format(practiceDate, 'M/D/Y')};
 }
 
 // ============= PropTypes ==============

@@ -5,6 +5,7 @@ import styled           from 'styled-components';
 import uuid             from 'uuid';
 import date             from 'date-and-time';
 import Rnd              from 'react-rnd';
+import _ from 'lodash'
 
 // Components
 import Drill                from './Drill';
@@ -25,7 +26,8 @@ export default class DrillSchedule extends React.Component {
     }
 
     render() {
-        if (this.props.selectedPractice != -1) {
+        if (this.props.selectedPractice) {
+            console.log(this.props.selectedPractice)
             return this.renderDrillSchedule();
         } else {
             return this.renderPracticeSelectorMessage();
@@ -43,7 +45,7 @@ export default class DrillSchedule extends React.Component {
             <Container>
                 <ScheduleContainer>
                     {
-                    this.props.range(0, 12).map((timeBlock, index, arr) => {
+                    _.range(0, 12).map((timeBlock, index, arr) => {
                         return (
                             <TimeBlockContainer
                                 numBlocks={arr.length}
@@ -54,13 +56,11 @@ export default class DrillSchedule extends React.Component {
                                 <TimeBlock
                                     className="event-hour"
                                     onClick={this.props.addDrill.bind({}, timeBlock)}>
-                                    {this.props.practiceRecord[date.format(this.props.selectedDate, 'M/D/Y')]
-                                    && this.props.practiceRecord[date.format(this.props.selectedDate, 'M/D/Y')][this.props.selectedPractice]
-                                    && this.props.practiceRecord[date.format(this.props.selectedDate, 'M/D/Y')][this.props.selectedPractice]['drills'][timeBlock] ?
+                                    {!this.props.selectedPractice['drills'][timeBlock] ? null :
                                         <Rnd
                                             disableDragging={true}
                                             className={"event-item"}
-                                            size={{ width: "100%",  height: `${this.props.practiceRecord[date.format(this.props.selectedDate, 'M/D/Y')][this.props.selectedPractice]['drills'][timeBlock]['durationFactor']}00%`}}
+                                            size={{ width: "100%",  height: `${this.props.selectedPractice['drills'][timeBlock]['durationFactor']}00%`}}
                                             position={{ x: 0, y: 0 }}
                                             enableResizing={{
                                                 bottom: true,
@@ -77,10 +77,8 @@ export default class DrillSchedule extends React.Component {
                                                     let to = Math.floor(ref.offsetHeight / eventHourHeight);
                                                     //this.props.editEventDuration(this.props.selectedDate.getFullYear(), this.props.selectedDate.getMonth(), this.props.selectedDate.day, hour, hour + to);
                                               }}>
-                                          {this.props.practiceRecord[date.format(this.props.selectedDate, 'M/D/Y')][this.props.selectedPractice]['drills'][timeBlock]['name']}
+                                          {this.props.selectedPractice['drills'][timeBlock]['name']}
                                         </Rnd>
-                                    :
-                                        null
                                     }
                                 </TimeBlock>
                             </TimeBlockContainer>
@@ -90,27 +88,22 @@ export default class DrillSchedule extends React.Component {
                 </ScheduleContainer>
             </Container>
         );
-    }
+    };
 
     renderPracticeSelectorMessage = () => {
         return (
             <p>Select Practice to See Schedule</p>
         );
-    }
-
-
+    };
 }
 
 // ============= PropTypes ==============
 
 DrillSchedule.propTypes = {
-    selectedDate: PropTypes.object.isRequired,
-    selectedPractice: PropTypes.number.isRequired,
-    practiceRecord: PropTypes.object.isRequired,
+    selectedPractice: PropTypes.object,
     addDrill: PropTypes.func.isRequired,
     editDrillName: PropTypes.func.isRequired,
     editDrillDuration: PropTypes.func.isRequired,
-    range: PropTypes.func.isRequired,
 };
 
 // ============= Styled Components ==============

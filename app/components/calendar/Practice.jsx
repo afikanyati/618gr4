@@ -16,7 +16,6 @@ export default class Practice extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            add: false
         }
     }
 
@@ -32,14 +31,14 @@ export default class Practice extends React.Component {
                         Practices
                     </HeaderText>
                     <AddPracticeButton
-                        active={this.state.add}>
+                        active={this.state.selectedPractice}>
                         <Icon
                             icon={`url(${Plus})`}
-                            onClick={this.activeAddPractice}/>
+                            onClick={this.togglePractice}/>
                     </AddPracticeButton>
                 </Header>
                 <AddPracticeContainer
-                    active={this.state.add}>
+                    active={false}>
                     <Label
                         for="name">
                         Name:
@@ -59,23 +58,10 @@ export default class Practice extends React.Component {
                             type="text" />
                     </Label>
                     <CreateButton
-                        onClick={this.handleCreatePractice}>
+                        onClick={this.togglePractice}>
                         Create
                     </CreateButton>
                 </AddPracticeContainer>
-                <PracticeListContainer>
-                    {this.props.practiceRecord[date.format(this.props.selectedDate, 'M/D/Y')]
-                    && this.props.practiceRecord[date.format(this.props.selectedDate, 'M/D/Y')].map((practice, index) => {
-                        console.log("hello");
-                        return (
-                            <PracticeItem
-                                onClick={this.props.changeSelectedPractice.bind({}, index)}
-                                key={uuid.v4()}>
-                                {`${practice.name} | ${practice.startTime}`}
-                            </PracticeItem>
-                        );
-                    })}
-                </PracticeListContainer>
             </Container>
         );
     }
@@ -86,38 +72,26 @@ export default class Practice extends React.Component {
 
     // ========== Methods ===========
 
-    activeAddPractice = () => {
-        if (this.state.add) {
-            this.name.value = "";
-            this.startTime.value = "";
-        }
-        this.setState({
-            add: !this.state.add
-        })
-    }
-
-    handleCreatePractice = (e) => {
+     togglePractice = (e) => {
         e.preventDefault();
 
-        let name = this.name.value;
-        let startTime = this.startTime.value;
-        let timeObject = new Date();
-        let hours = 16;  // TODO Replace with input from Time Selector
-        let minutes = 20; // TODO Replace with input from Time Selector
-        timeObject.setHours(hours, minutes);
-
-        this.props.addPractice(name, timeObject);
-    }
+        if (this.props.selectedPractice) {
+          this.props.setPractice(null, null);
+        } else {
+          let startTime = new Date(this.props.selectedDate);
+          let hours = 16;  // TODO Replace with input from Time Selector
+          startTime.setHours(hours);
+          this.props.setPractice(startTime, date.addHours(startTime, 2));
+        }
+     };
 }
 
 // ============= PropTypes ==============
 
 Practice.propTypes = {
     selectedDate: PropTypes.object.isRequired,
-    practiceRecord: PropTypes.object.isRequired,
-    selectedPractice: PropTypes.number.isRequired,
-    addPractice: PropTypes.func.isRequired,
-    changeSelectedPractice: PropTypes.func.isRequired
+    selectedPractice: PropTypes.object,
+  setPractice: PropTypes.func.isRequired,
 };
 
 // ============= Styled Components ==============
