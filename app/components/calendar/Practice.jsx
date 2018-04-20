@@ -37,11 +37,9 @@ export default class Practice extends React.Component {
     }
 
     render() {
-        if (!this.props.selectedPractice && this.name && this.description) {
-            this.name.value = "";
+        if (!this.props.selectedPractice && this.description) {
             this.description.value = "";
-        } else if (this.props.selectedPractice && this.name && this.description) {
-            this.name.value = this.props.selectedPractice.name;
+        } else if (this.props.selectedPractice && this.description) {
             this.description.value = this.props.selectedPractice.description;
         }
         return (
@@ -127,7 +125,7 @@ export default class Practice extends React.Component {
      };
 
      handleType = () => {
-         this.props.editPractice(this.name.value, this.description.value, null, null);
+         this.props.editPractice(this.description.value, null, null);
      }
 
      handleTimeChange = (value) => {
