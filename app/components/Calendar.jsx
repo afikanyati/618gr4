@@ -41,7 +41,8 @@ export default class Calendar extends React.Component {
                   <Practice
                       selectedDate={this.state.selectedDate}
                       selectedPractice={this.state.selectedPractice}
-                      setPractice={this.setPractice} />
+                      setPractice={this.setPractice}
+                      editPractice={this.editPractice} />
               </DateContainer>
               <DrillScheduleContainer>
                   <DrillSchedule
@@ -81,13 +82,17 @@ export default class Calendar extends React.Component {
 
         let practice;
         if (!startTime) {
+            // Remove practive
             practice = null;
         } else {
-          practice = {
-            startTime: startTime,
-            endTime: endTime,
-            drills: {}
-          };
+            // Add practice
+            practice = {
+                name: "",
+                description: "",
+                startTime: startTime,
+                endTime: endTime,
+                drills: {}
+            };
         }
 
         practiceRecord[this.practiceKey(this.state.selectedDate)] = practice;
@@ -97,6 +102,18 @@ export default class Calendar extends React.Component {
             selectedPractice: practice,
         });
     };
+
+    editPractice = (name, description) => {
+        if (this.state.selectedPractice) {
+            let selectedPractice = this.state.selectedPractice;
+            selectedPractice['name'] = name;
+            selectedPractice['description'] = description;
+            this.setState({
+                selectedPractice: selectedPractice
+            });
+            console.log(this.state.selectedPractice);
+        }
+    }
 
     /**
      * [addDrill description]

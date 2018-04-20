@@ -5,7 +5,7 @@ import styled           from 'styled-components';
 import uuid             from 'uuid';
 import date             from 'date-and-time';
 import Rnd              from 'react-rnd';
-import _ from 'lodash'
+import _                from 'lodash';
 
 // Components
 import Drill                from './Drill';
