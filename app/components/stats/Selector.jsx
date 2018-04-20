@@ -21,6 +21,8 @@ export default class Stats extends React.Component {
 
         let playersel;
 
+        let positions = ["goalie", "defense", "offense"];
+
         statsel = this.getStatSel(this.props.selectedPosition)
 
         playersel = this.getPlayerSel(this.props.selectedPosition)
@@ -29,22 +31,41 @@ export default class Stats extends React.Component {
 
         return (
             <Container>
+            <Header>
+                    <Text
+                        size={'1.5em'}
+                        center={true}>
+                        Positions
+                    </Text>
+                </Header>
                 <PositionSel>
-                    <NavItem
-                    onClick = {this.selectPosition.bind({}, "goalie")}>
-                        {"goalie"}
-                    </NavItem>
-                    <NavItem
-                    onClick = {this.selectPosition.bind({}, "defense")}>
-                        {"defense"}
-                    </NavItem>
-                    <NavItem
-                    onClick = {this.selectPosition.bind({}, "offense")}>
-
-                        {"offense"}
-                    </NavItem>
+                    {
+                        positions.map((position) => {
+                            return (
+                                    <Item
+                                        selected={this.props.selectedPosition==position}
+                                    onClick = {this.selectPosition.bind({}, position)}>
+                                    {position}
+                                    </Item>
+                                );
+                        })
+                    }   
                 </PositionSel>
+                <Header>
+                    <Text
+                        size={'1.5em'}
+                        center={true}>
+                        Stats
+                    </Text>
+                </Header>
                 {statsel}
+                <Header>
+                    <Text
+                        size={'1.5em'}
+                        center={true}>
+                        Players
+                    </Text>
+                </Header>
                 {playersel}
 
             </Container>
@@ -71,11 +92,13 @@ export default class Stats extends React.Component {
                     {
                         stats[this.props.selectedPosition].map((stat) => {
                             return (
-                                    <NavItem
+                                    <Item
+                                    selected={this.props.selectedStat==stat}
+
                                     onClick = {this.selectStat.bind({}, stat)}>
                                     {stat}
 
-                                    </NavItem>
+                                    </Item>
                                 );
                         })
                     }
@@ -101,10 +124,11 @@ export default class Stats extends React.Component {
                     {
                         players[this.props.selectedPosition].map((player) => {
                             return (
-                                    <PlayerItem
+                                    <Item
+                                        selected={this.props.selectedPlayers.includes(player)}
                                     onClick = {this.addRemovePlayer.bind({}, player)}>
                                     {player}
-                                    </PlayerItem>
+                                    </Item>
                                 );
                         })
 
@@ -154,41 +178,67 @@ export default class Stats extends React.Component {
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    background-color: red;
     width: 20vw;
-
-
+    border-right: 1px solid #e0e0e0;
 `;
 
 const PositionSel = styled.ul`
     height: 30vh;
-    background-color: blue;
-
+    margin: 0;
+    padding: 0;
 `;
 
-
-const NavItem = styled.li`
-
-`;
-
-const PlayerItem = styled.li`
-
-`;
-
-const PlayerSel = styled.div`
+const PlayerSel = styled.ul`
     height: 30vh;
-    background-color: green;
-
-
-
+    margin: 0;
+    padding: 0;
 `;
 
 
-const StatSel = styled.div`
-
+const StatSel = styled.ul`
+    width: 100%;
     height: 40vh;
-    background-color: purple;
+    margin: 0;
+    padding: 0;
+`;
 
 
 
+const Item = styled.li`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+    width: 100%;
+    height: 50px;
+    background: ${props => props.selected ?
+            props.theme.red
+        :
+            props.theme.white
+    };
+    color: ${props => props.selected ?
+            props.theme.white
+        :
+            "inherit"
+    };
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+    transition: background 0.2s;
+`;
+
+const Header = styled.div`
+    padding: 10px;
+`;
+
+const Text = styled.h2`
+    font-size: ${props => props.size};
+    font-weight: 700;
+    color: ${props => props.theme.black};
+    text-align: ${props => props.center ?
+            "center"
+        :
+            "left"
+    };
+    padding: 0px;
+    margin: 0;
 `;
