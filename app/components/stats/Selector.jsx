@@ -8,9 +8,6 @@ export default class Stats extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            position: "",
-            stat: "",
-            player: ""
         }
     }
 
@@ -24,9 +21,9 @@ export default class Stats extends React.Component {
 
         let playersel;
 
-        statsel = this.getStatSel(this.state.position)
+        statsel = this.getStatSel(this.props.selectedPosition)
 
-        playersel = this.getPlayerSel(this.state.position)
+        playersel = this.getPlayerSel(this.props.selectedPosition)
 
 
         return (
@@ -62,18 +59,19 @@ export default class Stats extends React.Component {
                      "defense": ["possession time", "turnovers", "blocks"],
                      "offense": ["possession time", "turnovers", "shots", "goals"]};
 
-        if (this.state.position == "") {
+        console.log(this.props.selectedPosition);
+        if (this.props.selectedPosition == "") {
             return <StatSel></StatSel>
 
         }
-        if (this.state.position != ""){
+        if (this.props.selectedPosition != ""){
             return(
                 <StatSel>
                     {
-                        stats[this.state.position].map((stat) => {
+                        stats[this.props.selectedPosition].map((stat) => {
                             return (
                                     <NavItem
-                                    onClick = {this.setStat.bind({}, stat)}>
+                                    onClick = {this.selectStat.bind({}, stat)}>
                                     {stat}
 
                                     </NavItem>
@@ -92,15 +90,15 @@ export default class Stats extends React.Component {
                        "offense": ["Afika Nyati", "Taylor Herr", "Abigail Russell", "Efraim THEROCK"]
                         };
 
-        if (this.state.position == "") {
+        if (this.props.selectedPosition == "") {
             return <PlayerSel></PlayerSel>;
         }
 
-        if (this.state.position != "") {
+        if (this.props.selectedPosition != "") {
             return (
                 <PlayerSel>
                     {
-                        players[this.state.position].map((player) => {
+                        players[this.props.selectedPosition].map((player) => {
                             return (
                                     <PlayerItem
                                     onClick = {this.addPlayer.bind({}, player)}>
@@ -119,27 +117,16 @@ export default class Stats extends React.Component {
     }
 
     selectPosition = (newPosition) => {
-      this.setState({
-          position: newPosition
-      })
-
-
+      this.props.setPosition(newPosition);
     }
 
-    setStat = (newStat) => {
-        this.setState({
-            stat: newStat
-        })
+    selectStat = (newStat) => {
+      this.props.setStat(newStat);
     }
 
     addPlayer = (newPlayer) => {
-        this.setState({
-            stat: newPlayer
-        })
+      this.props.setPlayers([]);
     }
-
-
-
 
 }
 
@@ -164,7 +151,7 @@ const PositionSel = styled.ul`
 
 
 const NavItem = styled.li`
-    
+
 `;
 
 const PlayerItem = styled.li`

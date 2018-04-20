@@ -17,6 +17,9 @@ export default class Stats extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+          selectedPosition: "",
+          selectedStat: "",
+          selectedPlayers: []
         }
     }
 
@@ -27,44 +30,41 @@ export default class Stats extends React.Component {
     render() {
         return (
             <Container>
-                <Selector>
+                <Selector
+                  selectedPosition={this.state.selectedPosition}
+                  selectedStat={this.state.selectedStat}
+                  selectedPlayers={this.state.selectedPlayers}
+                  setPosition={this.setPosition}
+                  setStat={this.setStat}
+                  setPlayers={this.setPlayers}>
                 </Selector>
-                <StatsWindow>
+                <StatsWindow
+                selectedPosition={this.state.selectedPosition}
+                selectedStat={this.state.selectedStat}
+                selectedPlayers={this.state.selectedPlayers}>
                 </StatsWindow>
             </Container>
         );
     }
 
-
-    // render() {
-    //     return (
-    //         <Container>
-    //         <DateContainer>
-    //               <DatePicker
-    //                   selectedDate={this.state.selectedDate}
-    //                   changeSelectedDate={this.changeSelectedDate} />
-    //               <Practice
-    //                   selectedDate={this.state.selectedDate}
-    //                   selectedPractice={this.state.selectedPractice}
-    //                   setPractice={this.setPractice} />
-    //           </DateContainer>
-    //           <DrillScheduleContainer>
-    //               <DrillSchedule
-    //                   selectedPractice={this.state.selectedPractice}
-    //                   addDrill={this.addDrill}
-    //                   editDrillName={this.editDrillName}
-    //                   editDrillDuration={this.editDrillDuration} />
-    //           </DrillScheduleContainer>
-    //         </Container>
-    //     );
-    // }
-
-    x = (i) => {
-      return i.index;
-    }
-
     componentDidMount() {
 
+    }
+
+    setPosition = (position) => {
+      this.setState({
+          selectedPosition: position
+      })
+    }
+    setStat = (stat) => {
+      this.setState({
+          selectedStat: stat
+      })
+    }
+    setPlayers = (players) => {
+      this.setState({
+          selectedPlayers: players
+      })
     }
 
 }

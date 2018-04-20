@@ -17,6 +17,7 @@ export default class StatsWindow extends React.Component {
 
 
     render() {
+        console.log(this.props);
         return (
             <Container>
             <LineChart
@@ -44,9 +45,7 @@ export default class StatsWindow extends React.Component {
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    background-color: yellow;
     width: 60vw;
-
 
 `;
 
