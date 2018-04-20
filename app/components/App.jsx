@@ -6,14 +6,15 @@
  */
 
 // Dependencies
-import React                    from 'react';
-import styled                   from 'styled-components';
-import { CSSTransitionGroup }   from 'react-transition-group';
-import initReactFastclick       from 'react-fastclick';
+import React                        from 'react';
+import styled                       from 'styled-components';
+import { CSSTransitionGroup }       from 'react-transition-group';
+import initReactFastclick           from 'react-fastclick';
 
 // Components
-import Calendar                      from './Calendar';
-import Stats                         from './Stats';
+import Calendar                     from './Calendar';
+import Stats                        from './Stats';
+import DefaultPhoto                 from '../assets/images/default-avatar.png';
 
 
 
@@ -59,17 +60,24 @@ export default class Root extends React.Component {
         return(
             <Container>
                 <SideBar>
+                    <ProfileContainer img={DefaultPhoto} />
+                    <Name>
+                        {"Victor Fink"}
+                    </Name>
                     <Navigation>
                         <NavItem
-                        onClick = {this.toggleViewState.bind({}, "Profile")}>
+                            selected={this.state.view == "Profile"}
+                            onClick = {this.toggleViewState.bind({}, "Profile")}>
                             {"Profile"}
                         </NavItem>
                         <NavItem
-                        onClick = {this.toggleViewState.bind({}, "Calendar")}>
+                            selected={this.state.view == "Calendar"}
+                            onClick = {this.toggleViewState.bind({}, "Calendar")}>
                             {"Calendar"}
                         </NavItem>
                         <NavItem
-                        onClick = {this.toggleViewState.bind({}, "Stats")}>
+                            selected={this.state.view == "Stats"}
+                            onClick = {this.toggleViewState.bind({}, "Stats")}>
                             {"Stats"}
                         </NavItem>
                     </Navigation>
@@ -97,25 +105,74 @@ export default class Root extends React.Component {
 }
 
 // ============= Styled Components ==============
-const SideBar = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 20vw;
-  height: 100vh;
-`;
-
-const Navigation = styled.ul`
-
-`;
-
-const NavItem = styled.li`
-
-`;
-
 
 const Container = styled.div`
     display: flex;
     flex-direction: row;
     width: 100vw;
     height: 100vh;
+`;
+
+const SideBar = styled.div`
+    display: relative;
+    display: flex;
+    flex-direction: column;
+    width: 20vw;
+    height: 100vh;
+    border-right: 1px solid #e0e0e0;
+`;
+
+const Navigation = styled.ul`
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+`;
+
+const NavItem = styled.li`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+    width: 100%;
+    height: 50px;
+    background: ${props => props.selected ?
+            props.theme.red
+        :
+            props.theme.white
+    };
+    color: ${props => props.selected ?
+            props.theme.white
+        :
+            "inherit"
+    };
+    cursor: pointer;
+    transition: background 0.2s;
+`;
+
+const ProfileContainer = styled.div`
+    width: 20vw;
+    height: 20vw;
+    background: none;
+    background-image: ${props => 'url(' + props.img + ')'};
+    background-position: 50%;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    padding: 0;
+    margin: 0;
+    transition: box-shadow 0.15s background 0.2s;
+`;
+
+const Name = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    font-weight: 700;
+    color: ${props => props.theme.white};
+    text-align: center;
+    background: ${props => props.theme.black};
+    margin: 0;
+    padding: 15px 0;
+    box-shadow: 0 4px 8px -2px rgba(0,0,0,.5), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+    z-index: 1;
 `;

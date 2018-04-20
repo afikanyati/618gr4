@@ -161,9 +161,15 @@ const WeekBox = styled.div`
 
 const DayTextContainer = styled.div`
     display: flex;
-    color: ${props => props.isSelectedDay ? props.theme.white : "#212121"};
-    background: ${props => props.isSelectedDay ? props.theme.lightPurple : 
-      (props.hasPractice ? props.theme.lightBlue : "none")};
+    color: ${props => props.isSelectedDay || props.hasPractice ? props.theme.white : "#212121"};
+    background: ${props => props.isSelectedDay ?
+            props.theme.red
+        :
+            props.hasPractice ?
+                "#4054b2"
+            :
+                "none"
+    };
     justify-content: center;
     align-items: center;
     border-radius: 2px;

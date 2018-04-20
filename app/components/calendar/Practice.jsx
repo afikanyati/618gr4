@@ -41,37 +41,50 @@ export default class Practice extends React.Component {
         return (
             <Container>
                 <Header>
-                    <HeaderText>
-                        Practice
-                    </HeaderText>
+                    <Text
+                        size={'1.5em'}
+                        center={true}>
+                        Practice on Day
+                    </Text>
+                </Header>
+                <PracticeButtonContainer>
                     <PracticeButton
                         active={this.props.selectedPractice}
                         onClick={() => {this.togglePractice(true)}}>Yes</PracticeButton>
-                  <PracticeButton
-                    active={!this.props.selectedPractice}
-                    onClick={() => {this.togglePractice(false)}}>No</PracticeButton>
-                </Header>
-                <AddPracticeContainer
-                    active={true}>
-                  <PracticeTime>
-                    <InputRange
-                      disabled={!this.props.selectedPractice}
-                      draggableTrack={true}
-                      formatLabel={this.formatTimeLabel}
-                      maxValue={date.subtract(maxEndTime, minStartTime).toMinutes()}
-                      minValue={0}
-                      step={timeIncrements}
-                      value={this.state.timeRange}
-                      onChange={timeRange => this.setPracticeTime(timeRange)} />
-                  </PracticeTime>
-
+                    <PracticeButton
+                        active={!this.props.selectedPractice}
+                        onClick={() => {this.togglePractice(false)}}>No</PracticeButton>
+                </PracticeButtonContainer>
+                <AddPracticeContainer active={true}>
+                    <Text
+                        size={'1em'}
+                        center={true}>
+                        Time
+                    </Text>
+                    <TimeInputContainer>
+                      <InputRange
+                        disabled={!this.props.selectedPractice}
+                        draggableTrack={true}
+                        formatLabel={this.formatTimeLabel}
+                        maxValue={date.subtract(maxEndTime, minStartTime).toMinutes()}
+                        minValue={0}
+                        step={timeIncrements}
+                        value={this.state.timeRange}
+                        onChange={timeRange => this.setPracticeTime(timeRange)} />
+                    </TimeInputContainer>
                     <Label
-                        for="name">
-                        Notes:
-                        <Notes
-                            disabled={!this.props.selectedPractice}
-                        />
+                        for="Description"
+                        center={false}>
+                        Description:
                     </Label>
+                    <Textarea
+                        disabled={!this.props.selectedPractice}
+                        width={"150px"}
+                        innerRef={description => this.description = description}
+                        name="description"
+                        type="text"
+                        defaultValue={this.props.selectedPractice ? this.props.selectedPractice.description : ""}
+                        onChange={this.handleType} />
                 </AddPracticeContainer>
             </Container>
         );
@@ -106,6 +119,11 @@ export default class Practice extends React.Component {
           this.props.setPractice(null, null);
         }
      };
+
+     handleType = () => {
+         this.props.editPractice(this.name.value, this.description.value);
+         console.log("hello");
+     }
 }
 
 // ============= PropTypes ==============
@@ -113,7 +131,8 @@ export default class Practice extends React.Component {
 Practice.propTypes = {
     selectedDate: PropTypes.object.isRequired,
     selectedPractice: PropTypes.object,
-  setPractice: PropTypes.func.isRequired,
+    setPractice: PropTypes.func.isRequired,
+    editPractice: PropTypes.func.isRequired
 };
 
 // ============= Styled Components ==============
@@ -124,11 +143,22 @@ const Container = styled.div`
 `;
 
 const Header = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
     padding: 10px;
+`;
+
+const Text = styled.h2`
+    font-size: ${props => props.size};
+    font-weight: 700;
+    color: ${props => props.theme.black};
+    text-align: ${props => props.center ?
+            "center"
+        :
+            "left"
+    };
+    padding: 20px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+    margin: 0;
 `;
 
 const AddPracticeContainer = styled.form`
@@ -139,22 +169,31 @@ const AddPracticeContainer = styled.form`
     padding: 0px 30px;
 `;
 
-const HeaderText = styled.h2`
-    font-size: 1.5em;
-    font-weight: 700;
-    color: #212121;
-    padding-left: 20px;
-    margin: 0;
+const PracticeButtonContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0px 30px;
 `;
 
 const PracticeButton = styled.div`
-    width: 60px;
-    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45%;
+    height: 50px;
     border-radius: 5px;
     background: ${props => props.active ?
-            props.theme.lightPurple
+            props.theme.red
         :
             props.theme.lightGray};
+    color: ${props => props.active ?
+            props.theme.white
+        :
+            "inherit"};
+    font-size: 1.2em;
     box-shadow: 0 4px 8px -2px rgba(0,0,0,.5), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
     transition: box-shadow 0.15s background 0.2s;
     z-index: 1;
@@ -165,15 +204,8 @@ const PracticeButton = styled.div`
     }
 `;
 
-const Icon = styled.div`
-    display: block;
-    width: 60px;
-    height: 60px;
-    border-radius: 30px;
-    background: none;
-    background-position: 50%;
-    background-size: 35px 35px;
-    background-repeat: no-repeat;
+const TimeInputContainer = styled.div`
+    margin: 40px;
 `;
 
 const Notes = styled.textarea`
@@ -189,7 +221,22 @@ const Notes = styled.textarea`
     color: ${props => props.theme.black};
     line-height: normal;
     box-shadow: inset 0 2px 5px rgba(0,0,0,0.22);
-    margin: 0px 10px;
+`;
+
+const Textarea = styled.textarea`
+    border-radius: 3px;
+    padding: 0.5em 0.5em;
+    margin: 0;
+    width: 100%;
+    height: 60px;
+    background-color: ${props => props.theme.lightGray};
+    border: none;
+    font-size: 1em;
+    font-weight: 300;
+    color: ${props => props.theme.black};
+    line-height: normal;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.22);
+    resize: none;
 `;
 
 const Label = styled.label`
@@ -201,33 +248,10 @@ const Label = styled.label`
     margin: 10px 0px;
 `;
 
-
-const CreateButton = styled.button`
-    display: block;
-    width: 60px;
-    height: 40px;
-    border-radius: 5px;
-    background: ${props => props.theme.lightPurple};
-    box-shadow: 0 4px 8px -2px rgba(0,0,0,.5), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
-    transition: box-shadow 0.15s background 0.2s;
-    z-index: 1;
-    cursor: pointer;
-    color: ${props => props.theme.white};
-    &:hover {
-        box-shadow: 0 8px 16px -4px rgba(0,0,0,.5), 0 6px 2px -4px rgba(0,0,0,.2), 0 2px 10px 0 rgba(0,0,0,.12);
-    }
-`;
-
-const PracticeTime = styled.div`
-    margin: 0 auto;
-    margin-bottom: 160px;
-    padding: 100px 30px 0;
-`;
-
 const PracticeListContainer = styled.ul`
 
 `;
 
 const PracticeItem = styled.li`
     cursor: pointer;
-`
+`;

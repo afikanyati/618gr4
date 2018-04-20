@@ -7,6 +7,8 @@ import date                 from 'date-and-time';
 // import DatePicker  from './calendar/DatePicker';
 // import DrillSchedule       from './calendar/DrillSchedule';
 import Selector       from './stats/Selector';
+import StatsWindow    from './stats/StatsWindow';
+
 
 
 export default class Stats extends React.Component {
@@ -15,6 +17,9 @@ export default class Stats extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+          selectedPosition: "",
+          selectedStat: "",
+          selectedPlayers: []
         }
     }
 
@@ -25,41 +30,41 @@ export default class Stats extends React.Component {
     render() {
         return (
             <Container>
-                <Selector>
+                <Selector
+                  selectedPosition={this.state.selectedPosition}
+                  selectedStat={this.state.selectedStat}
+                  selectedPlayers={this.state.selectedPlayers}
+                  setPosition={this.setPosition}
+                  setStat={this.setStat}
+                  setPlayers={this.setPlayers}>
                 </Selector>
-                <StatsWindow>
+                <StatsWindow
+                selectedPosition={this.state.selectedPosition}
+                selectedStat={this.state.selectedStat}
+                selectedPlayers={this.state.selectedPlayers}>
                 </StatsWindow>
             </Container>
         );
     }
 
-
-    // render() {
-    //     return (
-    //         <Container>
-    //         <DateContainer>
-    //               <DatePicker
-    //                   selectedDate={this.state.selectedDate}
-    //                   changeSelectedDate={this.changeSelectedDate} />
-    //               <Practice
-    //                   selectedDate={this.state.selectedDate}
-    //                   selectedPractice={this.state.selectedPractice}
-    //                   setPractice={this.setPractice} />
-    //           </DateContainer>
-    //           <DrillScheduleContainer>
-    //               <DrillSchedule
-    //                   selectedPractice={this.state.selectedPractice}
-    //                   addDrill={this.addDrill}
-    //                   editDrillName={this.editDrillName}
-    //                   editDrillDuration={this.editDrillDuration} />
-    //           </DrillScheduleContainer>
-    //         </Container>
-    //     );
-    // }
-
-
     componentDidMount() {
 
+    }
+
+    setPosition = (position) => {
+      this.setState({
+          selectedPosition: position
+      })
+    }
+    setStat = (stat) => {
+      this.setState({
+          selectedStat: stat
+      })
+    }
+    setPlayers = (players) => {
+      this.setState({
+          selectedPlayers: players
+      })
     }
 
 }
@@ -81,15 +86,7 @@ const Container = styled.div`
 // `;
 
 
-const StatsWindow = styled.div`
-    width: 60vw;
-    height:100vh;
-
-
-`;
-
-
-
-
-
-
+// const StatsWindow = styled.div`
+//     width: 60vw;
+//     height:100vh;
+// `;
