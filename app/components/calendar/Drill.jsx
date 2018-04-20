@@ -41,7 +41,7 @@ export default class Drill extends React.Component {
 
     editingDrill = () => {
         return (
-            <Container>
+            <Container height={`${this.props.selectedPractice.drills[this.props.timeBlockString].durationFactor}00%`}>
                 <EditDrill
                     type="text"
                     innerRef={comp => this.drillName = comp}
@@ -61,11 +61,13 @@ export default class Drill extends React.Component {
 
     drill = () => {
         return (
-            <Container onClick={this.editDrill}>
+            <Container
+                height={`${this.props.selectedPractice.drills[this.props.timeBlockString].durationFactor}00%`}
+                onClick={this.editDrill}>
                 <Rnd
                     disableDragging={true}
                     className={"event-item"}
-                    size={{ width: "100%",  height: `${this.props.selectedPractice.drills[this.props.timeBlockString].durationFactor}00%`}}
+                    size={{ width: "100%",  height: "100%"}}
                     position={{ x: 0, y: 0 }}
                     enableResizing={{
                         bottom: true,
@@ -138,7 +140,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100%;
+    height: ${props => props.height};
     background: #d3224f;
 `;
 
