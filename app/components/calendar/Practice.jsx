@@ -10,6 +10,11 @@ import InputRange from 'react-input-range';
 import Plus                 from '../../assets/images/plus.svg';
 import 'react-input-range/lib/css/index.css';
 
+// Settings
+const minStartTime = new Date(1,1,1,16,0);
+const maxEndTime = new Date(1,1,1,22,0);
+const timeIncrements = 30;  // in minutes
+
 /**
  * The Practice component is a component used to
  */
@@ -18,7 +23,13 @@ export default class Practice extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          value: { min: 2, max: 10 },
+          timeRange: {
+            min: Math.max(0, date.subtract(new Date(1,1,1,17,0), minStartTime).toMinutes()),
+            max: Math.min(
+              date.subtract(maxEndTime, minStartTime).toMinutes(),
+              date.subtract(maxEndTime, new Date(1,1,1,19,0)).toMinutes()
+            ),
+          },
         }
     }
 
@@ -41,35 +52,26 @@ export default class Practice extends React.Component {
                     onClick={() => {this.togglePractice(false)}}>No</PracticeButton>
                 </Header>
                 <AddPracticeContainer
-                    active={this.props.selectedPractice}>
-                  <InputRange
-                    maxValue={20}
-                    minValue={0}
-                    value={this.state.value}
-                    onChange={value => this.setState({ value })} />
+                    active={true}>
+                  <PracticeTime>
+                    <InputRange
+                      disabled={!this.props.selectedPractice}
+                      draggableTrack={true}
+                      formatLabel={this.formatTimeLabel}
+                      maxValue={date.subtract(maxEndTime, minStartTime).toMinutes()}
+                      minValue={0}
+                      step={timeIncrements}
+                      value={this.state.timeRange}
+                      onChange={timeRange => this.setPracticeTime(timeRange)} />
+                  </PracticeTime>
 
                     <Label
                         for="name">
-                        Name:
-                        <Input
-                            width={"150px"}
-                            innerRef={name => this.name = name}
-                            name="name"
-                            type="text" />
+                        Notes:
+                        <Notes
+                            disabled={!this.props.selectedPractice}
+                        />
                     </Label>
-                    <Label
-                        for="name">
-                        Start Time:
-                        <Input
-                            width={"150px"}
-                            innerRef={startTime => this.startTime = startTime}
-                            name="startTime"
-                            type="text" />
-                    </Label>
-                    <CreateButton
-                        onClick={this.togglePractice}>
-                        Create
-                    </CreateButton>
                 </AddPracticeContainer>
             </Container>
         );
@@ -81,12 +83,25 @@ export default class Practice extends React.Component {
 
     // ========== Methods ===========
 
+     formatTimeLabel = (value, type) => {
+       let startTime = minStartTime;
+       return date.format(date.addMinutes(startTime, value), 'h:mm');
+     };
+
+     setPracticeTime = (timeRange) => {
+       this.setState({ timeRange });
+       this.props.setPractice(
+          date.addMinutes(minStartTime, this.state.timeRange.min),
+          date.addMinutes(minStartTime, this.state.timeRange.max)
+       );
+     };
+
      togglePractice = (on) => {
         if (on) {
-          let startTime = new Date(this.props.selectedDate);
-          startTime.setHours(16);  // TODO Replace with input from Time Selector
-          startTime.setMinutes(30);  // TODO Replace with input from Time Selector
-          this.props.setPractice(startTime, date.addHours(startTime, 2));
+          this.props.setPractice(
+            date.addMinutes(minStartTime, this.state.timeRange.min),
+            date.addMinutes(minStartTime, this.state.timeRange.max)
+          );
         } else {
           this.props.setPractice(null, null);
         }
@@ -161,7 +176,7 @@ const Icon = styled.div`
     background-repeat: no-repeat;
 `;
 
-const Input = styled.input`
+const Notes = styled.textarea`
     border-radius: 3px;
     padding: 0.6em 0.6em;
     margin: 0;
@@ -201,6 +216,12 @@ const CreateButton = styled.button`
     &:hover {
         box-shadow: 0 8px 16px -4px rgba(0,0,0,.5), 0 6px 2px -4px rgba(0,0,0,.2), 0 2px 10px 0 rgba(0,0,0,.12);
     }
+`;
+
+const PracticeTime = styled.div`
+    margin: 0 auto;
+    margin-bottom: 160px;
+    padding: 100px 30px 0;
 `;
 
 const PracticeListContainer = styled.ul`
