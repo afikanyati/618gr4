@@ -16,6 +16,9 @@ export default class Stats extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            position: "",
+            stat: "",
+            player: ""
         }
     }
 
@@ -25,17 +28,36 @@ export default class Stats extends React.Component {
 
 
     render() {
+
+        let statsel;
+
+        let playersel;
+
+        statsel = this.getStatSel(this.state.position)
+
+        playersel = this.getPlayerSel(this.state.position)
+
+
         return (
             <Container>
                 <PositionSel>
-                {"WHAT"}
+                    <NavItem
+                    onClick = {this.selectPosition.bind({}, "goalie")}>
+                        {"goalie"}
+                    </NavItem>
+                    <NavItem
+                    onClick = {this.selectPosition.bind({}, "defense")}>
+                        {"defense"}
+                    </NavItem>
+                    <NavItem
+                    onClick = {this.selectPosition.bind({}, "offense")}>
+
+                        {"offense"}
+                    </NavItem>
                 </PositionSel>
-                <PlayerSel>
-                {"HI"}
-                </PlayerSel>
-                <StatSel>
-                {"YO"}
-                </StatSel>
+                {statsel}
+                {playersel}
+
             </Container>
         );
     }
@@ -43,6 +65,90 @@ export default class Stats extends React.Component {
     componentDidMount() {
 
     }
+
+    getStatSel = () => {
+        let stats = {"goalie": ["blocks","misses","attempts"],
+                     "defense": ["possession time", "turnovers", "blocks"],
+                     "offense": ["possession time", "turnovers", "shots", "goals"]};
+
+        if (this.state.position == "") {
+            return <StatSel></StatSel>
+
+        }
+        if (this.state.position != ""){
+            return(
+                <StatSel>
+                    {
+                        stats[this.state.position].map((stat) => {
+                            return (
+                                    <NavItem
+                                    onClick = {this.setStat.bind({}, stat)}>
+                                    {stat}
+
+                                    </NavItem>
+                                );
+                        })
+                    }
+                </StatSel>
+            );
+        }
+
+    }
+
+    getPlayerSel = () => {
+        let players = {"goalie": ["Pyotr Hasborn", "Martin Shkrelli", "Donald Trump", "Barack Obama"],
+                       "defense": ["Victor Fink", "Mitchell", "SCARFACE", "The Red Telletubby"],
+                       "offense": ["Afika Nyati", "Taylor Herr", "Abigail Russell", "Efraim THEROCK"]
+                        };
+
+        if (this.state.position == "") {
+            return <PlayerSel></PlayerSel>;
+        }
+
+        if (this.state.position != "") {
+            return (
+                <PlayerSel>
+                    {
+                        players[this.state.position].map((player) => {
+                            return (
+                                    <PlayerItem
+                                    onClick = {this.addPlayer.bind({}, player)}>
+                                    {player}
+                                    </PlayerItem>
+                                );
+                        })
+
+                    }
+
+                </PlayerSel>
+
+
+            );
+        }
+    }
+
+    selectPosition = (newPosition) => {
+      this.setState({
+          position: newPosition
+      })
+
+
+    }
+
+    setStat = (newStat) => {
+        this.setState({
+            stat: newStat
+        })
+    }
+
+    addPlayer = (newPlayer) => {
+        this.setState({
+            stat: newPlayer
+        })
+    }
+
+
+
 
 }
 
@@ -59,9 +165,18 @@ const Container = styled.div`
 
 `;
 
-const PositionSel = styled.div`
+const PositionSel = styled.ul`
     height: 30vh;
     background-color: blue;
+
+`;
+
+
+const NavItem = styled.li`
+    
+`;
+
+const PlayerItem = styled.li`
 
 `;
 
