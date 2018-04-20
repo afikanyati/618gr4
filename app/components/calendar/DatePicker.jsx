@@ -47,7 +47,7 @@ export default class DatePicker extends React.Component {
                     <WeekHeader>
                       {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index, arr) => {
                         return (
-                          <WeekBox>{day}</WeekBox>
+                          <WeekBox key={uuid.v4()}>{day}</WeekBox>
                         )})
                       }
                     </WeekHeader>
@@ -55,13 +55,13 @@ export default class DatePicker extends React.Component {
                         {this.getDaysInMonth().map((day, index, arr) => {
                             if (day === null) {
                                 return (
-                                  <DayTextContainer
+                                  <DayTextContainer key={uuid.v4()}
                                     isSelectedDay={false}
                                     hasPractice={false}/>
                                 )
                             } else {
                                 return (
-                                    <DayTextContainer
+                                    <DayTextContainer key={uuid.v4()}
                                         isSelectedDay={date.isSameDay(day, this.props.selectedDate)}
                                         hasPractice={this.props.practiceRecord[this.props.practiceKey(day)]}
                                         onClick={() => this.props.changeSelectedDate(day)}>

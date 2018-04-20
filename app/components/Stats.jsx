@@ -7,6 +7,7 @@ import date                 from 'date-and-time';
 // import DatePicker  from './calendar/DatePicker';
 // import DrillSchedule       from './calendar/DrillSchedule';
 import Selector       from './stats/Selector';
+import StatsWindow    from './stats/StatsWindow';
 
 
 
@@ -93,11 +94,12 @@ const Container = styled.div`
 // `;
 
 
-const StatsWindow = styled.div`
-    width: 60vw;
-    height:100vh;
+// const StatsWindow = styled.div`
+//     width: 60vw;
+//     height:100vh;
 
-`;
+
+// `;
 
 var Chart = require('react-d3-core').Chart;
 // require `react-d3-basic` for Line chart component.
