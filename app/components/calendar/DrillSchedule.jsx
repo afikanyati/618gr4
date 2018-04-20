@@ -61,6 +61,7 @@ export default class DrillSchedule extends React.Component {
                                         <Drill
                                             selectedPractice={this.props.selectedPractice}
                                             timeBlockString={timeBlockString}
+                                            removeDrill={this.props.removeDrill}
                                             editDrillDuration={this.props.editDrillDuration}
                                             editDrillName={this.props.editDrillName} />
                                     }
@@ -107,6 +108,7 @@ export default class DrillSchedule extends React.Component {
 DrillSchedule.propTypes = {
     selectedPractice: PropTypes.object,
     addDrill: PropTypes.func.isRequired,
+    removeDrill: PropTypes.func.isRequired,
     editDrillName: PropTypes.func.isRequired,
     editDrillDuration: PropTypes.func.isRequired,
     timeIncrements: PropTypes.number.isRequired,

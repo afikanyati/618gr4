@@ -6,6 +6,8 @@ import uuid             from 'uuid';
 import Rnd              from 'react-rnd';
 
 // Components
+import CrossWhite     from '../../assets/images/cross.svg';
+import CrossBlue     from '../../assets/images/cross-blue.svg';
 
 /**
  * The Day component is a component used to
@@ -50,6 +52,10 @@ export default class Drill extends React.Component {
                     placeholder="Drill Name"
                     defaultValue={this.props.selectedPractice.drills[this.props.timeBlockString].name}
                     />
+                <DeleteButton
+                    iconWhite={CrossWhite}
+                    iconBlue={CrossBlue}
+                    onClick={this.props.removeDrill.bind({}, this.props.timeBlockString)} />
             </Container>
         );
     }
@@ -79,6 +85,10 @@ export default class Drill extends React.Component {
                       }}>
                   {this.props.selectedPractice.drills[this.props.timeBlockString].name}
                 </Rnd>
+                <DeleteButton
+                    iconWhite={CrossWhite}
+                    iconBlue={CrossBlue}
+                    onClick={this.props.removeDrill.bind({}, this.props.timeBlockString)} />
             </Container>
         );
     }
@@ -117,12 +127,14 @@ Drill.propTypes = {
     timeBlockString: PropTypes.string.isRequired,
     selectedPractice: PropTypes.object,
     editDrillDuration: PropTypes.func.isRequired,
-    editDrillName: PropTypes.func.isRequired
+    editDrillName: PropTypes.func.isRequired,
+    removeDrill: PropTypes.func.isRequired
 };
 
 // ============= Styled Components ==============
 
 const Container = styled.div`
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -146,4 +158,24 @@ const EditDrill = styled.input`
     line-height: normal;
     text-align: center;
     box-shadow: inset 0 2px 5px rgba(0,0,0,0.22);
+`;
+
+const DeleteButton = styled.div`
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    width: 60px;
+    height: 100%;
+    background: none;
+    background-image: ${props => 'url(' + props.iconWhite + ')'};
+    background-position: 50%;
+    background-size: 50%;
+    background-repeat: no-repeat;
+    z-index: 1;
+    transition: background 0.2s;
+
+    &:hover {
+        background-image: ${props => 'url(' + props.iconBlue + ')'};
+    }
 `;

@@ -48,6 +48,7 @@ export default class Calendar extends React.Component {
                   <DrillSchedule
                       selectedPractice={this.state.selectedPractice}
                       addDrill={this.addDrill}
+                      removeDrill={this.removeDrill}
                       editDrillName={this.editDrillName}
                       editDrillDuration={this.editDrillDuration}
                       timeIncrements={timeIncrements} />
@@ -126,6 +127,17 @@ export default class Calendar extends React.Component {
     addDrill = (timeBlock) => {
         let practiceRecord = {...this.state.practiceRecord};
         practiceRecord[this.practiceKey(this.state.selectedDate)]['drills'][timeBlock] = {name: "New Drill", durationFactor: 1};
+
+        this.setState({
+            practiceRecord: practiceRecord
+        });
+    }
+
+    removeDrill = (timeBlock, e) => {
+        e.stopPropagation();
+        let practiceRecord = {...this.state.practiceRecord};
+        delete practiceRecord[this.practiceKey(this.state.selectedDate)]['drills'][timeBlock];
+        console.log(timeBlock, practiceRecord);
 
         this.setState({
             practiceRecord: practiceRecord

@@ -17,14 +17,13 @@ export default class StatsWindow extends React.Component {
 
 
     render() {
-        console.log(this.props);
         return (
             <Container>
             <LineChart
              width= {600}
              height= {500}
              showXGrid= {false}
-             data= {chartData}
+             data= {this.getChartData()}
              chartSeries= {chartSeries}
              x= {this.x}
            />
@@ -34,6 +33,25 @@ export default class StatsWindow extends React.Component {
     x = (i) => {
       return i.index;
     }
+
+    getChartData = () => {
+      console.log(this.props);
+      var data = require('../../data/fake_data.json');
+      var chartData = [];
+      console.log(data);
+      if (this.props.selectedStat != "") {
+        for (var p in data) {
+          var point = data[p];
+          if (point.stat == this.props.selectedStat) {
+            chartData.push(point)
+          }
+        }
+      }
+      console.log(chartData);
+      return chartData;
+    }
+
+
 
     componentDidMount() {
 
@@ -49,18 +67,14 @@ const Container = styled.div`
 
 `;
 
+
 var Chart = require('react-d3-core').Chart;
 // require `react-d3-basic` for Line chart component.
 var LineChart = require('react-d3-basic').LineChart;
 
-
-var chartData = require('../../data/user_sample.json');
-
-
 var chartSeries = [
     {
-      field: 'age',
-      name: 'Age',
+      field: 'value',
       color: '#935999',
       style: {
         "stroke-width": 2,
