@@ -9,6 +9,7 @@ import date                 from 'date-and-time';
 import Selector       from './stats/Selector';
 
 
+
 export default class Stats extends React.Component {
 
 
@@ -28,6 +29,14 @@ export default class Stats extends React.Component {
                 <Selector>
                 </Selector>
                 <StatsWindow>
+                <LineChart
+                 width= {600}
+                 height= {500}
+                 showXGrid= {false}
+                 data= {chartData}
+                 chartSeries= {chartSeries}
+                 x= {this.x}
+               />
                 </StatsWindow>
             </Container>
         );
@@ -57,6 +66,9 @@ export default class Stats extends React.Component {
     //     );
     // }
 
+    x = (i) => {
+      return i.index;
+    }
 
     componentDidMount() {
 
@@ -85,11 +97,25 @@ const StatsWindow = styled.div`
     width: 60vw;
     height:100vh;
 
-
 `;
 
+var Chart = require('react-d3-core').Chart;
+// require `react-d3-basic` for Line chart component.
+var LineChart = require('react-d3-basic').LineChart;
 
 
+var chartData = require('../data/user_sample.json');
 
 
-
+var chartSeries = [
+    {
+      field: 'age',
+      name: 'Age',
+      color: '#935999',
+      style: {
+        "stroke-width": 2,
+        "stroke-opacity": .2,
+        "fill-opacity": .2
+      }
+    }
+  ];

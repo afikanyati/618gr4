@@ -3,14 +3,6 @@ import styled               from 'styled-components';
 import date                 from 'date-and-time';
 
 
-
-
-
-
-
-
-
-
 export default class Stats extends React.Component {
 
     constructor(props) {
@@ -22,7 +14,6 @@ export default class Stats extends React.Component {
     componentWillMount() {
 
     }
-
 
     render() {
         return (
@@ -70,7 +61,7 @@ const PlayerSel = styled.div`
     background-color: green;
 
 
-    
+
 `;
 
 
