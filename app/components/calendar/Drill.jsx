@@ -26,7 +26,6 @@ export default class Drill extends React.Component {
     }
 
     render() {
-        console.log(this.state);
         if (!this.state.editing) {
             return this.drill();
         } else {
@@ -80,8 +79,8 @@ export default class Drill extends React.Component {
                     }}
                     onResizeStop={(e, direction, ref, delta, position) => {
                             let eventHourHeight = document.getElementsByClassName('event-hour')[0].clientHeight;
-                            let to = Math.floor(ref.offsetHeight / eventHourHeight);
-                            //this.props.editEventDuration(this.props.selectedDate.getFullYear(), this.props.selectedDate.getMonth(), this.props.selectedDate.day, hour, hour + to);
+                            let factor = Math.ceil(ref.offsetHeight / eventHourHeight);
+                            this.props.editDrillDuration(this.props.timeBlockString, factor);
                       }}>
                   {this.props.selectedPractice.drills[this.props.timeBlockString].name}
                 </Rnd>

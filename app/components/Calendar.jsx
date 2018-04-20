@@ -116,7 +116,6 @@ export default class Calendar extends React.Component {
             this.setState({
                 selectedPractice: selectedPractice
             });
-            console.log(this.state.selectedPractice);
         }
     }
 
@@ -137,7 +136,6 @@ export default class Calendar extends React.Component {
         e.stopPropagation();
         let practiceRecord = {...this.state.practiceRecord};
         delete practiceRecord[this.practiceKey(this.state.selectedDate)]['drills'][timeBlock];
-        console.log(timeBlock, practiceRecord);
 
         this.setState({
             practiceRecord: practiceRecord

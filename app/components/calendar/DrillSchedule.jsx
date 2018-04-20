@@ -96,7 +96,6 @@ export default class DrillSchedule extends React.Component {
     timeBlockKey = (timeBlock) => { return date.format(timeBlock, 'h:mm A') };
 
     handleAddDrill = (timeBlockString) => {
-        console.log(this.props.selectedPractice.drills[timeBlockString]);
         if (!this.props.selectedPractice.drills[timeBlockString]) {
             this.props.addDrill(timeBlockString);
         }
