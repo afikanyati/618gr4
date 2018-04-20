@@ -18,7 +18,7 @@ export default class Practice extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          value: { min: 2, max: 10 },
+          value: { min: 17, max: 19 },
         }
     }
 
@@ -27,6 +27,13 @@ export default class Practice extends React.Component {
     }
 
     render() {
+        if (!this.props.selectedPractice && this.name && this.description) {
+            this.name.value = "";
+            this.description.value = "";
+        } else if (this.props.selectedPractice && this.name && this.description) {
+            this.name.value = this.props.selectedPractice.name;
+            this.description.value = this.props.selectedPractice.description;
+        }
         return (
             <Container>
                 <Header>
@@ -56,7 +63,7 @@ export default class Practice extends React.Component {
                           maxValue={20}
                           minValue={0}
                           value={this.state.value}
-                          onChange={value => this.setState({value})} />
+                          onChange={value => this.handleTimeChange(value)} />
                     </TimeInputContainer>
                     <Label
                         for="name"
@@ -96,17 +103,27 @@ export default class Practice extends React.Component {
      togglePractice = (on, e) => {
         if (on) {
           let startTime = new Date(this.props.selectedDate);
-          startTime.setHours(16);  // TODO Replace with input from Time Selector
-          startTime.setMinutes(30);  // TODO Replace with input from Time Selector
-          this.props.setPractice(startTime, date.addHours(startTime, 2));
+          startTime.setHours(this.state.value.min, 0);
+          let diff = this.state.value.max - this.state.value.min;
+          this.props.setPractice(startTime, date.addHours(startTime, diff));
         } else {
           this.props.setPractice(null, null);
         }
      };
 
      handleType = () => {
-         this.props.editPractice(this.name.value, this.description.value);
-         console.log("hello");
+         this.props.editPractice(this.name.value, this.description.value, null, null);
+     }
+
+     handleTimeChange = (value) => {
+         this.setState({
+             value
+         });
+         let startTime = new Date(this.props.selectedDate);
+         startTime.setHours(value.min, 0);
+         let diff = value.max - value.min;
+         let endTime = date.addHours(startTime, diff);
+         this.props.editPractice(null, null, startTime, endTime);
      }
 }
 

@@ -55,7 +55,7 @@ injectGlobal`
         display: flex !important;
         justify-content: center;
         align-items: center;
-        background: #935999;
+        background: #d3224f;
         color: #ffffff;
     }
 
