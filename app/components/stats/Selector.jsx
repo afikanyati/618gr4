@@ -25,6 +25,7 @@ export default class Stats extends React.Component {
 
         playersel = this.getPlayerSel(this.props.selectedPosition)
 
+        console.log(this.props.selectedPlayers)
 
         return (
             <Container>
@@ -101,7 +102,7 @@ export default class Stats extends React.Component {
                         players[this.props.selectedPosition].map((player) => {
                             return (
                                     <PlayerItem
-                                    onClick = {this.addPlayer.bind({}, player)}>
+                                    onClick = {this.addRemovePlayer.bind({}, player)}>
                                     {player}
                                     </PlayerItem>
                                 );
@@ -118,14 +119,30 @@ export default class Stats extends React.Component {
 
     selectPosition = (newPosition) => {
       this.props.setPosition(newPosition);
+      this.clearPlayers();
     }
 
     selectStat = (newStat) => {
       this.props.setStat(newStat);
     }
 
-    addPlayer = (newPlayer) => {
-      this.props.setPlayers([]);
+    addRemovePlayer = (newPlayer) => {
+        console.log("HEY")
+        let players = this.props.selectedPlayers.slice();
+        if (players.indexOf(newPlayer) >= 0) {
+            players.splice(players.indexOf(newPlayer), 1);
+        }
+
+        else {
+            players.push(newPlayer);
+        }
+
+        this.props.setPlayers(players)
+
+    }
+
+    clearPlayers = () => {
+        this.props.setPlayers([]);
     }
 
 }
