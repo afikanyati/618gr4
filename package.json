@@ -1,7 +1,7 @@
 {
   "name": "AS1B",
   "version": "1.0.0",
-  "description": "A Node.js web application written using ReactJS and JavaScript ES6 syntax. Web Application employs Babel for compiling ES6 syntax and Webpack for module bundling. Implemented as part of MIT 6.831: UI Design and Implementation course to conduct A/B Testing on a Recurrent Calendar Event UI.",
+  "description": "A Node.js web application written using ReactJS and JavaScript ES6 syntax. Web Application employs Babel for compiling ES6 syntax and Webpack for module bundling. Implemented as part of MIT 6.831: UI Design and Implementation.",
   "main": "app/index.jsx",
   "scripts": {
     "build": "webpack",
@@ -10,14 +10,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/afikanyati/as1b.git"
+    "url": "https://github.com/afikanyati/618gr4.git"
   },
   "keywords": [
     "user interface",
-    "calendar",
-    "event"
+    "lacrosse"
   ],
-  "author": "Afika Nyati",
+  "author": "Taylor Herr, Efraim Helman, Abigail Russell, Afika Nyati",
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {

@@ -1,4 +1,5 @@
 import React                from 'react';
+import PropTypes            from 'prop-types';
 import styled               from 'styled-components';
 import date                 from 'date-and-time';
 
@@ -39,9 +40,9 @@ export default class Stats extends React.Component {
                   setPlayers={this.setPlayers}>
                 </Selector>
                 <StatsWindow
-                selectedPosition={this.state.selectedPosition}
-                selectedStat={this.state.selectedStat}
-                selectedPlayers={this.state.selectedPlayers}>
+                    selectedPosition={this.state.selectedPosition}
+                    selectedStat={this.state.selectedStat}
+                    selectedPlayers={this.state.selectedPlayers}>
                 </StatsWindow>
             </Container>
         );
@@ -69,24 +70,11 @@ export default class Stats extends React.Component {
 
 }
 
+// ============= Styled Components ==============
+
 const Container = styled.div`
     display: flex;
     flex-direction: row;
     width: 80vw;
     height: 100vh;
 `;
-
-// const Selector = styled.div`
-//     display: flex;
-//     flex-direction:column;
-//     width: 20vw;
-//     height: 100vh;
-
-
-// `;
-
-
-// const StatsWindow = styled.div`
-//     width: 60vw;
-//     height:100vh;
-// `;

@@ -7,6 +7,8 @@
 
 // Dependencies
 import React                        from 'react';
+import firebase                     from 'firebase';
+import config                       from '../../firebase_config.json';
 import styled                       from 'styled-components';
 import { CSSTransitionGroup }       from 'react-transition-group';
 import initReactFastclick           from 'react-fastclick';
@@ -19,6 +21,7 @@ import DefaultPhoto                 from '../assets/images/default-avatar.png';
 
 
 // Initialize Firebase
+firebase.initializeApp(config);
 
 // Initializing to enable Touch Tap events. It is global
 initReactFastclick();
@@ -78,9 +81,12 @@ export default class Root extends React.Component {
                         <NavItem
                             selected={this.state.view == "Stats"}
                             onClick = {this.toggleViewState.bind({}, "Stats")}>
-                            {"Stats"}
+                            {"Statistics"}
                         </NavItem>
                     </Navigation>
+                    <LogoutButton>
+                        Logout
+                    </LogoutButton>
                 </SideBar>
                 {view}
             </Container>
@@ -114,12 +120,13 @@ const Container = styled.div`
 `;
 
 const SideBar = styled.div`
-    display: relative;
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 20vw;
     height: 100vh;
     border-right: 1px solid #e0e0e0;
+    z-index: 2;
 `;
 
 const Navigation = styled.ul`
@@ -175,4 +182,22 @@ const Name = styled.div`
     padding: 15px 0;
     box-shadow: 0 4px 8px -2px rgba(0,0,0,.5), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
     z-index: 1;
+`;
+
+const LogoutButton = styled.div`
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    height: 50px;
+    width: 100%;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s;
+
+    &:hover {
+        color: ${props => props.theme.red};
+    }
 `;

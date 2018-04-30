@@ -1,6 +1,8 @@
-import React                from 'react';
-import styled               from 'styled-components';
-import date                 from 'date-and-time';
+import React        from 'react';
+import PropTypes    from 'prop-types';
+import styled       from 'styled-components';
+import date         from 'date-and-time';
+import uuid         from 'uuid';
 
 
 export default class Stats extends React.Component {
@@ -21,7 +23,7 @@ export default class Stats extends React.Component {
 
         let playersel;
 
-        let positions = ["goalie", "defense", "offense"];
+        let positions = ["Goalie", "Defense", "Offense"];
 
         statsel = this.getStatSel(this.props.selectedPosition)
 
@@ -38,7 +40,7 @@ export default class Stats extends React.Component {
                         Positions
                     </Text>
                 </Header>
-                <PositionSel>
+                <Selector height={'30vh'}>
                     {
                         positions.map((position) => {
                             return (
@@ -49,8 +51,8 @@ export default class Stats extends React.Component {
                                     </Item>
                                 );
                         })
-                    }   
-                </PositionSel>
+                    }
+                </Selector>
                 <Header>
                     <Text
                         size={'1.5em'}
@@ -77,18 +79,18 @@ export default class Stats extends React.Component {
     }
 
     getStatSel = () => {
-        let stats = {"goalie": ["blocks","misses","attempts"],
-                     "defense": ["possession time", "turnovers", "blocks"],
-                     "offense": ["possession time", "turnovers", "shots", "goals"]};
+        let stats = {"Goalie": ["Blocks","Misses","Attempts"],
+                     "Defense": ["Possession Time", "Turnovers", "Blocks"],
+                     "Offense": ["Possession Time", "Turnovers", "Shots", "Goals"]};
 
         console.log(this.props.selectedPosition);
         if (this.props.selectedPosition == "") {
-            return <StatSel></StatSel>
+            return <Selector height={'40vh'}></Selector>
 
         }
         if (this.props.selectedPosition != ""){
             return(
-                <StatSel>
+                <Selector height={'40vh'}>
                     {
                         stats[this.props.selectedPosition].map((stat) => {
                             return (
@@ -102,41 +104,38 @@ export default class Stats extends React.Component {
                                 );
                         })
                     }
-                </StatSel>
+                </Selector>
             );
         }
 
     }
 
     getPlayerSel = () => {
-        let players = {"goalie": ["Pyotr Hasborn", "Martin Shkrelli", "Donald Trump", "Barack Obama"],
-                       "defense": ["Victor Fink", "Mitchell", "SCARFACE", "The Red Telletubby"],
-                       "offense": ["Afika Nyati", "Taylor Herr", "Abigail Russell", "Efraim THEROCK"]
+        let players = {"Goalie": ["Pyotr Hasborn", "Martin Shkrelli", "Donald Trump", "Barack Obama"],
+                       "Defense": ["Victor Fink", "Mitchell", "SCARFACE", "The Red Telletubby"],
+                       "Offense": ["Afika Nyati", "Taylor Herr", "Abigail Russell", "Efraim THEROCK"]
                         };
 
         if (this.props.selectedPosition == "") {
-            return <PlayerSel></PlayerSel>;
+            return <Selector height={'30vh'}></Selector>;
         }
 
         if (this.props.selectedPosition != "") {
             return (
-                <PlayerSel>
+                <Selector height={'30vh'}>
                     {
                         players[this.props.selectedPosition].map((player) => {
                             return (
                                     <Item
+                                        key={uuid.v4()}
                                         selected={this.props.selectedPlayers.includes(player)}
                                     onClick = {this.addRemovePlayer.bind({}, player)}>
                                     {player}
                                     </Item>
                                 );
                         })
-
                     }
-
-                </PlayerSel>
-
-
+                </Selector>
             );
         }
     }
@@ -171,9 +170,7 @@ export default class Stats extends React.Component {
 
 }
 
-
-
-
+// ============= Styled Components ==============
 
 const Container = styled.div`
     display: flex;
@@ -182,27 +179,12 @@ const Container = styled.div`
     border-right: 1px solid #e0e0e0;
 `;
 
-const PositionSel = styled.ul`
-    height: 30vh;
+const Selector = styled.ul`
+    height: ${props => props.height};
     margin: 0;
     padding: 0;
+    background: ${props => props.theme.lightGray};
 `;
-
-const PlayerSel = styled.ul`
-    height: 30vh;
-    margin: 0;
-    padding: 0;
-`;
-
-
-const StatSel = styled.ul`
-    width: 100%;
-    height: 40vh;
-    margin: 0;
-    padding: 0;
-`;
-
-
 
 const Item = styled.li`
     display: flex;
@@ -227,18 +209,21 @@ const Item = styled.li`
 `;
 
 const Header = styled.div`
-    padding: 10px;
+    padding: 0px;
+    box-shadow: 0 0px 11px rgba(0,0,0,.5), 0 0px 4px rgba(0,0,0,.25);
+    z-index: 1;
 `;
 
 const Text = styled.h2`
     font-size: ${props => props.size};
     font-weight: 700;
-    color: ${props => props.theme.black};
+    background: ${props => props.theme.darkGray};
+    color: ${props => props.theme.white};
     text-align: ${props => props.center ?
             "center"
         :
             "left"
     };
-    padding: 0px;
+    padding: 10px;
     margin: 0;
 `;
