@@ -41,37 +41,35 @@ export default class DrillSchedule extends React.Component {
 
     renderDrillSchedule = () => {
         return (
-            <Container>
-                <ScheduleContainer>
-                    {
-                    this.getTimeBlocks().map((timeBlock, index, arr) => {
-                        let timeBlockString = this.timeBlockKey(timeBlock);
-                        return (
-                            <TimeBlockContainer
-                                height={`${100/arr.length}%`}
-                                numBlocks={arr.length}
-                                key={uuid.v4()}>
-                                <TimeBlockLabel>
-                                    {timeBlockString}
-                                </TimeBlockLabel>
-                                <TimeBlock
-                                    className="event-hour"
-                                    onClick={this.handleAddDrill.bind({}, timeBlockString)}>
-                                    {!this.props.selectedPractice.drills[timeBlockString] ? null :
-                                        <Drill
-                                            selectedPractice={this.props.selectedPractice}
-                                            timeBlockString={timeBlockString}
-                                            removeDrill={this.props.removeDrill}
-                                            editDrillDuration={this.props.editDrillDuration}
-                                            editDrillName={this.props.editDrillName} />
-                                    }
-                                </TimeBlock>
-                            </TimeBlockContainer>
-                        );
-                    })
-                    }
-                </ScheduleContainer>
-            </Container>
+            <ScheduleContainer>
+                {
+                this.getTimeBlocks().map((timeBlock, index, arr) => {
+                    let timeBlockString = this.timeBlockKey(timeBlock);
+                    return (
+                        <TimeBlockContainer
+                            height={`${100/arr.length}%`}
+                            numBlocks={arr.length}
+                            key={uuid.v4()}>
+                            <TimeBlockLabel>
+                                {timeBlockString}
+                            </TimeBlockLabel>
+                            <TimeBlock
+                                className="event-hour"
+                                onClick={ () => this.handleAddDrill(index) }>
+                                {
+                                    !this.props.selectedPractice.drills[index] ? null :
+                                    <Drill
+                                        drill={this.props.selectedPractice.drills[index]}
+                                        timeBlockOffset={index}
+                                        removeDrill={this.props.removeDrill}
+                                        editDrill={this.props.editDrill} />
+                                }
+                            </TimeBlock>
+                        </TimeBlockContainer>
+                    );
+                })
+                }
+            </ScheduleContainer>
         );
     };
 
@@ -95,10 +93,25 @@ export default class DrillSchedule extends React.Component {
 
     timeBlockKey = (timeBlock) => { return date.format(timeBlock, 'h:mm A') };
 
-    handleAddDrill = (timeBlockString) => {
-        if (!this.props.selectedPractice.drills[timeBlockString]) {
-            this.props.addDrill(timeBlockString);
+    handleAddDrill = (timeBlockOffset) => {
+        let drills = this.props.selectedPractice.drills;
+
+        // check if already in use, directly, or by stretched drill
+        if (drills[timeBlockOffset]) {
+          return;
         }
+        let offset = timeBlockOffset - 1;
+        while (offset >= 0) {
+            if (drills[offset]) {
+                if (offset + drills[offset].duration > timeBlockOffset) {
+                    return;
+                }
+                break;  // no earlier drill can stretch over a later one
+            }
+            offset -= 1;
+        }
+
+        this.props.addDrill(timeBlockOffset);
     }
 }
 
@@ -108,22 +121,17 @@ DrillSchedule.propTypes = {
     selectedPractice: PropTypes.object,
     addDrill: PropTypes.func.isRequired,
     removeDrill: PropTypes.func.isRequired,
-    editDrillName: PropTypes.func.isRequired,
-    editDrillDuration: PropTypes.func.isRequired,
+    editDrill: PropTypes.func.isRequired,
     timeIncrements: PropTypes.number.isRequired,
 };
 
 // ============= Styled Components ==============
 
-const Container = styled.div`
-    width: 100%;
-    height: 100%;
-`;
-
 const ScheduleContainer = styled.div`
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100%;http://localhost:8080/
+    width: 100%;
 `;
 
 const TimeBlockContainer = styled.div`

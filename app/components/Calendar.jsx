@@ -49,8 +49,7 @@ export default class Calendar extends React.Component {
                       selectedPractice={this.state.selectedPractice}
                       addDrill={this.addDrill}
                       removeDrill={this.removeDrill}
-                      editDrillName={this.editDrillName}
-                      editDrillDuration={this.editDrillDuration}
+                      editDrill={this.editDrill}
                       timeIncrements={timeIncrements} />
               </DrillScheduleContainer>
             </Container>
@@ -63,10 +62,6 @@ export default class Calendar extends React.Component {
 
     // ========== Methods ===========
 
-    /**
-     * [changeSelectedDate description]
-     * @param  {[type]} newDate [description]
-     */
     changeSelectedDate = (newDate)=> {
         this.setState({
             selectedDate: newDate,
@@ -74,10 +69,6 @@ export default class Calendar extends React.Component {
         });
     };
 
-    /**
-     * [addPractice description]
-     * @param {[type]} name      [description]
-     */
     setPractice = (startTime, endTime) => {
         let practiceRecord = {...this.state.practiceRecord};
 
@@ -86,7 +77,7 @@ export default class Calendar extends React.Component {
             // Remove practive
             practice = null;
         } else {
-            let drills = practiceRecord[this.practiceKey(this.state.selectedDate)] ? practiceRecord[this.practiceKey(this.state.selectedDate)]['drills']: {};
+            let drills = practiceRecord[this.practiceKey(this.state.selectedDate)] ? practiceRecord[this.practiceKey(this.state.selectedDate)].drills: {};
             // Add practice
             practice = {
                 description: "",
@@ -107,63 +98,39 @@ export default class Calendar extends React.Component {
     editPractice = (description, startTime, endTime) => {
         if (this.state.selectedPractice) {
             let selectedPractice = this.state.selectedPractice;
-            if (description) selectedPractice['description'] = description;
-            if (startTime) selectedPractice['startTime'] = startTime;
-            if (endTime) selectedPractice['endTime'] = endTime;
+            if (description) selectedPractice.description = description;
+            if (startTime) selectedPractice.startTime = startTime;
+            if (endTime) selectedPractice.endTime = endTime;
 
             this.setState({
                 selectedPractice: selectedPractice
             });
         }
-    }
+    };
 
-    /**
-     * [addDrill description]
-     * @param {[type]} hour [description]
-     */
-    addDrill = (timeBlock) => {
-        let practiceRecord = {...this.state.practiceRecord};
-        practiceRecord[this.practiceKey(this.state.selectedDate)]['drills'][timeBlock] = {name: "New Drill", durationFactor: 1};
-
+    addDrill = (timeBlockOffset) => {
+        this.state.selectedPractice.drills[timeBlockOffset] = {
+            name: "New Drill",
+            duration: 1
+        };
         this.setState({
-            practiceRecord: practiceRecord
-        });
-    }
-
-    removeDrill = (timeBlock, e) => {
-        e.stopPropagation();
-        let practiceRecord = {...this.state.practiceRecord};
-        delete practiceRecord[this.practiceKey(this.state.selectedDate)]['drills'][timeBlock];
-
-        this.setState({
-            practiceRecord: practiceRecord
-        });
-    }
-
-    /**
-     * [editDrillName description]
-     * @param  {[type]} time [description]
-     * @param  {[type]} name [description]
-     */
-    editDrillName = (timeBlock, name) => {
-        let practiceRecord = {...this.state.practiceRecord};
-        practiceRecord[this.practiceKey(this.state.selectedDate)]['drills'][timeBlock]['name'] = name;
-
-        this.setState({
-            practiceRecord: practiceRecord
+          practiceRecord: this.state.practiceRecord
         });
     };
 
-    /**
-     * [editDrillDuration description]
-     * @param  {[type]} durationFactor [description]
-     */
-    editDrillDuration = (timeBlock, durationFactor) => {
-        let practiceRecord = {...this.state.practiceRecord};
-        practiceRecord[this.practiceKey(this.state.selectedDate)]['drills'][timeBlock]['durationFactor'] = durationFactor;
+    removeDrill = (timeBlockOffset, e) => {
+        e.stopPropagation();
+        delete this.state.selectedPractice.drills[timeBlockOffset];
+        this.setState({
+          practiceRecord: this.state.practiceRecord
+        });
+    };
+
+    editDrill = (timeBlockOffset, field, value) => {
+        this.state.selectedPractice.drills[timeBlockOffset][field] = value;
 
         this.setState({
-            practiceRecord: practiceRecord
+            practiceRecord: this.state.practiceRecord
         });
     };
 

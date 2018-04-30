@@ -41,7 +41,7 @@ export default class Drill extends React.Component {
 
     editingDrill = () => {
         return (
-            <Container height={`${this.props.selectedPractice.drills[this.props.timeBlockString].durationFactor}00%`}>
+            <Container height={`${this.props.drill.duration}00%`}>
                 <EditDrill
                     type="text"
                     innerRef={comp => this.drillName = comp}
@@ -49,20 +49,20 @@ export default class Drill extends React.Component {
                     onBlur={this.finishEdit}
                     onKeyPress={this.checkEnterOrEscape}
                     placeholder="Drill Name"
-                    defaultValue={this.props.selectedPractice.drills[this.props.timeBlockString].name}
+                    defaultValue={this.props.drill.name}
                     />
                 <DeleteButton
                     iconWhite={CrossWhite}
                     iconBlue={CrossBlue}
-                    onClick={this.props.removeDrill.bind({}, this.props.timeBlockString)} />
+                    onClick={this.props.removeDrill.bind({}, this.props.timeBlockOffset)} />
             </Container>
         );
-    }
+    };
 
     drill = () => {
         return (
             <Container
-                height={`${this.props.selectedPractice.drills[this.props.timeBlockString].durationFactor}00%`}
+                height={`${this.props.drill.duration}00%`}
                 onClick={this.editDrill}>
                 <Rnd
                     disableDragging={true}
@@ -81,18 +81,18 @@ export default class Drill extends React.Component {
                     }}
                     onResizeStop={(e, direction, ref, delta, position) => {
                             let eventHourHeight = document.getElementsByClassName('event-hour')[0].clientHeight;
-                            let factor = Math.ceil(ref.offsetHeight / eventHourHeight);
-                            this.props.editDrillDuration(this.props.timeBlockString, factor);
+                            let duration = Math.ceil(ref.offsetHeight / eventHourHeight);
+                            this.props.editDrill(this.props.timeBlockOffset, 'duration', duration);
                       }}>
-                  {this.props.selectedPractice.drills[this.props.timeBlockString].name}
+                  {this.props.drill.name}
                 </Rnd>
                 <DeleteButton
                     iconWhite={CrossWhite}
                     iconBlue={CrossBlue}
-                    onClick={this.props.removeDrill.bind({}, this.props.timeBlockString)} />
+                    onClick={this.props.removeDrill.bind({}, this.props.timeBlockOffset)} />
             </Container>
         );
-    }
+    };
 
     // ========== Methods ===========
 
@@ -104,10 +104,8 @@ export default class Drill extends React.Component {
     };
 
     checkEnterOrEscape = (e) => {
-        // The user hit *enter*, let's finish up.
-        if (e.key === 'Enter') {
-            this.finishEdit(e);
-        } else if (e.key === "Escape") {
+        // The user hit *enter* or *escape*, let's finish up.
+        if (e.key === 'Enter' || e.key === "Escape") {
             this.finishEdit(e);
         }
     };
@@ -116,7 +114,7 @@ export default class Drill extends React.Component {
         // Exit edit mode.
         e.stopPropagation();
         let name = this.drillName.value;
-        this.props.editDrillName(this.props.timeBlockString, name);
+        this.props.editDrill(this.props.timeBlockOffset, 'name', name);
         this.editDrill();
     }
 
@@ -125,10 +123,9 @@ export default class Drill extends React.Component {
 // ============= PropTypes ==============
 
 Drill.propTypes = {
-    timeBlockString: PropTypes.string.isRequired,
-    selectedPractice: PropTypes.object,
-    editDrillDuration: PropTypes.func.isRequired,
-    editDrillName: PropTypes.func.isRequired,
+    timeBlockOffset: PropTypes.number.isRequired,
+    drill: PropTypes.object,
+    editDrill: PropTypes.func.isRequired,
     removeDrill: PropTypes.func.isRequired
 };
 
