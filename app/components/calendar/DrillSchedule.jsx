@@ -76,7 +76,7 @@ export default class DrillSchedule extends React.Component {
     renderPracticeSelectorMessage = () => {
         return (
             <EmptySchedule>
-                <Text>Add Practice to Create Schedule</Text>
+                <Text>Activate Today's Practice to Create a Schedule</Text>
             </EmptySchedule>
         );
     };
