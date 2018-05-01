@@ -27,9 +27,11 @@ export default class StatsWindow extends React.Component {
     renderEmptyStats = () => {
         let supplementaryText = this.props.selectedPosition == '' ? 'Position and' : '';
         return (
-            <NoStatsContainer>
-                <Text>{`Select a ${supplementaryText} Statistic to View it's Visualization`}</Text>
-            </NoStatsContainer>
+            <Container>
+                <NoStats>
+                    <Text>{`Select a ${supplementaryText} Statistic to View it's Visualization`}</Text>
+                </NoStats>
+            </Container>
         );
     }
 
@@ -93,7 +95,7 @@ const Container = styled.div`
     width: 60vw;
 `;
 
-const NoStatsContainer = styled.div`
+const NoStats = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
