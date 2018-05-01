@@ -179,7 +179,7 @@ const DayTextContainer = styled.div`
 const MonthText = styled.div`
     font-size: 1.5em;
     font-weight: 400;
-    color: #757575;
+    color: ${props => props.theme.pitchBlack};
 `;
 
 const Arrow = styled.div`

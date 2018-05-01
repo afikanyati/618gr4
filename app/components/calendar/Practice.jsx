@@ -48,7 +48,7 @@ export default class Practice extends React.Component {
                     <Text
                         size={'1.5em'}
                         center={true}>
-                        Practice on Day
+                        Practice
                     </Text>
                 </Header>
                 <PracticeButtonContainer>
@@ -249,7 +249,11 @@ const Textarea = styled.textarea`
     font-weight: 300;
     color: ${props => props.theme.black};
     line-height: normal;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.22);
+    box-shadow: ${props => props => props.disabled ?
+        'none'
+    :
+        'inset 0 2px 5px rgba(0,0,0,0.22);'
+    };
     resize: none;
 `;
 

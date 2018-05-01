@@ -149,7 +149,7 @@ const TimeBlockLabel = styled.div`
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    font-weight: 700;
+    font-weight: 400;
     border-right: 1px solid #e0e0e0;
     height: 100%;
     width: 100px;
