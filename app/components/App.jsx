@@ -14,6 +14,7 @@ import { CSSTransitionGroup }       from 'react-transition-group';
 import initReactFastclick           from 'react-fastclick';
 
 // Components
+import Profile                      from './Profile';
 import Calendar                     from './Calendar';
 import Stats                        from './Stats';
 import DefaultPhoto                 from '../assets/images/default-avatar.png';
@@ -36,7 +37,12 @@ export default class Root extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            view : "Calendar"
+            view : "Calendar",
+            profileDetails: {
+                name: "Victor Fink",
+                avatar: null,
+                position: "Goalie"
+            }
         };
     }
 
@@ -48,8 +54,9 @@ export default class Root extends React.Component {
 
         switch(this.state.view) {
             case "Profile":
-                // view = <Profile />;
-                view = null;
+                view = <Profile
+                    profileDetails={this.state.profileDetails}
+                    modifyProfileDetails={this.modifyProfileDetails}/>;
                 break;
             case "Calendar":
                 view = <Calendar />;
@@ -63,9 +70,9 @@ export default class Root extends React.Component {
         return(
             <Container>
                 <SideBar>
-                    <ProfileContainer img={DefaultPhoto} />
+                    <ProfileContainer img={!this.state.profileDetails.avatar ? DefaultPhoto : this.state.profileDetails.avatar} />
                     <Name>
-                        {"Victor Fink"}
+                        {this.state.profileDetails.name}
                     </Name>
                     <Navigation>
                         <NavItem
@@ -107,6 +114,16 @@ export default class Root extends React.Component {
           view: newView
       })
    }
+
+   modifyProfileDetails = (key, value) => {
+       console.log(key, value);
+       let profileDetails = this.state.profileDetails;
+       profileDetails[key] = value;
+
+       this.setState({
+           profileDetails: profileDetails
+       });
+   };
 
 }
 
@@ -173,6 +190,7 @@ const Name = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 63px;
     font-size: 1.5em;
     font-weight: 700;
     color: ${props => props.theme.white};
