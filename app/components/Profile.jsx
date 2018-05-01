@@ -42,7 +42,7 @@ export default class Profile extends React.Component {
         return (
             <Container>
                 <Header>
-                    Your Profile
+                    Edit Profile
                 </Header>
                 <Accordion>
                     <AccordionItem

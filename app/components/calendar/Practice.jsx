@@ -87,7 +87,7 @@ export default class Practice extends React.Component {
                         innerRef={description => this.description = description}
                         name="description"
                         type="text"
-                        placeholder="Describe the contents of this practice..."
+                        placeholder={!this.props.selectedPractice ? "Enable practice to enter description..." : "What is the focus of this practice?"}
                         defaultValue={this.props.selectedPractice ? this.props.selectedPractice.description : ""}
                         onChange={this.handleType} />
                 </AddPracticeContainer>
