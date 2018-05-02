@@ -1,14 +1,11 @@
 /*
- *  Root of flowread.com: Web framework build on
- *  Firebase + ReactJS, written in JS ES6 compiled with babelJS,
+ *  Web framework build in ReactJS, written in JS ES6 compiled with babelJS,
  *  Bundled with webpack and NPM.
- *  written by Afika Nyati.
+ *  Written by Abigail Russell, Efraim Helman, Taylor Herr, and Afika Nyati
  */
 
 // Dependencies
 import React                        from 'react';
-import firebase                     from 'firebase';
-import config                       from '../../firebase_config.json';
 import styled                       from 'styled-components';
 import { CSSTransitionGroup }       from 'react-transition-group';
 import initReactFastclick           from 'react-fastclick';
@@ -18,11 +15,6 @@ import Profile                      from './Profile';
 import Calendar                     from './Calendar';
 import Stats                        from './Stats';
 import DefaultPhoto                 from '../assets/images/default-avatar.png';
-
-
-
-// Initialize Firebase
-firebase.initializeApp(config);
 
 // Initializing to enable Touch Tap events. It is global
 initReactFastclick();
