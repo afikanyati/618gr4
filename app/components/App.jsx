@@ -8,7 +8,7 @@
 // Dependencies
 import React                        from 'react';
 import firebase                     from 'firebase';
-import config                       from '../../firebase_config.json';
+import config                       from '../../firebase.json';
 import styled                       from 'styled-components';
 import { CSSTransitionGroup }       from 'react-transition-group';
 import initReactFastclick           from 'react-fastclick';
