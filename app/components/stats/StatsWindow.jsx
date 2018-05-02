@@ -61,22 +61,19 @@ export default class StatsWindow extends React.Component {
     }
 
     getChartData = () => {
-      console.log(this.props);
+      console.log("getting data");
       var data = require('../../data/fake_data.json');
       var chartData = [];
-      console.log(data);
       if (this.props.selectedStat != "") {
         for (var p in data) {
           var point = data[p];
-          if (point.stat == this.props.selectedStat) {
+          if (point.stat == this.props.selectedStat.toLowerCase()) {
             chartData.push(point)
           }
         }
       }
-      console.log(chartData);
       return chartData;
     }
-
 }
 
 // ============= PropTypes ==============
