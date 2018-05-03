@@ -29,8 +29,6 @@ export default class Stats extends React.Component {
 
         playersel = this.getPlayerSel(this.props.selectedPosition)
 
-        console.log(this.props.selectedPlayers)
-
         return (
             <Container>
             <Header>
@@ -83,7 +81,6 @@ export default class Stats extends React.Component {
                      "Defense": ["Possession Time", "Turnovers", "Blocks"],
                      "Offense": ["Possession Time", "Turnovers", "Shots", "Goals"]};
 
-        console.log(this.props.selectedPosition);
         if (this.props.selectedPosition == "") {
             return <Selector height={'40vh'}></Selector>
 
@@ -150,7 +147,6 @@ export default class Stats extends React.Component {
     }
 
     addRemovePlayer = (newPlayer) => {
-        console.log("HEY")
         let players = this.props.selectedPlayers.slice();
         if (players.indexOf(newPlayer) >= 0) {
             players.splice(players.indexOf(newPlayer), 1);
