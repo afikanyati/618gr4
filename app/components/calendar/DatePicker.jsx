@@ -198,5 +198,3 @@ const Arrow = styled.div`
         background-image: ${props => props.darkGrayIcon};
     }
 `;
-
-// ============= Constants ==============

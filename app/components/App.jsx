@@ -34,7 +34,12 @@ export default class Root extends React.Component {
                 name: "Victor Fink",
                 avatar: null,
                 position: "Goalie"
-            }
+            },
+            practiceDetails: {
+                selectedDate: new Date(),
+                selectedPractice: null,
+                practiceRecord: {},  // Maps date.format(day, m/d/y) to corresponding practice.
+            },
         };
     }
 
@@ -51,7 +56,10 @@ export default class Root extends React.Component {
                     modifyProfileDetails={this.modifyProfileDetails}/>;
                 break;
             case "Calendar":
-                view = <Calendar />;
+                view = <Calendar
+                  practiceDetails={this.state.practiceDetails}
+                  commitPracticeDetails={this.commitPracticeDetails}
+                />;
                 break;
             case "Stats":
                 // view = <Stats />;
@@ -105,7 +113,7 @@ export default class Root extends React.Component {
       this.setState({
           view: newView
       })
-   }
+   };
 
    modifyProfileDetails = (key, value) => {
        console.log(key, value);
@@ -116,6 +124,13 @@ export default class Root extends React.Component {
            profileDetails: profileDetails
        });
    };
+
+   // commit and propagate modifications made by children
+   commitPracticeDetails = () => {
+     this.setState({
+         practiceDetails: this.state.practiceDetails,
+     });
+   }
 
 }
 

@@ -2,8 +2,6 @@
 import React            from 'react';
 import PropTypes        from 'prop-types';
 import styled           from 'styled-components';
-import uuid             from 'uuid';
-import Rnd              from 'react-rnd';
 
 // Components
 import CrossWhite     from '../../assets/images/cross.svg';
@@ -17,7 +15,7 @@ export default class Drill extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            editing: false
+            editing: false,
         }
     }
 
@@ -41,92 +39,104 @@ export default class Drill extends React.Component {
 
     editingDrill = () => {
         return (
-            <Container height={`${this.props.drill.duration}00%`}>
-                <EditDrill
-                    type="text"
-                    innerRef={comp => this.drillName = comp}
-                    autoFocus={true}
-                    onBlur={this.finishEdit}
-                    onKeyPress={this.checkEnterOrEscape}
-                    placeholder="Drill Name"
-                    defaultValue={this.props.drill.name}
-                    />
-                <DeleteButton
-                    iconWhite={CrossWhite}
-                    iconBlue={CrossBlue}
-                    onClick={this.props.removeDrill.bind({}, this.props.timeBlockOffset)} />
-            </Container>
+          <DrillItem
+            height={this.props.height}
+            onMouseLeave={() => this.setState({editing: false})}
+          >
+            <EditDrill
+                type="text"
+                innerRef={comp => this.drillName = comp}
+                autoFocus={true}
+                placeholder="Drill Name"
+                defaultValue={this.props.drill.name}
+                onChange={() => {
+                  this.props.drill.name = this.drillName.value;
+                  this.props.updateDrills();
+                }}
+            />
+            <MinusButton
+              enabled={this.props.selectedPractice.drillDuration > 1}
+              className={'activateOnHover notDragTarget'}
+              onClick={(e) => {
+                e.stopPropagation();
+                this.changeDuration(-1);
+              }}
+            >
+              -
+            </MinusButton>
+            <PlusButton
+              enabled={this.props.selectedPractice.drillDuration < this.props.selectedPractice.practiceDuration}
+              className={'activateOnHover notDragTarget'}
+              onClick={(e) => {
+                e.stopPropagation();
+                this.changeDuration(1);
+              }}
+            >
+              +
+            </PlusButton>
+            <DeleteButton
+              className={'activateOnHover notDragTarget'}
+              iconWhite={CrossWhite}
+              iconBlue={CrossBlue}
+              onClick={(e) => {
+                e.stopPropagation();
+                this.removeDrill();
+              }}
+            />
+
+          </DrillItem>
         );
     };
 
     drill = () => {
-        return (
-            <Container
-                height={`${this.props.drill.duration}00%`}
-                onClick={this.editDrill}>
-                <Rnd
-                    disableDragging={true}
-                    className={"event-item"}
-                    size={{ width: "100%",  height: "100%"}}
-                    position={{ x: 0, y: 0 }}
-                    enableResizing={{
-                        bottom: true,
-                        bottomLeft: false,
-                        bottomRight: false,
-                        left: false,
-                        right: false,
-                        top: false,
-                        topLeft: false,
-                        topRight: false
-                    }}
-                    onResizeStop={(e, direction, ref, delta, position) => {
-                            let eventHourHeight = document.getElementsByClassName('event-hour')[0].clientHeight;
-                            let duration = Math.ceil(ref.offsetHeight / eventHourHeight);
-                            this.props.editDrill(this.props.timeBlockOffset, 'duration', duration);
-                      }}>
-                  {this.props.drill.name}
-                </Rnd>
-                <DeleteButton
-                    iconWhite={CrossWhite}
-                    iconBlue={CrossBlue}
-                    onClick={this.props.removeDrill.bind({}, this.props.timeBlockOffset)} />
-            </Container>
-        );
+      return (
+        <DrillItem
+          height={this.props.height}
+          onMouseOver={() => this.setState({editing: !this.props.draggingSomething})}
+        >
+          {this.props.drill.name}
+        </DrillItem>
+      )
     };
 
     // ========== Methods ===========
 
-    editDrill = () => {
-        // Enter edit mode.
-        this.setState({
-            editing: !this.state.editing
-        });
+    removeDrill = () => {
+      this.props.selectedPractice.drills.splice(this.props.drillIndex, 1);
+      this.props.selectedPractice.drillDuration -= this.props.drill.duration;
+      this.props.updateDrills();
     };
 
-    checkEnterOrEscape = (e) => {
-        // The user hit *enter* or *escape*, let's finish up.
-        if (e.key === 'Enter' || e.key === "Escape") {
-            this.finishEdit(e);
-        }
+    changeDuration = (amount) => {
+      if (amount !== 1 && amount !== -1) {
+        return;
+      }
+
+      if (this.props.drill.duration + amount < 1) {
+        return;
+      }
+
+      let practice = this.props.selectedPractice;
+      if (practice.drillDuration + amount > practice.practiceDuration) {
+        return;
+      }
+
+      practice.drillDuration += amount;
+      this.props.drill.duration += amount;
+
+      this.props.updateDrills();
     };
-
-    finishEdit = (e) => {
-        // Exit edit mode.
-        e.stopPropagation();
-        let name = this.drillName.value;
-        this.props.editDrill(this.props.timeBlockOffset, 'name', name);
-        this.editDrill();
-    }
-
 }
 
 // ============= PropTypes ==============
 
 Drill.propTypes = {
-    timeBlockOffset: PropTypes.number.isRequired,
+    height: PropTypes.string.isRequired,
     drill: PropTypes.object,
-    editDrill: PropTypes.func.isRequired,
-    removeDrill: PropTypes.func.isRequired
+    drillIndex: PropTypes.number.isRequired,
+    updateDrills: PropTypes.func.isRequired,
+    selectedPractice: PropTypes.object.isRequired,
+    draggingSomething: PropTypes.bool.isRequired,
 };
 
 // ============= Styled Components ==============
@@ -160,20 +170,92 @@ const EditDrill = styled.input`
 
 const DeleteButton = styled.div`
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0;
     right: 0;
     width: 60px;
-    height: 100%;
     background: none;
-    background-image: ${props => 'url(' + props.iconWhite + ')'};
+    background-image: ${props => 'url(' + props.iconBlue + ')'};
     background-position: 50%;
     background-size: 50%;
     background-repeat: no-repeat;
     z-index: 1;
     transition: background 0.2s;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    
+    display:none;
 
     &:hover {
-        background-image: ${props => 'url(' + props.iconBlue + ')'};
+        background-color: ${props => props.theme.lightBlue};
+    }
+`;
+
+const PlusButton = styled.div`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    transition: background 0.2s;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    
+    display:none;
+    
+    &:hover {
+        background-color: ${props => props.theme.lightBlue};
+    }
+`;
+
+const MinusButton = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;
+    transition: background 0.2s;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    
+    display:none;
+    
+    &:hover {
+        background-color: ${props => props.theme.lightBlue};
+    }
+`;
+
+const DrillItem = styled.div`
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: ${props => props.height};
+    padding: 20;
+    background-color:  ${props => props.theme.white};
+    border-bottom: 1px solid #e0e0e0;
+    cursor: grab;
+    
+    &>.notDragTarget{
+        cursor: pointer;
+    }
+    
+    &:hover>.activateOnHover{
+        display: inline-flex;
+    }
+    
+    &.beingDragged>.activateOnHover{
+        display: inline-flex;
+    }
+    
+    &.beingDragged {
+      pointer-events: auto !important;
+      cursor: grabbing !important;
+      cursor: -moz-grabbing !important;
+      cursor: -webkit-grabbing !important;       
     }
 `;
