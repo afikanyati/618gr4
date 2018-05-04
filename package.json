@@ -24,6 +24,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-survivejs-kanban": "^0.3.3",
     "bower": "^1.8.4",
+    "data": "^0.6.1",
     "date-and-time": "^0.6.2",
     "firebase": "^4.12.1",
     "i": "^0.3.5",

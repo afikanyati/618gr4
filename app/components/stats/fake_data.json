@@ -1,0 +1,16 @@
+[
+{"Victor":0.0, "Mitchell":10.0, "stat":"possession time", "game":0}
+,
+{"Victor":1.0, "Mitchell":1.0 ,"stat":"possession time", "game":1}
+,
+{"Victor":3.0, "Mitchell":7.0, "stat":"possession time", "game":2}
+,
+{"Victor":2.1, "stat":"possession time", "game":3}
+,
+{"Victor":0.0, "Mitchell":0, "stat":"turnovers", "game":4}
+,
+{"Victor":3 , "Mitchell":3, "stat":"turnovers", "game":5}
+,
+{"Victor":0, "Mitchell":0, "stat":"turnovers", "game":6}
+,
+]

@@ -45,6 +45,8 @@ export default class StatsWindow extends React.Component {
                  data= {this.getChartData()}
                  chartSeries= {this.getChartSeries()}
                  x= {this.x}
+                 xScale= {"ordinal"}
+                 yTicks= {yTicks}
                />
              </Container>
         );
@@ -72,6 +74,7 @@ export default class StatsWindow extends React.Component {
           }
         }
       }
+      console.log(chartData);
       return chartData;
     }
 
@@ -99,12 +102,13 @@ export default class StatsWindow extends React.Component {
       for (var player in this.props.selectedPlayers) {
         console.log(this.props.selectedPlayers);
         var series = {
-          field: 'value',
+          field: this.props.selectedPlayers[player],
           name: this.props.selectedPlayers[player],
           color: colors[player],
         }
         chartSeries.push(series);
       }
+      console.log(chartSeries);
       return chartSeries;
     }
 }
@@ -147,9 +151,10 @@ const Text = styled.h2`
 
 "use strict"
 var Chart = require('react-d3-core').Chart;
-// require `react-d3-basic` for Line chart component.
 var LineChart = require('react-d3-basic').LineChart;
 var margins = {left: 100, right: 100, top: 50, bottom: 50};
-var colors = ['#ea5fa2', '#d3224f', '#7f1631', '#935999', '#65266d', '#3d1143','#dff2fc']
-
+var colors = ['#ea5fa2', '#d3224f', '#7f1631', '#935999', '#65266d', '#3d1143','#dff2fc'];
+var width = 600;
+var height = 500;
+var yTicks = [1];
 
