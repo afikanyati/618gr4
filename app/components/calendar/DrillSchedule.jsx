@@ -63,7 +63,6 @@ export default class DrillSchedule extends React.Component {
                 })
               }
             </TimeColumn>
-
             <DrillColumn>
               <this.drillListConstructor
                 distance={0} // make sure we can get normal click events on child items, see documentation
@@ -155,7 +154,7 @@ export default class DrillSchedule extends React.Component {
 
         let drills = this.props.selectedPractice.drills;
         drills.push({
-          name: "Drill",
+          name: "Unnamed Drill",
           duration: 1,
         });
         this.props.selectedPractice.drillDuration += 1;
@@ -198,7 +197,7 @@ const TimeBlockLabel = styled.div`
     height: ${props => props.height};
     width: 100px;
     border-bottom: 1px solid #e0e0e0;
-    cursor: pointer;
+    cursor: default;
 `;
 
 const DrillColumn = styled.div`
@@ -207,6 +206,7 @@ const DrillColumn = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${props => props.theme.lightGray};
+  cursor: pointer;
 `;
 
 const DrillList = styled.div`
@@ -223,9 +223,9 @@ const AddDrill = styled.div`
     justify-content: center;
     width: 100%;
     height: ${props => props.height};
-    
-    &:hover>*{
-        visibility: visible;
+
+    &:hover > * {
+        opacity: 1;
     }
 `;
 
@@ -236,7 +236,8 @@ const AddDrillHelp = styled.h2`
     text-align: center;
     padding: 0px;
     margin: 0;
-    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.15s;
 `;
 
 const EmptySchedule = styled.div`

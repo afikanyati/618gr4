@@ -43,6 +43,7 @@ export default class Stats extends React.Component {
                         positions.map((position) => {
                             return (
                                     <Item
+                                        key={uuid.v4()}
                                         selected={this.props.statDetails.selectedPosition==position}
                                     onClick = {this.selectPosition.bind({}, position)}>
                                     {position}
@@ -93,6 +94,7 @@ export default class Stats extends React.Component {
                         stats[this.props.statDetails.selectedPosition].map((stat) => {
                             return (
                                     <Item
+                                        key={uuid.v4()}
                                     selected={this.props.statDetails.selectedStat==stat}
 
                                     onClick = {this.selectStat.bind({}, stat)}>

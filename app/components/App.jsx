@@ -113,9 +113,6 @@ export default class Root extends React.Component {
 
     componentDidMount() {
         // console.log("++++++App");
-        document.body.addEventListener('click', (e) => {
-            console.log(e);
-        });
     }
 
     componentWillUnmount() {

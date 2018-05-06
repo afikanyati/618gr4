@@ -79,20 +79,24 @@ export default class Practice extends React.Component {
                             }}
                           onChange={timeRange => this.setPracticeTime(timeRange)} />
                     </TimeInputContainer>
-                    <Label
-                        for="Description"
-                        center={false}>
-                        Description:
-                    </Label>
-                    <Description
-                        disabled={!this.props.selectedPractice}
-                        width={"150px"}
-                        innerRef={description => this.description = description}
-                        name="description"
-                        type="text"
-                        placeholder={!this.props.selectedPractice ? "Enable practice to enter description..." : "What is the focus of this practice?"}
-                        defaultValue={this.props.selectedPractice ? this.props.selectedPractice.description : ""}
-                        onChange={() => this.props.setPracticeDescription(this.description.value)} />
+                    {!this.props.selectedPractice ? null :
+                        <DescriptionContainer>
+                            <Label
+                                for="Description"
+                                center={false}>
+                                Description:
+                            </Label>
+                            <Description
+                                disabled={!this.props.selectedPractice}
+                                width={"150px"}
+                                innerRef={description => this.description = description}
+                                name="description"
+                                type="text"
+                                placeholder="What is the focus of this practice?"
+                                defaultValue={this.props.selectedPractice ? this.props.selectedPractice.description : ""}
+                                onChange={() => this.props.setPracticeDescription(this.description.value)} />
+                        </DescriptionContainer>
+                    }
                 </AddPracticeContainer>
             </Container>
         );
@@ -187,7 +191,7 @@ const PracticeButton = styled.button`
     color: ${props => props.active ? props.theme.white : "inherit"};
     font-size: 1.2em;
     box-shadow: 0 4px 8px -2px rgba(0,0,0,.5), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
-    transition: box-shadow 0.15s background 0.2s;
+    transition: box-shadow 0.15s, background 0.2s;
     z-index: 1;
     cursor: pointer;
 
@@ -198,6 +202,10 @@ const PracticeButton = styled.button`
 
 const TimeInputContainer = styled.div`
     margin: 40px;
+`;
+
+const DescriptionContainer = styled.div`
+
 `;
 
 const Description = styled.textarea`

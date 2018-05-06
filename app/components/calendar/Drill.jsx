@@ -4,8 +4,15 @@ import PropTypes        from 'prop-types';
 import styled           from 'styled-components';
 
 // Components
-import CrossWhite     from '../../assets/images/cross.svg';
+import CrossWhite     from '../../assets/images/cross-white.svg';
+import CrossGray     from '../../assets/images/cross-gray.svg';
 import CrossBlue     from '../../assets/images/cross-blue.svg';
+import PlusWhite     from '../../assets/images/plus-white.svg';
+import PlusGray     from '../../assets/images/plus-gray.svg';
+import PlusBlue     from '../../assets/images/plus-blue.svg';
+import MinusWhite     from '../../assets/images/minus-white.svg';
+import MinusGray     from '../../assets/images/minus-gray.svg';
+import MinusBlue     from '../../assets/images/minus-blue.svg';
 
 /**
  * The Day component is a component used to
@@ -48,36 +55,41 @@ export default class Drill extends React.Component {
                 innerRef={comp => this.drillName = comp}
                 autoFocus={true}
                 placeholder="Drill Name"
-                defaultValue={this.props.drill.name}
+                defaultValue={this.props.drill.name == 'Unnamed Drill' ? '' : this.props.drill.name}
                 onChange={() => {
-                  this.props.drill.name = this.drillName.value;
+                  this.props.drill.name = this.drillName.value.length == 0 ? 'Unnamed Drill' : this.drillName.value;
                   this.props.updateDrills();
                 }}
             />
             <MinusButton
               enabled={this.props.selectedPractice.drillDuration > 1}
               className={'activateOnHover notDragTarget'}
+              iconWhite={MinusWhite}
+              iconBlue={MinusBlue}
+              iconGray={MinusGray}
               onClick={(e) => {
                 e.stopPropagation();
                 this.changeDuration(-1);
-              }}
-            >
-              -
-            </MinusButton>
+                this.drillName.focus();
+                this.drillName.setSelectionRange(0, this.drillName.value.length);
+              }} />
             <PlusButton
               enabled={this.props.selectedPractice.drillDuration < this.props.selectedPractice.practiceDuration}
               className={'activateOnHover notDragTarget'}
+              iconWhite={PlusWhite}
+              iconBlue={PlusBlue}
+              iconGray={PlusGray}
               onClick={(e) => {
                 e.stopPropagation();
                 this.changeDuration(1);
-              }}
-            >
-              +
-            </PlusButton>
+                this.drillName.focus();
+                this.drillName.setSelectionRange(0, this.drillName.value.length);
+            }} />
             <DeleteButton
               className={'activateOnHover notDragTarget'}
               iconWhite={CrossWhite}
               iconBlue={CrossBlue}
+              iconGray={CrossGray}
               onClick={(e) => {
                 e.stopPropagation();
                 this.removeDrill();
@@ -92,7 +104,7 @@ export default class Drill extends React.Component {
       return (
         <DrillItem
           height={this.props.height}
-          onMouseOver={() => this.setState({editing: !this.props.draggingSomething})}
+          onMouseOver={this.handleDrillItem}
         >
           {this.props.drill.name}
         </DrillItem>
@@ -108,24 +120,30 @@ export default class Drill extends React.Component {
     };
 
     changeDuration = (amount) => {
-      if (amount !== 1 && amount !== -1) {
+        if (amount !== 1 && amount !== -1) {
         return;
-      }
+        }
 
-      if (this.props.drill.duration + amount < 1) {
+        if (this.props.drill.duration + amount < 1) {
         return;
-      }
+        }
 
-      let practice = this.props.selectedPractice;
-      if (practice.drillDuration + amount > practice.practiceDuration) {
+        let practice = this.props.selectedPractice;
+        if (practice.drillDuration + amount > practice.practiceDuration) {
         return;
-      }
+        }
 
-      practice.drillDuration += amount;
-      this.props.drill.duration += amount;
+        practice.drillDuration += amount;
+        this.props.drill.duration += amount;
 
-      this.props.updateDrills();
+        this.props.updateDrills();
     };
+
+    handleDrillItem = () => {
+        this.setState({editing: !this.props.draggingSomething}, () => {
+            this.drillName.setSelectionRange(0, this.drillName.value.length);
+        });
+    }
 }
 
 // ============= PropTypes ==============
@@ -169,14 +187,15 @@ const EditDrill = styled.input`
 `;
 
 const DeleteButton = styled.div`
+    display: inline-flex;
     position: absolute;
     top: 0;
     right: 0;
     width: 60px;
     background: none;
-    background-image: ${props => 'url(' + props.iconBlue + ')'};
+    background-image: ${props => 'url(' + props.iconGray + ')'};
     background-position: 50%;
-    background-size: 50%;
+    background-size: 40%;
     background-repeat: no-repeat;
     z-index: 1;
     transition: background 0.2s;
@@ -184,47 +203,60 @@ const DeleteButton = styled.div`
     justify-content: center;
     align-items: center;
     height: 100%;
-    
-    display:none;
+    border-left: 1px solid rgba(0,0,0,0.12);
+    opacity: 1;
 
     &:hover {
-        background-color: ${props => props.theme.lightBlue};
+        background-image: ${props => 'url(' + props.iconBlue + ')'};
     }
 `;
 
 const PlusButton = styled.div`
+    display: inline-flex;
     position: absolute;
     bottom: 0;
     left: 0;
     width: 60px;
+    background: none;
+    background-image: ${props => 'url(' + props.iconGray + ')'};
+    background-position: 50%;
+    background-size: 20%;
+    background-repeat: no-repeat;
     transition: background 0.2s;
     cursor: pointer;
     justify-content: center;
     align-items: center;
     height: 50%;
-    
-    display:none;
-    
+    border-right: 1px solid rgba(0,0,0,0.12);
+    border-top: 1px solid rgba(0,0,0,0.12);
+    opacity: 0;
+
     &:hover {
-        background-color: ${props => props.theme.lightBlue};
+        background-image: ${props => 'url(' + props.iconBlue + ')'};
     }
 `;
 
 const MinusButton = styled.div`
+    display: inline-flex;
     position: absolute;
     top: 0;
     left: 0;
     width: 60px;
+    background: none;
+    background-image: ${props => 'url(' + props.iconGray + ')'};
+    background-position: 50%;
+    background-size: 20%;
+    background-repeat: no-repeat;
     transition: background 0.2s;
     cursor: pointer;
     justify-content: center;
     align-items: center;
     height: 50%;
-    
-    display:none;
-    
+    border-right: 1px solid rgba(0,0,0,0.12);
+    opacity: 0;
+
     &:hover {
-        background-color: ${props => props.theme.lightBlue};
+        background-image: ${props => 'url(' + props.iconBlue + ')'};
     }
 `;
 
@@ -235,27 +267,26 @@ const DrillItem = styled.div`
     position: relative;
     width: 100%;
     height: ${props => props.height};
-    padding: 20;
     background-color:  ${props => props.theme.white};
     border-bottom: 1px solid #e0e0e0;
     cursor: grab;
-    
-    &>.notDragTarget{
+
+    & > .notDragTarget {
         cursor: pointer;
     }
-    
-    &:hover>.activateOnHover{
-        display: inline-flex;
+
+    &:hover > .activateOnHover {
+        opacity: 1;
     }
-    
-    &.beingDragged>.activateOnHover{
-        display: inline-flex;
+
+    &.beingDragged > .activateOnHover {
+        opacity: 1;
     }
-    
-    &.beingDragged {
+
+    & .beingDragged {
       pointer-events: auto !important;
       cursor: grabbing !important;
       cursor: -moz-grabbing !important;
-      cursor: -webkit-grabbing !important;       
+      cursor: -webkit-grabbing !important;
     }
 `;
