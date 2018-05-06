@@ -81,11 +81,11 @@ export default class Practice extends React.Component {
                     </TimeInputContainer>
                     {!this.props.selectedPractice ? null :
                         <DescriptionContainer>
-                            <Label
-                                for="Description"
-                                center={false}>
-                                Description:
-                            </Label>
+                            <Text
+                                size={'1em'}
+                                center={true}>
+                                Description
+                            </Text>
                             <Description
                                 disabled={!this.props.selectedPractice}
                                 width={"150px"}
@@ -222,13 +222,4 @@ const Description = styled.textarea`
     line-height: normal;
     box-shadow: ${props => props => props.disabled ? 'none' : 'inset 0 2px 5px rgba(0,0,0,0.22);'};
     resize: none;
-`;
-
-const Label = styled.label`
-    transition: visibility 0.2s, opacity 0.2s;
-    display: flex;
-    width: 100%;
-    font-weight: 700;
-    justify-content: space-between;
-    margin: 10px 0px;
 `;

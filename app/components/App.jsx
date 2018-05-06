@@ -15,6 +15,7 @@ import Profile                      from './Profile';
 import Calendar                     from './Calendar';
 import Stats                        from './Stats';
 import DefaultPhoto                 from '../assets/images/default-avatar.png';
+import LacrosseLogo                 from '../assets/images/lacrosse-logo.svg'
 
 // Initializing to enable Touch Tap events. It is global
 initReactFastclick();
@@ -81,6 +82,9 @@ export default class Root extends React.Component {
         return(
             <Container>
                 <SideBar>
+                    <LacrosseLogoContainer>
+                        <img src={LacrosseLogo} />
+                    </LacrosseLogoContainer>
                     <ProfileContainer img={!this.state.profileDetails.avatar ? DefaultPhoto : this.state.profileDetails.avatar} />
                     <Name>
                         {this.state.profileDetails.name}
@@ -160,6 +164,20 @@ const Container = styled.div`
     height: 100vh;
 `;
 
+const LacrosseLogoContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    z-index: 1;
+    box-shadow: 0 4px 8px -2px rgba(0,0,0,.5), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+
+    & img {
+        height: 30px;
+    }
+`;
+
 const SideBar = styled.div`
     position: relative;
     display: flex;
@@ -214,8 +232,8 @@ const Name = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 63px;
-    font-size: 1.5em;
+    height: 40px;
+    font-size: 1em;
     font-weight: 700;
     color: ${props => props.theme.white};
     text-align: center;

@@ -163,6 +163,7 @@ export default class Profile extends React.Component {
 
     componentDidMount() {
         // console.log("+++++Profile");
+        document.title = "La+ - Profile";
     }
 
     // ========== Methods ===========

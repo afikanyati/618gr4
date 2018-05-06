@@ -43,7 +43,7 @@ export default class Stats extends React.Component {
     }
 
     componentDidMount() {
-
+        document.title = "La+ - Statistics";
     }
 
     setPosition = (position) => {
