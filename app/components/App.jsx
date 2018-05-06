@@ -40,6 +40,11 @@ export default class Root extends React.Component {
                 selectedPractice: null,
                 practiceRecord: {},  // Maps date.format(day, m/d/y) to corresponding practice.
             },
+            statDetails: {
+                selectedPosition: "",
+                selectedStat: "",
+                selectedPlayers: []
+            }
         };
     }
 
@@ -53,7 +58,9 @@ export default class Root extends React.Component {
             case "Profile":
                 view = <Profile
                     profileDetails={this.state.profileDetails}
-                    modifyProfileDetails={this.modifyProfileDetails}/>;
+                    modifyProfileDetails={this.modifyProfileDetails}
+                    commitStatDetails={this.commitStatDetails}
+                    changeViewState={this.changeViewState} />;
                 break;
             case "Calendar":
                 view = <Calendar
@@ -63,7 +70,11 @@ export default class Root extends React.Component {
                 break;
             case "Stats":
                 // view = <Stats />;
-                view = <Stats />;
+                view = <Stats
+                    statDetails={this.state.statDetails}
+                    profileDetails={this.state.profileDetails}
+                    commitStatDetails={this.commitStatDetails}
+                 />;
                 break;
         }
 
@@ -77,17 +88,17 @@ export default class Root extends React.Component {
                     <Navigation>
                         <NavItem
                             selected={this.state.view == "Profile"}
-                            onClick = {this.toggleViewState.bind({}, "Profile")}>
+                            onClick = {this.changeViewState.bind({}, "Profile")}>
                             {"Profile"}
                         </NavItem>
                         <NavItem
                             selected={this.state.view == "Calendar"}
-                            onClick = {this.toggleViewState.bind({}, "Calendar")}>
+                            onClick = {this.changeViewState.bind({}, "Calendar")}>
                             {"Calendar"}
                         </NavItem>
                         <NavItem
                             selected={this.state.view == "Stats"}
-                            onClick = {this.toggleViewState.bind({}, "Stats")}>
+                            onClick = {this.changeViewState.bind({}, "Stats")}>
                             {"Statistics"}
                         </NavItem>
                     </Navigation>
@@ -102,6 +113,9 @@ export default class Root extends React.Component {
 
     componentDidMount() {
         // console.log("++++++App");
+        document.body.addEventListener('click', (e) => {
+            console.log(e);
+        });
     }
 
     componentWillUnmount() {
@@ -109,7 +123,7 @@ export default class Root extends React.Component {
 
     // ========== Methods ===========
 
-   toggleViewState = (newView) => {
+   changeViewState = (newView) => {
       this.setState({
           view: newView
       })
@@ -129,6 +143,12 @@ export default class Root extends React.Component {
    commitPracticeDetails = () => {
      this.setState({
          practiceDetails: this.state.practiceDetails,
+     });
+   }
+
+   commitStatDetails = (statDetails) => {
+     this.setState({
+         statDetails: statDetails,
      });
    }
 

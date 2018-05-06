@@ -179,10 +179,7 @@ const PracticeButtonContainer = styled.div`
     padding: 0px 30px;
 `;
 
-const PracticeButton = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
+const PracticeButton = styled.button`
     width: 45%;
     height: 50px;
     border-radius: 5px;

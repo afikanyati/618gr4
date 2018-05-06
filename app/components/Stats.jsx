@@ -17,11 +17,6 @@ export default class Stats extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-          selectedPosition: "",
-          selectedStat: "",
-          selectedPlayers: []
-        }
     }
 
     componentWillMount() {
@@ -32,17 +27,16 @@ export default class Stats extends React.Component {
         return (
             <Container>
                 <Selector
-                  selectedPosition={this.state.selectedPosition}
-                  selectedStat={this.state.selectedStat}
-                  selectedPlayers={this.state.selectedPlayers}
+                  statDetails={this.props.statDetails}
+                  profileDetails={this.props.profileDetails}
                   setPosition={this.setPosition}
                   setStat={this.setStat}
                   setPlayers={this.setPlayers}>
                 </Selector>
                 <StatsWindow
-                    selectedPosition={this.state.selectedPosition}
-                    selectedStat={this.state.selectedStat}
-                    selectedPlayers={this.state.selectedPlayers}>
+                    selectedPosition={this.props.statDetails.selectedPosition}
+                    selectedStat={this.props.statDetails.selectedStat}
+                    selectedPlayers={this.props.statDetails.selectedPlayers}>
                 </StatsWindow>
             </Container>
         );
@@ -53,22 +47,30 @@ export default class Stats extends React.Component {
     }
 
     setPosition = (position) => {
-      this.setState({
-          selectedPosition: position
-      })
+        let statDetails = this.props.statDetails;
+        statDetails.selectedPosition = position;
+        this.props.commitStatDetails(statDetails);
     }
     setStat = (stat) => {
-      this.setState({
-          selectedStat: stat
-      })
+        let statDetails = this.props.statDetails;
+        statDetails.selectedStat = stat;
+        this.props.commitStatDetails(statDetails);
     }
     setPlayers = (players) => {
-      this.setState({
-          selectedPlayers: players
-      })
+        let statDetails = this.props.statDetails;
+        statDetails.selectedPlayers = players;
+        this.props.commitStatDetails(statDetails);
     }
 
 }
+
+// ============= PropTypes ==============
+
+Stats.propTypes = {
+  statDetails: PropTypes.object.isRequired,
+  commitStatDetails: PropTypes.func.isRequired,
+  profileDetails: PropTypes.object.isRequired,
+};
 
 // ============= Styled Components ==============
 

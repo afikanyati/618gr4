@@ -41,13 +41,14 @@ export default class Profile extends React.Component {
 
         return (
             <Container>
-                <Header>
-                    Edit Profile
+                <Header margin={'0px'}>
+                    Profile
                 </Header>
                 <Accordion>
                     <AccordionItem
                         zIndex="6"
                         open={this.state.accordion.name}
+                        seperator={true}
                         onClick={this.toggleAccordion.bind({},"name")}>
                         <AccordionItemHeading open={this.state.accordion.name}>
                             Display Name
@@ -70,6 +71,7 @@ export default class Profile extends React.Component {
                     <AccordionItem
                             zIndex="4"
                             open={this.state.accordion.avatar}
+                            seperator={true}
                             onClick={this.toggleAccordion.bind({},"avatar")}>
                         <AccordionItemHeading open={this.state.accordion.avatar}>
                             Avatar
@@ -99,6 +101,7 @@ export default class Profile extends React.Component {
                     <AccordionItem
                             zIndex="2"
                             open={this.state.accordion.position}
+                            seperator={false}
                             onClick={this.toggleAccordion.bind({},"position")}>
                         <AccordionItemHeading open={this.state.accordion.position}>
                             Position
@@ -121,6 +124,19 @@ export default class Profile extends React.Component {
                         </PositionSelector>
                     </AccordionContent>
                 </Accordion>
+                <Header margin={'60px'}>
+                    Go To
+                </Header>
+                <Button
+                    active={true}
+                    onClick={this.handleThisDate}>
+                    Today's Date
+                </Button>
+                <Button
+                    active={true}
+                    onClick={this.handleMyStats}>
+                    My Statistics
+                </Button>
                 <AccordionButton
                     onClick={this.toggleAllAccordion}>
                     <svg
@@ -153,6 +169,17 @@ export default class Profile extends React.Component {
     toggleAccordion = (item) => {
         let accordion   = this.state.accordion;
         accordion[item] = !accordion[item];
+
+        if (item == "name") {
+            this.name.focus();
+            this.name.setSelectionRange(0, this.name.value.length);
+        }
+
+        if (item == "position") {
+            let select = document.getElementsByClassName('country-select')[0];
+            select.click();
+        }
+
         this.setState({
             accordion: accordion
         });
@@ -173,13 +200,31 @@ export default class Profile extends React.Component {
     }
 
     handleNameChange = () => {
-        this.props.modifyProfileDetails("name", this.name.value);
+        let name = this.name.value;
+        if (name.length == 0) {
+            name = "No Display Name";
+        }
+        this.props.modifyProfileDetails("name", name);
     }
 
     handlePositionChange = (position) => {
         if (position.value) {
             this.props.modifyProfileDetails("position", position.value);
         }
+    }
+
+    handleThisDate = () => {
+        this.props.changeViewState("Calendar");
+    }
+
+    handleMyStats = () => {
+        this.props.changeViewState("Stats");
+        let statDetails = {
+            selectedPosition: this.props.profileDetails.position,
+            selectedStat: "",
+            selectedPlayers: [this.props.profileDetails.name]
+        };
+        this.props.commitStatDetails(statDetails);
     }
 
     onDrop = (file) => {
@@ -191,7 +236,9 @@ export default class Profile extends React.Component {
 
 Profile.propTypes = {
     profileDetails: PropTypes.object.isRequired,
-    modifyProfileDetails: PropTypes.func.isRequired
+    modifyProfileDetails: PropTypes.func.isRequired,
+    commitStatDetails: PropTypes.func.isRequired,
+    changeViewState: PropTypes.func.isRequired
 };
 
 // ============= Styled Components ==============
@@ -207,7 +254,7 @@ const Container = styled.div`
 
 const Header = styled.h1`
     font-size: 3em;
-    margin-top: 0;
+    margin-top: ${props => props.margin};
 `;
 
 const Accordion = styled.div`
@@ -230,14 +277,14 @@ const AccordionItem = styled.div`
     padding: 15px 25px;
     margin: 0;
     background: ${props => props.open ? props.theme.red : props.theme.white};
-    border-bottom: 1px solid rgba(0,0,0,.12);
+    border-bottom: ${props => props.seperator ?
+            '1px solid rgba(0,0,0,.12)'
+        :
+            'none'
+    };
     cursor: pointer;
-    transition: background 0.2s color 0.2s;
+    transition: background 0.2s, color 0.2s;
     z-index: ${props => props.zIndex};
-
-    &:last-child {
-        border-bottom: none;
-    }
 `;
 
 const AccordionItemHeading = styled.h2`
@@ -367,6 +414,24 @@ const AccordionButton = styled.div`
         transform: translateY(2.5px);
         transition: all 0.3s;
     }
+`;
 
+const Button = styled.button`
+    flex: none;
+    width: 45%;
+    height: 50px;
+    margin: 0;
+    border-radius: 5px;
+    background: ${props => props.active ? props.theme.red : props.theme.lightGray};
+    color: ${props => props.active ? props.theme.white : "inherit"};
+    font-size: 1.2em;
+    box-shadow: 0 4px 8px -2px rgba(0,0,0,.5), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+    transition: box-shadow 0.15s background 0.2s;
+    z-index: 1;
+    cursor: pointer;
+    margin-top: 10px;
 
+    &:hover {
+        box-shadow: 0 8px 16px -4px rgba(0,0,0,.5), 0 6px 2px -4px rgba(0,0,0,.2), 0 2px 10px 0 rgba(0,0,0,.12);
+    }
 `;

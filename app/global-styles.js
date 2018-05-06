@@ -190,6 +190,34 @@ injectGlobal`
         }
     }
 
+    .Select-input {
+        height: 100%;
+        padding-left: 10px;
+        padding-right: 10px;
+        vertical-align: middle;
+    }
+
+    .Select-input > input {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background: none transparent;
+        border: 0 none;
+        box-shadow: none;
+        cursor: default;
+        display: inline-block;
+        font-family: inherit;
+        font-size: 0.9em;
+        margin: 0;
+        outline: none;
+        line-height: 17px;
+        padding: 0px 10px;
+        -webkit-appearance: none;
+    }
+
     /* Avenir */
     @font-face {
     font-family: 'Avenir';

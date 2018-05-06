@@ -23,11 +23,11 @@ export default class Stats extends React.Component {
 
         let playersel;
 
-        let positions = ["Goalie", "Defense", "Offense"];
+        let positions = ["Goalie", "Defender", "Midfielder", "Attacker"];
 
-        statsel = this.getStatSel(this.props.selectedPosition)
+        statsel = this.getStatSel(this.props.statDetails.selectedPosition)
 
-        playersel = this.getPlayerSel(this.props.selectedPosition)
+        playersel = this.getPlayerSel(this.props.statDetails.selectedPosition)
 
         return (
             <Container>
@@ -38,12 +38,12 @@ export default class Stats extends React.Component {
                         Positions
                     </Text>
                 </Header>
-                <Selector height={'30vh'}>
+                <Selector height={`${100/3}vh`}>
                     {
                         positions.map((position) => {
                             return (
                                     <Item
-                                        selected={this.props.selectedPosition==position}
+                                        selected={this.props.statDetails.selectedPosition==position}
                                     onClick = {this.selectPosition.bind({}, position)}>
                                     {position}
                                     </Item>
@@ -78,21 +78,22 @@ export default class Stats extends React.Component {
 
     getStatSel = () => {
         let stats = {"Goalie": ["Blocks","Misses","Attempts"],
-                     "Defense": ["Possession Time", "Turnovers", "Blocks"],
-                     "Offense": ["Possession Time", "Turnovers", "Shots", "Goals"]};
+                     "Defender": ["Possession Time", "Turnovers", "Blocks"],
+                     "Midfielder": ["Possession Time", "Turnovers", "Shots", "Goals"],
+                     "Attacker": ["Possession Time", "Turnovers", "Shots", "Goals"]};
 
-        if (this.props.selectedPosition == "") {
-            return <Selector height={'40vh'}></Selector>
+        if (this.props.statDetails.selectedPosition == "") {
+            return <Selector height={`${100/3}vh`}></Selector>
 
         }
-        if (this.props.selectedPosition != ""){
+        if (this.props.statDetails.selectedPosition != ""){
             return(
-                <Selector height={'40vh'}>
+                <Selector height={`${100/3}vh`}>
                     {
-                        stats[this.props.selectedPosition].map((stat) => {
+                        stats[this.props.statDetails.selectedPosition].map((stat) => {
                             return (
                                     <Item
-                                    selected={this.props.selectedStat==stat}
+                                    selected={this.props.statDetails.selectedStat==stat}
 
                                     onClick = {this.selectStat.bind({}, stat)}>
                                     {stat}
@@ -109,23 +110,26 @@ export default class Stats extends React.Component {
 
     getPlayerSel = () => {
         let players = {"Goalie": ["Pyotr Hasborn", "Martin Shkrelli", "Donald Trump", "Barack Obama"],
-                       "Defense": ["Victor Fink", "Mitchell", "SCARFACE", "The Red Telletubby"],
-                       "Offense": ["Afika Nyati", "Taylor Herr", "Abigail Russell", "Efraim THEROCK"]
+                       "Defender": ["Mitchell", "SCARFACE", "The Red Telletubby"],
+                       "Midfielder": ["Ben Bitdiddle", "Donald Knuth", "John Von Neuman"],
+                       "Attacker": ["Afika Nyati", "Taylor Herr", "Abigail Russell", "Efraim THEROCK", "man"]
                         };
 
-        if (this.props.selectedPosition == "") {
-            return <Selector height={'30vh'}></Selector>;
+        players[this.props.profileDetails.position].push(this.props.profileDetails.name);
+
+        if (this.props.statDetails.selectedPosition == "") {
+            return <Selector height={`${100/3}vh`}></Selector>;
         }
 
-        if (this.props.selectedPosition != "") {
+        if (this.props.statDetails.selectedPosition != "") {
             return (
-                <Selector height={'30vh'}>
+                <Selector height={`${100/3}vh`}>
                     {
-                        players[this.props.selectedPosition].map((player) => {
+                        players[this.props.statDetails.selectedPosition].map((player) => {
                             return (
                                     <Item
                                         key={uuid.v4()}
-                                        selected={this.props.selectedPlayers.includes(player)}
+                                        selected={this.props.statDetails.selectedPlayers.includes(player)}
                                     onClick = {this.addRemovePlayer.bind({}, player)}>
                                     {player}
                                     </Item>
@@ -180,6 +184,7 @@ const Selector = styled.ul`
     margin: 0;
     padding: 0;
     background: ${props => props.theme.lightGray};
+    overflow-y: scroll;
 `;
 
 const Item = styled.li`
