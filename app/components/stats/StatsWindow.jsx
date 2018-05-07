@@ -28,7 +28,7 @@ export default class StatsWindow extends React.Component {
         return (
             <Container>
                 <NoStats>
-                    <Text>{`Select a ${supplementaryText} Statistic to View it's Visualization`}</Text>
+                    <Text>{`Select a ${supplementaryText} Statistic to View its Visualization`}</Text>
                 </NoStats>
             </Container>
         );
@@ -69,7 +69,7 @@ export default class StatsWindow extends React.Component {
       if (this.props.selectedStat != "") {
         for (var p in data) {
           var point = data[p];
-          if (point.stat == this.props.selectedStat.toLowerCase()) {
+          if (point.stat.toLowerCase() == this.props.selectedStat.toLowerCase()) {
             chartData.push(point)
           }
         }
