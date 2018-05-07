@@ -125,6 +125,8 @@ StatsWindow.propTypes = {
 
 const Container = styled.div`
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     width: 60vw;
 `;
@@ -157,4 +159,3 @@ var colors = ['#ea5fa2', '#d3224f', '#7f1631', '#935999', '#65266d', '#3d1143','
 var width = 600;
 var height = 500;
 var yTicks = [1];
-
