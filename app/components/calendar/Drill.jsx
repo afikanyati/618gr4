@@ -198,7 +198,7 @@ const DeleteButton = styled.div`
     background-size: 40%;
     background-repeat: no-repeat;
     z-index: 1;
-    transition: background 0.2s;
+    transition: background-image 0.2s;
     cursor: pointer;
     justify-content: center;
     align-items: center;
@@ -222,7 +222,7 @@ const PlusButton = styled.div`
     background-position: 50%;
     background-size: 20%;
     background-repeat: no-repeat;
-    transition: background 0.2s;
+    transition: background-image 0.2s;
     cursor: pointer;
     justify-content: center;
     align-items: center;
@@ -247,7 +247,7 @@ const MinusButton = styled.div`
     background-position: 50%;
     background-size: 20%;
     background-repeat: no-repeat;
-    transition: background 0.2s;
+    transition: background-image 0.2s;
     cursor: pointer;
     justify-content: center;
     align-items: center;

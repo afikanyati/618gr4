@@ -14,31 +14,15 @@ import './global-styles.js';
  */
 
 const theme = {
-    lightRed: '#ea5fa2',
     red: '#d3224f',
-    darkRed: '#7f1631',
-    lightPurple: '#935999',
-    purple: '#65266d',
-    darkPurple: '#3d1143',
-    lightBlue: '#dff2fc',
-    blue: '#b5d2ec',
-    darkBlue: '#7192a4',
-    lightGreen: '#aadcd6',
-    green: '#69c4a8',
-    darkGreen: '#33725b',
-    lightYellow: '#fff7d3',
-    yellow: '#f1ddac',
-    darkYellow: '#9f8d65',
+    blue: '#4054b2',
     white: '#ffffff',
     lightGray: '#f0f0f0',
     gray: '#e0e1e0',
     darkGray: '#7F7F7F',
     black: '#252625',
     pitchBlack: '#171717',
-    creamTextColor: '#5f3e24',
-    cream: '#f9f3e9',
-    lightTextColor: 'rgba(0,0,0, 0.87)',
-    darkTextColor: '#bebebe'
+    lightTextColor: 'rgba(0,0,0, 0.87)'
 }
 
 ReactDOM.render((

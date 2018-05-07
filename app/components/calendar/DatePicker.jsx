@@ -166,7 +166,7 @@ const DayTextContainer = styled.div`
             props.theme.red
         :
             props.hasPractice ?
-                "#4054b2"
+                props.theme.blue
             :
                 "none"
     };

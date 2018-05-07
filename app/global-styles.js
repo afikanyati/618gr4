@@ -218,6 +218,24 @@ injectGlobal`
         -webkit-appearance: none;
     }
 
+    .snackbar-error {
+    	text-align: center !important;
+    	background: #000000;
+    }
+
+    .snackbar-error span {
+    	font-family: "Nexa" , "Gill Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    	font-size: 1em;
+    	font-weight: 500;
+    	color: #D32752;
+    }
+
+    .snackbar-error > div {
+    	margin: 20px !important;
+    	height: auto !important;
+    	line-height: 1.5em !important;
+    }
+
     /* Avenir */
     @font-face {
     font-family: 'Avenir';

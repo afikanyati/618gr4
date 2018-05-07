@@ -55,7 +55,6 @@ export default class Calendar extends React.Component {
 
     componentDidMount() {
         // console.log("+++++Calendar");
-        document.title = "La+ - Calendar";
     }
 
     // ========== Methods ===========
