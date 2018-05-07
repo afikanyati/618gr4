@@ -1,11 +1,18 @@
 import React        from 'react';
 import PropTypes    from 'prop-types';
 import styled       from 'styled-components';
-import date         from 'date-and-time';
 import uuid         from 'uuid';
 
 
-export default class Stats extends React.Component {
+const positions = ["Goalie", "Defender", "Midfielder", "Attacker"];
+const stats = {
+  "Goalie": ["Blocks","Misses","Attempts"],
+  "Defender": ["Possession Time", "Turnovers", "Blocks"],
+  "Midfielder": ["Possession Time", "Turnovers", "Shots", "Goals"],
+  "Attacker": ["Possession Time", "Turnovers", "Shots", "Goals"],
+};
+
+export default class StatsSelector extends React.Component {
 
     constructor(props) {
         super(props);
@@ -14,28 +21,14 @@ export default class Stats extends React.Component {
     }
 
     componentWillMount() {
-
     }
 
     render() {
-
-        let statsel;
-
-        let playersel;
-
-        let positions = ["Goalie", "Defender", "Midfielder", "Attacker"];
-
-        statsel = this.getStatSel(this.props.statDetails.selectedPosition)
-
-        playersel = this.getPlayerSel(this.props.statDetails.selectedPosition)
-
         return (
             <Container>
-            <Header>
-                    <Text
-                        size={'1.5em'}
-                        center={true}>
-                        Positions
+                <Header>
+                    <Text>
+                        Position
                     </Text>
                 </Header>
                 <Selector height={`${100/3}vh`}>
@@ -44,8 +37,8 @@ export default class Stats extends React.Component {
                             return (
                                     <Item
                                         key={uuid.v4()}
-                                        selected={this.props.statDetails.selectedPosition==position}
-                                    onClick = {this.selectPosition.bind({}, position)}>
+                                        selected={this.props.statDetails.selectedPosition === position}
+                                        onClick = {this.selectPosition.bind({}, position)}>
                                     {position}
                                     </Item>
                                 );
@@ -53,41 +46,34 @@ export default class Stats extends React.Component {
                     }
                 </Selector>
                 <Header>
-                    <Text
-                        size={'1.5em'}
-                        center={true}>
-                        Stats
+                    <Text>
+                        Stat
                     </Text>
                 </Header>
-                {statsel}
+                {
+                    this.getStatSelector(this.props.statDetails.selectedPosition)
+                }
                 <Header>
-                    <Text
-                        size={'1.5em'}
-                        center={true}>
-                        Players
+                    <Text>
+                        Player
                     </Text>
                 </Header>
-                {playersel}
-
+                {
+                    this.getPlayerSelector(this.props.statDetails.selectedPosition)
+                }
             </Container>
         );
     }
 
     componentDidMount() {
-
     }
 
-    getStatSel = () => {
-        let stats = {"Goalie": ["Blocks","Misses","Attempts"],
-                     "Defender": ["Possession Time", "Turnovers", "Blocks"],
-                     "Midfielder": ["Possession Time", "Turnovers", "Shots", "Goals"],
-                     "Attacker": ["Possession Time", "Turnovers", "Shots", "Goals"]};
+    getStatSelector = () => {
 
-        if (this.props.statDetails.selectedPosition == "") {
+        if (this.props.statDetails.selectedPosition === "") {
             return <Selector height={`${100/3}vh`}></Selector>
 
-        }
-        if (this.props.statDetails.selectedPosition != ""){
+        } else {
             return(
                 <Selector height={`${100/3}vh`}>
                     {
@@ -95,11 +81,9 @@ export default class Stats extends React.Component {
                             return (
                                     <Item
                                         key={uuid.v4()}
-                                    selected={this.props.statDetails.selectedStat==stat}
-
-                                    onClick = {this.selectStat.bind({}, stat)}>
+                                        selected={this.props.statDetails.selectedStat==stat}
+                                        onClick = {this.selectStat.bind({}, stat)}>
                                     {stat}
-
                                     </Item>
                                 );
                         })
@@ -107,23 +91,25 @@ export default class Stats extends React.Component {
                 </Selector>
             );
         }
+    };
 
-    }
+    getPlayerSelector = () => {
 
-    getPlayerSel = () => {
-        let players = {"Goalie": ["Pyotr Hasborn", "Martin Shkrelli", "Donald Trump", "Barack Obama"],
-                       "Defender": ["Mitchell", "SCARFACE", "The Red Telletubby"],
-                       "Midfielder": ["Ben Bitdiddle", "Donald Knuth", "John Von Neuman"],
-                       "Attacker": ["Afika Nyati", "Taylor Herr", "Abigail Russell", "Efraim THEROCK", "man"]
-                        };
+        // TODO this does not belong here
+
+        let players = {
+            "Goalie": ["Pyotr Hasborn", "Martin Shkrelli", "Donald Trump", "Barack Obama"],
+            "Defender": ["Mitchell", "SCARFACE", "The Red Telletubby"],
+            "Midfielder": ["Ben Bitdiddle", "Donald Knuth", "John Von Neuman"],
+            "Attacker": ["Afika Nyati", "Taylor Herr", "Abigail Russell", "Efraim THEROCK", "man"],
+        };
 
         players[this.props.profileDetails.position].push(this.props.profileDetails.name);
 
-        if (this.props.statDetails.selectedPosition == "") {
+        if (this.props.statDetails.selectedPosition === "") {
             return <Selector height={`${100/3}vh`}></Selector>;
-        }
 
-        if (this.props.statDetails.selectedPosition != "") {
+        } else {
             return (
                 <Selector height={`${100/3}vh`}>
                     {
@@ -132,7 +118,7 @@ export default class Stats extends React.Component {
                                     <Item
                                         key={uuid.v4()}
                                         selected={this.props.statDetails.selectedPlayers.includes(player)}
-                                    onClick = {this.addRemovePlayer.bind({}, player)}>
+                                        onClick = {this.addRemovePlayer.bind({}, player)}>
                                     {player}
                                     </Item>
                                 );
@@ -141,45 +127,62 @@ export default class Stats extends React.Component {
                 </Selector>
             );
         }
-    }
+    };
 
     selectPosition = (newPosition) => {
-      this.props.setPosition(newPosition);
+      this.setPosition(newPosition);
       this.clearPlayers();
-    }
+    };
 
     selectStat = (newStat) => {
-      this.props.setStat(newStat);
-    }
+      this.setStat(newStat);
+    };
 
     addRemovePlayer = (newPlayer) => {
         let players = this.props.statDetails.selectedPlayers.slice();
         if (players.indexOf(newPlayer) >= 0) {
             players.splice(players.indexOf(newPlayer), 1);
-        }
-
-        else {
+        } else {
             players.push(newPlayer);
         }
 
-        this.props.setPlayers(players)
-
-        console.log(players)
-
-    }
+        this.setPlayers(players);
+    };
 
     clearPlayers = () => {
-        this.props.setPlayers([]);
-    }
+        this.setPlayers([]);
+    };
 
+    setPosition = (position) => {
+        this.props.statDetails.selectedPosition = position;
+        this.props.commitStatDetails();
+    };
+
+    setStat = (stat) => {
+        this.props.statDetails.selectedStat = stat;
+        this.props.commitStatDetails();
+    };
+
+    setPlayers = (players) => {
+        this.props.statDetails.selectedPlayers = players;
+        this.props.commitStatDetails();
+    };
 }
+
+// ============= PropTypes ==============
+
+StatsSelector.propTypes = {
+  statDetails: PropTypes.object.isRequired,
+  commitStatDetails: PropTypes.func.isRequired,
+  profileDetails: PropTypes.object.isRequired,
+};
 
 // ============= Styled Components ==============
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
-    width: 20vw;
+    flex: 0.3;
     border-right: 1px solid #e0e0e0;
 `;
 
@@ -220,15 +223,11 @@ const Header = styled.div`
 `;
 
 const Text = styled.h2`
-    font-size: ${props => props.size};
+    font-size: 1.5;
     font-weight: 700;
     background: ${props => props.theme.darkGray};
     color: ${props => props.theme.white};
-    text-align: ${props => props.center ?
-            "center"
-        :
-            "left"
-    };
+    text-align: center;
     padding: 10px;
     margin: 0;
 `;

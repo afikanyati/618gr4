@@ -1,16 +1,16 @@
 [
-{"Victor Fink":0.0, "Mitchell":10.0, "stat":"possession time", "index":0}
+{"Victor Fink":0.0, "Mitchell":10.0, "stat":"possession time", "game":0}
 ,
-{"Victor Fink":1.0, "Mitchell":1.0 ,"stat":"possession time", "index":1}
+{"Victor Fink":1.0, "Mitchell":1.0 ,"stat":"possession time", "game":1}
 ,
-{"Victor Fink":3.0, "Mitchell":7.0, "stat":"possession time", "index":2}
+{"Victor Fink":3.0, "Mitchell":7.0, "stat":"possession time", "game":2}
 ,
-{"Victor Fink":2.1, "stat":"possession time", "index":3}
+{"Victor Fink":2.1, "stat":"possession time", "game":3}
 ,
-{"Victor Fink":1, "Mitchell":0, "stat":"turnovers", "index":4}
+{"Victor Fink":1, "Mitchell":0, "stat":"turnovers", "game":4}
 ,
-{"Victor Fink":3 , "Mitchell":3, "stat":"turnovers", "index":5}
+{"Victor Fink":3 , "Mitchell":3, "stat":"turnovers", "game":5}
 ,
-{"Victor Fink":0, "Mitchell":0, "stat":"turnovers", "index":6}
+{"Victor Fink":0, "Mitchell":0, "stat":"turnovers", "game":6}
 
 ]
