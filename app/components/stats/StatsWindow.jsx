@@ -16,7 +16,7 @@ export default class StatsWindow extends React.Component {
     }
 
     render() {
-        if (this.props.selectedStat == '') {
+        if ((this.props.selectedStat == '') || (this.props.selectedPlayers == [])) {
             return this.renderEmptyStats();
         } else {
             return this.renderStatsWindow();
@@ -35,7 +35,11 @@ export default class StatsWindow extends React.Component {
     }
 
     renderStatsWindow = () => {
-        return (
+        if (this.props.selectedPlayers.length == 0) {
+            return this.renderEmptyStats();
+        }
+        else {
+          return (
             <Container>
                 <LineChart
                  title= {"TITLE"}
@@ -45,11 +49,13 @@ export default class StatsWindow extends React.Component {
                  data= {this.getChartData()}
                  chartSeries= {this.getChartSeries()}
                  x= {this.x}
-                 xScale= {"ordinal"}
+                 xTicks= {xTicks}
                  yTicks= {yTicks}
+                 xLabel={"Game Number"}
                />
              </Container>
         );
+        }
     }
 
     componentDidMount() {
@@ -159,3 +165,4 @@ var colors = ['#ea5fa2', '#d3224f', '#7f1631', '#935999', '#65266d', '#3d1143','
 var width = 600;
 var height = 500;
 var yTicks = [1];
+var xTicks = [2];
