@@ -1,16 +1,82 @@
 [
-{"Victor Fink":0.0, "Mitchell":10.0, "stat":"possession time", "game":0}
-,
-{"Victor Fink":1.0, "Mitchell":1.0 ,"stat":"possession time", "game":1}
-,
-{"Victor Fink":3.0, "Mitchell":7.0, "stat":"possession time", "game":2}
-,
-{"Victor Fink":2.1, "stat":"possession time", "game":3}
-,
-{"Victor Fink":1, "Mitchell":0, "stat":"turnovers", "game":4}
-,
-{"Victor Fink":3 , "Mitchell":3, "stat":"turnovers", "game":5}
-,
-{"Victor Fink":0, "Mitchell":0, "stat":"turnovers", "game":6}
+
+{"Martin Shkrelli":3, "Donald Trump":1, "Barack Obama":5, "Victor Fink":0, "Pyotr Hasborn":2, "stat":"Blocks", "game":1},
+{"Martin Shkrelli":0, "Donald Trump":0, "Barack Obama":3, "Victor Fink":0, "Pyotr Hasborn":2, "stat":"Blocks", "game":2},
+{"Martin Shkrelli":1, "Donald Trump":1, "Barack Obama":7, "Victor Fink":3, "Pyotr Hasborn":0, "stat":"Blocks", "game":3},
+{"Martin Shkrelli":0, "Donald Trump":1, "Barack Obama":2, "Victor Fink":5, "Pyotr Hasborn":1, "stat":"Blocks", "game":4},
+{"Martin Shkrelli":1, "Donald Trump":1, "Barack Obama":6, "Victor Fink":4, "Pyotr Hasborn":3, "stat":"Blocks", "game":5},
+{"Martin Shkrelli":4, "Donald Trump":4, "Barack Obama":0, "Victor Fink":1, "Pyotr Hasborn":2, "stat":"Misses", "game":1},
+{"Martin Shkrelli":6, "Donald Trump":3, "Barack Obama":2, "Victor Fink":1, "Pyotr Hasborn":1, "stat":"Misses", "game":2},
+{"Martin Shkrelli":7, "Donald Trump":6, "Barack Obama":1, "Victor Fink":1, "Pyotr Hasborn":0, "stat":"Misses", "game":3},
+{"Martin Shkrelli":6, "Donald Trump":7, "Barack Obama":0, "Victor Fink":2, "Pyotr Hasborn":0, "stat":"Misses", "game":4},
+{"Martin Shkrelli":5, "Donald Trump":10, "Barack Obama":0, "Victor Fink":3, "Pyotr Hasborn":4, "stat":"Misses", "game":5},
+{"Martin Shkrelli":7, "Donald Trump":3, "Barack Obama":5, "Victor Fink":8, "Pyotr Hasborn":4, "stat":"Attempts", "game":1},
+{"Martin Shkrelli":4, "Donald Trump":9, "Barack Obama":2, "Victor Fink":2, "Pyotr Hasborn":1, "stat":"Attempts", "game":2},
+{"Martin Shkrelli":5, "Donald Trump":7, "Barack Obama":3, "Victor Fink":5, "Pyotr Hasborn":2, "stat":"Attempts", "game":3},
+{"Martin Shkrelli":3, "Donald Trump":7, "Barack Obama":5, "Victor Fink":6, "Pyotr Hasborn":5, "stat":"Attempts", "game":4},
+{"Martin Shkrelli":4, "Donald Trump":4, "Barack Obama":4, "Victor Fink":7, "Pyotr Hasborn":3, "stat":"Attempts", "game":5},
+
+{"Afika Nyati":0, "Taylor Herr":3, "Abigail Russell":0, "Efraim THEROCK":0, "man":0, "stat":"Turnovers", "game":1},
+{"Afika Nyati":2, "Taylor Herr":2, "Abigail Russell":1, "Efraim THEROCK":0, "man":2, "stat":"Turnovers", "game":2},
+{"Afika Nyati":3, "Taylor Herr":5, "Abigail Russell":0, "Efraim THEROCK":0, "man":1, "stat":"Turnovers", "game":3},
+{"Afika Nyati":1, "Taylor Herr":3, "Abigail Russell":2, "Efraim THEROCK":0, "man":3, "stat":"Turnovers", "game":4},
+{"Afika Nyati":1, "Taylor Herr":1, "Abigail Russell":0, "Efraim THEROCK":0, "man":4, "stat":"Turnovers", "game":5},
+{"Afika Nyati":4, "Taylor Herr":4, "Abigail Russell":3, "Efraim THEROCK":5, "man":1, "stat":"Shots", "game":1},
+{"Afika Nyati":3, "Taylor Herr":3, "Abigail Russell":2, "Efraim THEROCK":8, "man":3, "stat":"Shots", "game":2},
+{"Afika Nyati":2, "Taylor Herr":6, "Abigail Russell":3, "Efraim THEROCK":7, "man":5, "stat":"Shots", "game":3},
+{"Afika Nyati":5, "Taylor Herr":5, "Abigail Russell":5, "Efraim THEROCK":9, "man":7, "stat":"Shots", "game":4},
+{"Afika Nyati":1, "Taylor Herr":4, "Abigail Russell":2, "Efraim THEROCK":7, "man":6, "stat":"Shots", "game":5},
+{"Afika Nyati":3, "Taylor Herr":2, "Abigail Russell":1, "Efraim THEROCK":5, "man":2, "stat":"Goals", "game":1},
+{"Afika Nyati":2, "Taylor Herr":1, "Abigail Russell":2, "Efraim THEROCK":8, "man":4, "stat":"Goals", "game":2},
+{"Afika Nyati":5, "Taylor Herr":2, "Abigail Russell":2, "Efraim THEROCK":7, "man":3, "stat":"Goals", "game":3},
+{"Afika Nyati":4, "Taylor Herr":1, "Abigail Russell":3, "Efraim THEROCK":9, "man":6, "stat":"Goals", "game":4},
+{"Afika Nyati":3, "Taylor Herr":1, "Abigail Russell":1, "Efraim THEROCK":7, "man":1, "stat":"Goals", "game":5},
+{"Afika Nyati":5, "Taylor Herr":4, "Abigail Russell":3.8, "Efraim THEROCK":3.2, "man":4.2, "stat":"Possession Time", "game":1},
+{"Afika Nyati":4.2, "Taylor Herr":7.6, "Abigail Russell":4.2, "Efraim THEROCK":8.1, "man":5.6, "stat":"Possession Time", "game":2},
+{"Afika Nyati":5.8, "Taylor Herr":9.2, "Abigail Russell":6.1, "Efraim THEROCK":4.7, "man":3.8, "stat":"Possession Time", "game":3},
+{"Afika Nyati":4.1, "Taylor Herr":1.1, "Abigail Russell":10, "Efraim THEROCK":7.2, "man":2.9, "stat":"Possession Time", "game":4},
+{"Afika Nyati":6.0, "Taylor Herr":3.2, "Abigail Russell":4.2, "Efraim THEROCK":9, "man":1, "stat":"Possession Time", "game":5},
+
+
+
+
+
+
+{"Mitchell":4.8, "SCARFACE":2.5, "The Red Telletubby":8.3, "stat":"Possession Time", "game":1},
+{"Mitchell":6.4, "SCARFACE":1.3, "The Red Telletubby":7.9, "stat":"Possession Time", "game":2},
+{"Mitchell":5.2, "SCARFACE":5.7, "The Red Telletubby":11.6, "stat":"Possession Time", "game":3},
+{"Mitchell":3, "SCARFACE":0, "The Red Telletubby":3.2, "stat":"Possession Time", "game":4},
+{"Mitchell":4, "SCARFACE":0, "The Red Telletubby":15.2, "stat":"Possession Time", "game":5},
+{"Mitchell":3, "SCARFACE":8, "The Red Telletubby":0, "stat":"Turnovers", "game":1},
+{"Mitchell":6, "SCARFACE":2, "The Red Telletubby":2, "stat":"Turnovers", "game":2},
+{"Mitchell":5, "SCARFACE":4, "The Red Telletubby":1, "stat":"Turnovers", "game":3},
+{"Mitchell":7, "SCARFACE":0, "The Red Telletubby":1, "stat":"Turnovers", "game":4},
+{"Mitchell":8, "SCARFACE":0, "The Red Telletubby":0, "stat":"Turnovers", "game":5},
+{"Mitchell":2, "SCARFACE":6, "The Red Telletubby":2, "stat":"Blocks", "game":1},
+{"Mitchell":3, "SCARFACE":5, "The Red Telletubby":1, "stat":"Blocks", "game":2},
+{"Mitchell":1, "SCARFACE":3, "The Red Telletubby":3, "stat":"Blocks", "game":3},
+{"Mitchell":2, "SCARFACE":0, "The Red Telletubby":1, "stat":"Blocks", "game":4},
+{"Mitchell":1, "SCARFACE":0, "The Red Telletubby":1, "stat":"Blocks", "game":5},
+
+{"Ben Bitdiddle":1, "Donald Knuth":2, "John Von Neuman":3, "stat":"Turnovers", "game":1},
+{"Ben Bitdiddle":3, "Donald Knuth":3, "John Von Neuman":2, "stat":"Turnovers", "game":2},
+{"Ben Bitdiddle":2, "Donald Knuth":6, "John Von Neuman":6, "stat":"Turnovers", "game":3},
+{"Ben Bitdiddle":4, "Donald Knuth":1, "John Von Neuman":4, "stat":"Turnovers", "game":4},
+{"Ben Bitdiddle":1, "Donald Knuth":2, "John Von Neuman":1, "stat":"Turnovers", "game":5},
+{"Ben Bitdiddle":2, "Donald Knuth":3, "John Von Neuman":0, "stat":"Shots", "game":1},
+{"Ben Bitdiddle":5, "Donald Knuth":4, "John Von Neuman":3, "stat":"Shots", "game":2},
+{"Ben Bitdiddle":3, "Donald Knuth":2, "John Von Neuman":2, "stat":"Shots", "game":3},
+{"Ben Bitdiddle":4, "Donald Knuth":5, "John Von Neuman":1, "stat":"Shots", "game":4},
+{"Ben Bitdiddle":6, "Donald Knuth":6, "John Von Neuman":0, "stat":"Shots", "game":5},
+{"Ben Bitdiddle":1, "Donald Knuth":1, "John Von Neuman":0, "stat":"Goals", "game":1},
+{"Ben Bitdiddle":0, "Donald Knuth":2, "John Von Neuman":1, "stat":"Goals", "game":2},
+{"Ben Bitdiddle":1, "Donald Knuth":1, "John Von Neuman":0, "stat":"Goals", "game":3},
+{"Ben Bitdiddle":2, "Donald Knuth":3, "John Von Neuman":0, "stat":"Goals", "game":4},
+{"Ben Bitdiddle":1, "Donald Knuth":5, "John Von Neuman":1, "stat":"Goals", "game":5},
+{"Ben Bitdiddle":5.6, "Donald Knuth":3, "John Von Neuman":1.5, "stat":"Possession Time", "game":1},
+{"Ben Bitdiddle":4.8, "Donald Knuth":6.2, "John Von Neuman":6.4, "stat":"Possession Time", "game":2},
+{"Ben Bitdiddle":10.2, "Donald Knuth":7.5, "John Von Neuman":3.8, "stat":"Possession Time", "game":3},
+{"Ben Bitdiddle":5.9, "Donald Knuth":4.8, "John Von Neuman":2.4, "stat":"Possession Time", "game":4},
+{"Ben Bitdiddle":2, "Donald Knuth":10.2, "John Von Neuman":4.5, "stat":"Possession Time", "game":5}
 
 ]

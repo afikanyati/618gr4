@@ -21,7 +21,7 @@ export default class StatsWindow extends React.Component {
     }
 
     render() {
-        if (this.props.selectedStat === '') {
+        if (this.props.selectedStat === '' || this.props.selectedPlayers === []) {
             return this.renderEmptyStats();
         } else {
             return this.renderStatsWindow();
@@ -33,29 +33,35 @@ export default class StatsWindow extends React.Component {
         return (
             <Container>
                 <NoStats>
-                    <Text>{`Select a ${supplementaryText} Stat to View it's Visualization`}</Text>
+                    <Text>{`Select a ${supplementaryText} Stat to View its Visualization`}</Text>
                 </NoStats>
             </Container>
         );
     };
 
     renderStatsWindow = () => {
+      if (this.props.selectedPlayers.length === 0) {
+        return this.renderEmptyStats();
+      } else {
         let margins = {left: 25, right: 10, top: 50, bottom: 20};
         return (
-            <Container>
-                <LineChart
-                 title={"TITLE"}
-                 width={this.state.size.w - margins.left - margins.right}
-                 height={this.state.size.h - margins.top - margins.bottom}
-                 margins={margins}
-                 data={this.getChartData()}
-                 chartSeries={this.getChartSeries()}
-                 x={point => point.game}
-                 xScale={"ordinal"}
-                 yTicks={[1]}
-               />
-             </Container>
+          <Container>
+            <LineChart
+              title={"TITLE"}
+              width={this.state.size.w - margins.left - margins.right}
+              height={this.state.size.h - margins.top - margins.bottom}
+              margins={margins}
+              data={this.getChartData()}
+              chartSeries={this.getChartSeries()}
+              x={point => point.game}
+              xScale={"ordinal"}
+              xTicks={[2]}
+              yTicks={[1]}
+              xLabel={"Game Number"}
+            />
+          </Container>
         );
+      }
     };
 
     componentDidMount() {
@@ -90,7 +96,9 @@ export default class StatsWindow extends React.Component {
 
       return require('../../data/fake_data.json')
         .filter((item) => {
-          return item.stat.toLowerCase() === this.props.selectedStat.toLowerCase();
+          return (
+            item.stat.toLowerCase() === this.props.selectedStat.toLowerCase()
+            && this.props.selectedPlayers.every(player => player in item));
         });
     };
 
