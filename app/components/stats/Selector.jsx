@@ -153,7 +153,7 @@ export default class Stats extends React.Component {
     }
 
     addRemovePlayer = (newPlayer) => {
-        let players = this.props.selectedPlayers.slice();
+        let players = this.props.statDetails.selectedPlayers.slice();
         if (players.indexOf(newPlayer) >= 0) {
             players.splice(players.indexOf(newPlayer), 1);
         }
@@ -163,6 +163,8 @@ export default class Stats extends React.Component {
         }
 
         this.props.setPlayers(players)
+
+        console.log(players)
 
     }
 
