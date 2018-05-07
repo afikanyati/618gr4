@@ -134,6 +134,7 @@ export default class Root extends React.Component {
                                     type="email"
                                     innerRef={comp => {this.email = comp}}
                                     style={this.state.errorType.email ? errorStyle : null}
+                                    onKeyPress={this.checkEnter}
                                     placeholder="Email"
                                     required="true"
                                     maxLength="100" />
@@ -143,6 +144,7 @@ export default class Root extends React.Component {
                                     type="password"
                                     innerRef={comp => {this.password = comp}}
                                     style={this.state.errorType.password ? errorStyle : null}
+                                    onKeyPress={this.checkEnter}
                                     placeholder="Password"
                                     required="true"
                                     maxLength="100"
@@ -263,6 +265,7 @@ export default class Root extends React.Component {
                             type="email"
                             innerRef={comp => {this.forgotEmail = comp}}
                             style={this.state.errorType.forgotEmail ? errorStyle : null}
+                            onKeyPress={this.checkEnter}
                             placeholder="Email"
                             required="true"
                             maxLength="100" />
@@ -399,6 +402,11 @@ export default class Root extends React.Component {
            errors: [],
            errorType: {},
            currentError: ""
+       }, () => {
+           if (this.state.forgotPassword) {
+               console.log("yo");
+               this.forgotEmail.focus();
+           }
        });
    }
 
@@ -444,6 +452,14 @@ export default class Root extends React.Component {
             currentError: ""
         });
     }
+
+    checkEnter = (e) => {
+        if (e.key === 'Enter' && !this.state.forgotPassword) {
+            this.handleLogin("email");
+        } else if (e.key === 'Enter' && this.state.forgotPassword) {
+            this.handleReset();
+        }
+    };
 }
 
 // ============= Styled Components ==============
