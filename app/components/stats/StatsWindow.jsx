@@ -6,7 +6,7 @@ import styled               from 'styled-components';
 import {LineChart}          from 'react-d3-basic';
 
 
-const colors = [ '#65266d', '#d3224f', '#7f1631', '#935999',];
+const colors = [ '#d3224f', '#4054b2', '#171717', '#22d340', '#d344d3'];
 
 
 export default class StatsWindow extends React.Component {
