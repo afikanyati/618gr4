@@ -328,6 +328,9 @@ export default class Root extends React.Component {
    handleLogin = (type) => {
        let login = false;
        let errorType = {};
+       let view = this.state.view;
+       let practiceDetails = this.state.practiceDetails;
+       let statDetails = this.state.statDetails;
 
        switch (type) {
             case "facebook":
@@ -388,12 +391,26 @@ export default class Root extends React.Component {
             case "logout":
                 login = false;
                 document.title = "La+";
+                practiceDetails = {
+                    selectedDate: new Date(),
+                    selectedPractice: null,
+                    practiceRecord: {},
+                };
+                statDetails = {
+                    selectedPosition: "",
+                    selectedStat: "",
+                    selectedPlayers: []
+                };
+                view = "Calendar";
                 break;
        }
 
        this.setState({
            loggedIn: login,
-           errorType: errorType
+           errorType: errorType,
+           practiceDetails: practiceDetails,
+           statDetails: statDetails,
+           view: view
        });
    }
 

@@ -189,7 +189,7 @@ const PracticeButton = styled.button`
     border-radius: 5px;
     background: ${props => props.active ? props.theme.red : props.theme.lightGray};
     color: ${props => props.active ? props.theme.white : "inherit"};
-    font-size: 1.2em;
+    font-size: 1em;
     box-shadow: 0 4px 8px -2px rgba(0,0,0,.5), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
     transition: box-shadow 0.15s, background 0.2s;
     z-index: 1;

@@ -55,7 +55,7 @@ export default class StatsWindow extends React.Component {
       if (this.props.selectedPlayers.length === 0) {
         return this.renderEmptyPlayers();
       } else {
-        let margins = {left: 25, right: 10, top: 50, bottom: 20};
+        let margins = {left: 25, right: 10, top: 50, bottom: 40};
         return (
           <Container>
             <LineChart
