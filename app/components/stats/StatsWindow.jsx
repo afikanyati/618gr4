@@ -41,7 +41,7 @@ export default class StatsWindow extends React.Component {
         else {
           return (
             <Container>
-                <LineChart
+                <BarChart
                  title= {"TITLE"}
                  width= {600}
                  height= {500}
@@ -49,9 +49,6 @@ export default class StatsWindow extends React.Component {
                  data= {this.getChartData()}
                  chartSeries= {this.getChartSeries()}
                  x= {this.x}
-                 xTicks= {xTicks}
-                 yTicks= {yTicks}
-                 xLabel={"Game Number"}
                />
              </Container>
         );
@@ -111,6 +108,7 @@ export default class StatsWindow extends React.Component {
           field: this.props.selectedPlayers[player],
           name: this.props.selectedPlayers[player],
           color: colors[player],
+          thickness: 1000,
         }
         chartSeries.push(series);
       }
@@ -160,6 +158,7 @@ const Text = styled.h2`
 "use strict"
 var Chart = require('react-d3-core').Chart;
 var LineChart = require('react-d3-basic').LineChart;
+var BarChart = require('react-d3-basic').BarChart;
 var margins = {left: 100, right: 100, top: 50, bottom: 50};
 var colors = ['#ea5fa2', '#d3224f', '#7f1631', '#935999', '#65266d', '#3d1143','#dff2fc'];
 var width = 600;
