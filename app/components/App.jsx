@@ -175,7 +175,7 @@ export default class Root extends React.Component {
                 </MuiThemeProvider>
             </Container>
         );
-    }
+    };
 
     renderLacrosseApp = () => {
         let view;
@@ -185,6 +185,7 @@ export default class Root extends React.Component {
                 view = <Profile
                     profileDetails={this.state.profileDetails}
                     modifyProfileDetails={this.modifyProfileDetails}
+                    statDetails={this.state.statDetails}
                     commitStatDetails={this.commitStatDetails}
                     changeViewState={this.changeViewState} />;
                 break;
@@ -316,13 +317,13 @@ export default class Root extends React.Component {
      this.setState({
          practiceDetails: this.state.practiceDetails,
      });
-   }
+   };
 
-   commitStatDetails = (statDetails) => {
+   commitStatDetails = () => {
      this.setState({
-         statDetails: statDetails,
+         statDetails: this.state.statDetails,
      });
-   }
+   };
 
    handleLogin = (type) => {
        let login = false;

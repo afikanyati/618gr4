@@ -178,7 +178,7 @@ export default class Profile extends React.Component {
         this.setState({
             accordion: accordion
         });
-    }
+    };
 
     toggleAllAccordion = () => {
         let allAccordion = this.state.allAccordion;
@@ -195,39 +195,37 @@ export default class Profile extends React.Component {
             accordion: accordion,
             allAccordion: !allAccordion
         });
-    }
+    };
 
     handleNameChange = () => {
         let name = this.name.value;
-        if (name.length == 0) {
+        if (name.length === 0) {
             name = "No Display Name";
         }
         this.props.modifyProfileDetails("name", name);
-    }
+    };
 
     handlePositionChange = (position) => {
         if (position.value) {
             this.props.modifyProfileDetails("position", position.value);
         }
-    }
+    };
 
     handleThisDate = () => {
         this.props.changeViewState("Calendar");
-    }
+    };
 
     handleMyStats = () => {
+        this.props.statDetails.selectedPosition = this.props.profileDetails.position;
+        this.props.statDetails.selectedStat = "";
+        this.props.statDetails.selectedPlayers = [this.props.profileDetails.name];
+        this.props.commitStatDetails();
         this.props.changeViewState("Stats");
-        let statDetails = {
-            selectedPosition: this.props.profileDetails.position,
-            selectedStat: "",
-            selectedPlayers: [this.props.profileDetails.name]
-        };
-        this.props.commitStatDetails(statDetails);
-    }
+    };
 
     onDrop = (file) => {
         this.props.modifyProfileDetails("avatar", file[0].preview);
-    }
+    };
 }
 
 // ============= PropTypes ==============
@@ -235,6 +233,7 @@ export default class Profile extends React.Component {
 Profile.propTypes = {
     profileDetails: PropTypes.object.isRequired,
     modifyProfileDetails: PropTypes.func.isRequired,
+    statDetails: PropTypes.object.isRequired,
     commitStatDetails: PropTypes.func.isRequired,
     changeViewState: PropTypes.func.isRequired
 };
