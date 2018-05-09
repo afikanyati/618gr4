@@ -43,7 +43,9 @@ export default class StatsWindow extends React.Component {
       if (this.props.selectedPlayers.length === 0) {
         return this.renderEmptyStats();
       } else {
-        let margins = {left: 25, right: 10, top: 50, bottom: 40};
+        const margins = {left: 25, right: 10, top: 50, bottom: 40};
+        const data = this.getChartData();
+        const series = this.getChartSeries();
         return (
           <Container>
             <LineChart
@@ -51,11 +53,11 @@ export default class StatsWindow extends React.Component {
               width={this.state.size.w - margins.left - margins.right}
               height={this.state.size.h - margins.top - margins.bottom}
               margins={margins}
-              data={this.getChartData()}
-              chartSeries={this.getChartSeries()}
+              data={data}
+              chartSeries={series}
               x={point => point.game}
               xTicks={[4]}
-              yTicks={[1]}
+              yTicks={[2]}
               xLabel={"Game Number"}
             />
           </Container>
@@ -110,6 +112,11 @@ export default class StatsWindow extends React.Component {
             field: player,
             name: player,
             color: colors[index],
+            style: {
+              "strokeWidth": 3,
+              "strokeOpacity": .8,
+              "fillOpacity": .8,
+            }
           };
         });
     }
