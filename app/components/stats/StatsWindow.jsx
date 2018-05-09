@@ -1,9 +1,9 @@
+"use strict"
 import React                from 'react';
 import ReactDOM             from 'react-dom';
 import PropTypes            from 'prop-types';
 import styled               from 'styled-components';
 import {LineChart}          from 'react-d3-basic';
-
 
 const colors = [
   "#e41a1c",
@@ -15,7 +15,6 @@ const colors = [
   "#a65628",
   "#4daf4a",
 ];
-
 
 export default class StatsWindow extends React.Component {
 
@@ -48,9 +47,20 @@ export default class StatsWindow extends React.Component {
         );
     };
 
+    renderEmptyPlayers = () => {
+        let supplementaryText = this.props.selectedPosition === '' ? 'Position and' : '';
+        return (
+            <Container>
+                <NoStats>
+                    <Text>{`Select ${supplementaryText} Players to View Visualization`}</Text>
+                </NoStats>
+            </Container>
+        );
+    };
+
     renderStatsWindow = () => {
       if (this.props.selectedPlayers.length === 0) {
-        return this.renderEmptyStats();
+        return this.renderEmptyPlayers();
       } else {
         const margins = {left: 25, right: 10, top: 50, bottom: 40};
         const data = this.getChartData();
@@ -58,7 +68,6 @@ export default class StatsWindow extends React.Component {
         return (
           <Container>
             <LineChart
-              title={"TITLE"}
               width={this.state.size.w - margins.left - margins.right}
               height={this.state.size.h - margins.top - margins.bottom}
               margins={margins}
