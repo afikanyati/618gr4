@@ -5,7 +5,7 @@ import styled               from 'styled-components';
 import {LineChart}          from 'react-d3-basic';
 
 
-const colors = ['#ea5fa2', '#d3224f', '#7f1631', '#935999', '#65266d', '#3d1143','#dff2fc'];
+const colors = [ '#65266d', '#ea5fa2', '#d3224f', '#7f1631', '#935999',];
 
 
 export default class StatsWindow extends React.Component {
@@ -54,7 +54,6 @@ export default class StatsWindow extends React.Component {
               data={this.getChartData()}
               chartSeries={this.getChartSeries()}
               x={point => point.game}
-              xScale={"ordinal"}
               xTicks={[2]}
               yTicks={[1]}
               xLabel={"Game Number"}
