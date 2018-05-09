@@ -1,3 +1,4 @@
+"use strict"
 import React                from 'react';
 import ReactDOM             from 'react-dom';
 import PropTypes            from 'prop-types';
@@ -5,7 +6,7 @@ import styled               from 'styled-components';
 import {LineChart}          from 'react-d3-basic';
 
 
-const colors = [ '#65266d', '#ea5fa2', '#d3224f', '#7f1631', '#935999',];
+const colors = [ '#65266d', '#d3224f', '#7f1631', '#935999',];
 
 
 export default class StatsWindow extends React.Component {
@@ -39,22 +40,32 @@ export default class StatsWindow extends React.Component {
         );
     };
 
+    renderEmptyPlayers = () => {
+        let supplementaryText = this.props.selectedPosition === '' ? 'Position and' : '';
+        return (
+            <Container>
+                <NoStats>
+                    <Text>{`Select ${supplementaryText} Players to View Visualization`}</Text>
+                </NoStats>
+            </Container>
+        );
+    };
+
     renderStatsWindow = () => {
       if (this.props.selectedPlayers.length === 0) {
-        return this.renderEmptyStats();
+        return this.renderEmptyPlayers();
       } else {
         let margins = {left: 25, right: 10, top: 50, bottom: 20};
         return (
           <Container>
             <LineChart
-              title={"TITLE"}
               width={this.state.size.w - margins.left - margins.right}
               height={this.state.size.h - margins.top - margins.bottom}
               margins={margins}
               data={this.getChartData()}
               chartSeries={this.getChartSeries()}
               x={point => point.game}
-              xTicks={[2]}
+              xTicks={[4]}
               yTicks={[1]}
               xLabel={"Game Number"}
             />
