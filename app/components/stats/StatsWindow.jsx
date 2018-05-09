@@ -43,7 +43,7 @@ export default class StatsWindow extends React.Component {
       if (this.props.selectedPlayers.length === 0) {
         return this.renderEmptyStats();
       } else {
-        let margins = {left: 25, right: 10, top: 50, bottom: 20};
+        let margins = {left: 25, right: 10, top: 50, bottom: 40};
         return (
           <Container>
             <LineChart
@@ -54,7 +54,7 @@ export default class StatsWindow extends React.Component {
               data={this.getChartData()}
               chartSeries={this.getChartSeries()}
               x={point => point.game}
-              xTicks={[2]}
+              xTicks={[4]}
               yTicks={[1]}
               xLabel={"Game Number"}
             />
